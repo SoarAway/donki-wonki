@@ -1,0 +1,24 @@
+{
+  "name": "donki-wonki",
+  "version": "1.0.0",
+  "description": "Hyperlocal Predictive Rail Alerts for Klang Valley",
+  "private": true,
+  "workspaces": [
+    "app",
+    "server"
+  ],
+  "scripts": {
+    "app": "cd app && npm start",
+    "server": "cd server && npm run serve",
+    "install:all": "npm install && cd app && npm install && cd ../server && npm install"
+  },
+  "keywords": [
+    "rail",
+    "transit",
+    "alerts",
+    "malaysia",
+    "klang-valley"
+  ],
+  "author": "",
+  "license": "MIT"
+}
