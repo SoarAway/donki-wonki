@@ -24,112 +24,53 @@ FastAPI Server (Python)
 
 ## Phase 1: Data Models & Station Data
 
-### 1.1 Python Models (`/server/models/`)
+### 1.1 Python Models
 
-```python
-# station.py
-from pydantic import BaseModel
-from typing import Optional, List
+**Location:** `/server/models/`
 
-class Station(BaseModel):
-    id: str
-    name: str
-    code: str
-    line: str
-    lat: float
-    lng: float
-    interchanges: Optional[List[str]] = []
+**Files to create:**
+- `station.py` - Station model (id, name, code, line, lat, lng, interchanges)
+- `incident.py` - Incident model (line, station, type, severity, confidence, summary, source, timestamps)
+- `user.py` - UserProfile, CommuteRoute, Schedule models
+- `alert.py` - Alert model
 
-# incident.py
-class Incident(BaseModel):
-    id: Optional[str]
-    line: str
-    station: Optional[str]
-    type: str  # signal-fault, breakdown, overcrowding, gate-malfunction, other
-    severity: str  # low, medium, high, critical
-    confidence: int  # 0-100
-    summary: str
-    source: str  # reddit, twitter
-    source_url: str
-    created_at: datetime
-    resolved_at: Optional[datetime] = None
+**Key fields:**
+- Station: id, name, code, line, lat/lng, interchanges list
+- Incident: line, station (optional), type, severity, confidence (0-100), summary, source, timestamps
+- CommuteRoute: origin_station_id, destination_station_id, schedule, active flag
+- Schedule: days list, arrive_by time, alert_window_minutes
 
-# user.py
-class UserProfile(BaseModel):
-    id: str
-    fcm_token: Optional[str]
-    routes: List[CommuteRoute]
-    settings: UserSettings
+### 1.2 TypeScript Models
 
-class CommuteRoute(BaseModel):
-    origin_station_id: str
-    destination_station_id: str
-    schedule: Schedule
-    active: bool = True
+**Location:** `/app/src/models/`
 
-class Schedule(BaseModel):
-    days: List[str]  # ["monday", "tuesday", ...]
-    arrive_by: str  # "09:00"
-    alert_window_minutes: int = 60
-```
+**Files to create:**
+- `Station.ts`
+- `Incident.ts`
+- `User.ts`
+- `Alert.ts`
 
-### 1.2 TypeScript Models (`/app/src/models/`)
+Mirror the Python models in TypeScript.
 
-Mirror the Python models in TypeScript for the mobile app.
+### 1.3 Station Data
 
-### 1.3 Station Data (`/data/stations/all-lines.json`)
+**Location:** `/data/stations/all-lines.json`
 
-```json
-{
-  "lines": [
-    {
-      "id": "kelana-jaya",
-      "name": "LRT Kelana Jaya Line",
-      "color": "#E42313",
-      "stations": [
-        {
-          "id": "kj1",
-          "name": "Gombak",
-          "code": "KJ1",
-          "lat": 3.2133,
-          "lng": 101.7292,
-          "interchanges": []
-        }
-        // ... 36 more stations
-      ]
-    }
-    // ... 7 more lines
-  ],
-  "interchanges": [
-    {
-      "stationIds": ["kj10", "ag10"],
-      "name": "Masjid Jamek",
-      "lines": ["kelana-jaya", "ampang"],
-      "transferTimeMinutes": 5
-    }
-  ]
-}
-```
+**Structure:**
+- Lines array (8 lines: KJ, Ampang, Sri Petaling, MRT Kajang, MRT Putrajaya, Monorail, KTM Port Klang, KTM Tanjung Malim)
+- Each line: id, name, color, stations array
+- Each station: id, name, code, lat, lng, interchanges
+- Interchanges array: stationIds, name, lines, transferTimeMinutes
 
 **Data sources:** MyRapid, OpenStreetMap, Wikipedia
 
-### 1.4 Seed Script (`/data/scripts/seed_firestore.py`)
+### 1.4 Seed Script
 
-```python
-import json
-from firebase_admin import firestore, credentials, initialize_app
+**Location:** `/data/scripts/seed_firestore.py`
 
-cred = credentials.Certificate('serviceAccountKey.json')
-initialize_app(cred)
-db = firestore.client()
+**Purpose:** Load station data from JSON into Firestore
 
-with open('../stations/all-lines.json') as f:
-    data = json.load(f)
-    
-for line in data['lines']:
-    for station in line['stations']:
-        db.collection('stations').document(station['id']).set(station)
-```
+**Dependencies:** firebase-admin
 
 ---
 
@@ -137,407 +78,127 @@ for line in data['lines']:
 
 ### 2.1 Setup
 
+**Commands:**
 ```bash
 cd server
 python -m venv venv
-venv\Scripts\activate  # Windows
+venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-**`requirements.txt`:**
-```
-fastapi==0.109.0
-uvicorn[standard]==0.27.0
-pydantic==2.5.3
-pydantic-settings==2.1.0
-praw==7.7.1
-google-generativeai==0.3.2
-firebase-admin==6.4.0
-apscheduler==3.10.4
-python-dotenv==1.0.0
-```
+**Dependencies (requirements.txt):**
+- fastapi, uvicorn, pydantic, pydantic-settings
+- praw (Reddit)
+- google-generativeai (Gemini)
+- firebase-admin
+- apscheduler
+- python-dotenv
 
-**`.env`:**
-```
-FIREBASE_CREDENTIALS_PATH=./serviceAccountKey.json
-REDDIT_CLIENT_ID=xxx
-REDDIT_CLIENT_SECRET=xxx
-REDDIT_REFRESH_TOKEN=xxx
-GEMINI_API_KEY=xxx
-SCRAPE_INTERVAL_MINUTES=30
-```
+**Environment variables (.env):**
+- FIREBASE_CREDENTIALS_PATH
+- REDDIT_CLIENT_ID, REDDIT_CLIENT_SECRET, REDDIT_REFRESH_TOKEN
+- GEMINI_API_KEY
+- SCRAPE_INTERVAL_MINUTES
 
-### 2.2 Firebase Config (`/server/config/firebase.py`)
+### 2.2 Firebase Config
 
-```python
-import firebase_admin
-from firebase_admin import credentials, firestore, messaging
-import os
+**Location:** `/server/config/firebase.py`
 
-cred = credentials.Certificate(os.getenv('FIREBASE_CREDENTIALS_PATH'))
-firebase_admin.initialize_app(cred)
-db = firestore.client()
+**Purpose:** Initialize Firebase Admin SDK, provide db client and send_notification function
 
-def get_db():
-    return db
+**Location:** `/server/config/settings.py`
 
-def send_notification(token: str, title: str, body: str, data: dict = None):
-    message = messaging.Message(
-        notification=messaging.Notification(title=title, body=body),
-        data=data or {},
-        token=token
-    )
-    return messaging.send(message)
-```
+**Purpose:** Load environment variables using Pydantic BaseSettings
 
-### 2.3 Settings (`/server/config/settings.py`)
+### 2.3 Reddit Scraper
 
-```python
-from pydantic_settings import BaseSettings
+**Location:** `/server/services/reddit_scraper.py`
 
-class Settings(BaseSettings):
-    firebase_credentials_path: str
-    reddit_client_id: str
-    reddit_client_secret: str
-    reddit_refresh_token: str
-    reddit_user_agent: str = "DonkiWonki/1.0"
-    gemini_api_key: str
-    scrape_interval_minutes: int = 30
-    
-    class Config:
-        env_file = ".env"
+**Function:** `scrape_reddit() -> List[Dict]`
 
-settings = Settings()
-```
+**Purpose:** 
+- Monitor r/malaysia and r/kualalumpur
+- Filter posts by keywords (lrt, mrt, monorail, ktm, rosak, delay, etc.)
+- Fetch post + top 5 comments
+- Return structured post data
 
-### 2.4 Reddit Scraper (`/server/services/reddit_scraper.py`)
+**Keywords:** lrt, mrt, monorail, ktm, komuter, rapid kl, kelana jaya, kj line, ampang, sri petaling, mrt kajang, mrt putrajaya, klcc, pasar seni, rosak, delay, stuck, breakdown, signal fault
 
-```python
-import praw
-from typing import List, Dict
-from config.settings import settings
+### 2.4 Gemini AI
 
-reddit = praw.Reddit(
-    client_id=settings.reddit_client_id,
-    client_secret=settings.reddit_client_secret,
-    refresh_token=settings.reddit_refresh_token,
-    user_agent=settings.reddit_user_agent
-)
+**Location:** `/server/services/gemini_ai.py`
 
-KEYWORDS = [
-    "lrt", "mrt", "monorail", "ktm", "komuter", "rapid kl",
-    "kelana jaya", "kj line", "ampang", "sri petaling",
-    "mrt kajang", "mrt putrajaya", "klcc", "pasar seni",
-    "rosak", "delay", "stuck", "breakdown", "signal fault"
-]
+**Function:** `extract_incident(post: Dict) -> Optional[Incident]`
 
-def scrape_reddit() -> List[Dict]:
-    posts = []
-    for subreddit_name in ["malaysia", "kualalumpur"]:
-        subreddit = reddit.subreddit(subreddit_name)
-        for submission in subreddit.new(limit=100):
-            text = f"{submission.title} {submission.selftext}".lower()
-            if any(keyword in text for keyword in KEYWORDS):
-                submission.comments.replace_more(limit=0)
-                comments = [c.body for c in submission.comments.list()[:5]]
-                posts.append({
-                    'id': submission.id,
-                    'title': submission.title,
-                    'text': submission.selftext,
-                    'comments': comments,
-                    'url': submission.url,
-                    'created_utc': submission.created_utc,
-                    'source': 'reddit'
-                })
-    return posts
-```
+**Purpose:**
+- Send post (title + text + comments) to Gemini
+- Extract: line, station, type, severity, confidence, summary
+- Return Incident object or None if not relevant/low confidence
 
-### 2.5 Gemini AI (`/server/services/gemini_ai.py`)
+**Prompt requirements:**
+- JSON response only
+- Support all 8 rail lines
+- Handle ambiguous posts using comments
+- Set confidence based on specificity
+- Return null for station if line-wide issue
 
-```python
-import google.generativeai as genai
-from config.settings import settings
-from models.incident import Incident
-from typing import Optional
-import json
-from datetime import datetime
+### 2.5 Route Matcher
 
-genai.configure(api_key=settings.gemini_api_key)
-model = genai.GenerativeModel('gemini-1.5-flash')
+**Location:** `/server/services/route_matcher.py`
 
-PROMPT = """
-Extract incident from this post:
-Title: {title}
-Text: {text}
-Comments: {comments}
+**Class:** `RouteMatcher`
 
-Respond with JSON only:
-{{
-  "isRelevant": boolean,
-  "line": "kelana-jaya"|"ampang"|"sri-petaling"|"mrt-kajang"|"mrt-putrajaya"|"monorail"|"ktm-port-klang"|"ktm-tanjung-malim"|null,
-  "station": "station name"|null,
-  "type": "signal-fault"|"train-breakdown"|"overcrowding"|"gate-malfunction"|"other"|null,
-  "severity": "low"|"medium"|"high"|"critical",
-  "confidence": 0-100,
-  "summary": "brief description"
-}}
+**Methods:**
+- `_load_stations()` - Load from Firestore
+- `_build_graph()` - Build adjacency list from lines + interchanges
+- `get_stations_on_route(origin, destination)` - BFS traversal
+- `is_route_affected(incident, route)` - Check if incident affects route
 
-Rules:
-- Extract if about Klang Valley rail
-- Common stations: KLCC, Pasar Seni, KL Sentral, Bukit Bintang, Masjid Jamek
-- If no station mentioned, set to null (line-wide)
-- Use comments for clarification
-- Confidence based on specificity
-"""
+**Logic:**
+- Line-wide incident: check if any route station is on that line
+- Station-specific: check if incident station is on route
+- Return: {affected: boolean, reason: string}
 
-def extract_incident(post: Dict) -> Optional[Incident]:
-    try:
-        prompt = PROMPT.format(
-            title=post['title'],
-            text=post['text'],
-            comments='\n'.join(post['comments'])
-        )
-        response = model.generate_content(prompt)
-        data = json.loads(response.text)
-        
-        if not data['isRelevant'] or data['confidence'] < 50:
-            return None
-        
-        return Incident(
-            line=data['line'],
-            station=data['station'],
-            type=data['type'],
-            severity=data['severity'],
-            confidence=data['confidence'],
-            summary=data['summary'],
-            source=post['source'],
-            source_url=post['url'],
-            created_at=datetime.fromtimestamp(post['created_utc'])
-        )
-    except Exception as e:
-        print(f"Error: {e}")
-        return None
-```
+### 2.6 Alert Service
 
-### 2.6 Route Matcher (`/server/services/route_matcher.py`)
+**Location:** `/server/services/alert_service.py`
 
-```python
-from typing import List, Dict, Set
-from models.incident import Incident
-from models.user import CommuteRoute
-from config.firebase import get_db
+**Class:** `AlertService`
 
-class RouteMatcher:
-    def __init__(self):
-        self.db = get_db()
-        self.stations = self._load_stations()
-        self.graph = self._build_graph()
-    
-    def _load_stations(self) -> Dict:
-        stations = {}
-        docs = self.db.collection('stations').stream()
-        for doc in docs:
-            stations[doc.id] = doc.to_dict()
-        return stations
-    
-    def _build_graph(self) -> Dict[str, Set[str]]:
-        # Build adjacency list from line sequences + interchanges
-        graph = {}
-        # Implementation: connect stations on same line + interchange stations
-        return graph
-    
-    def get_stations_on_route(self, origin: str, destination: str) -> List[str]:
-        # BFS to find all stations between origin and destination
-        return []
-    
-    def is_route_affected(self, incident: Incident, route: CommuteRoute) -> Dict:
-        route_stations = self.get_stations_on_route(
-            route.origin_station_id,
-            route.destination_station_id
-        )
-        
-        # Line-wide incident
-        if not incident.station:
-            affected = any(
-                self.stations[s]['line'] == incident.line 
-                for s in route_stations
-            )
-            return {
-                'affected': affected,
-                'reason': f"Line-wide {incident.type} on {incident.line}"
-            }
-        
-        # Station-specific
-        affected = incident.station in route_stations
-        return {
-            'affected': affected,
-            'reason': f"{incident.type} at {incident.station}" if affected else None
-        }
-```
+**Methods:**
+- `process_incident(incident)` - Save to Firestore, find affected users, send alerts
+- `find_affected_users(incident)` - Query users, check routes, time windows, days
+- `send_alert(user, incident)` - Send FCM notification, save to user's alerts collection
 
-### 2.7 Alert Service (`/server/services/alert_service.py`)
+**Logic:**
+- Check if user commutes today (day of week)
+- Check time window (minutes until arrival)
+- Check route affected (using RouteMatcher)
+- Send FCM notification
+- Save alert to Firestore
 
-```python
-from datetime import datetime
-from typing import List
-from models.incident import Incident
-from models.user import UserProfile
-from config.firebase import get_db, send_notification
-from services.route_matcher import RouteMatcher
+### 2.7 Background Job
 
-class AlertService:
-    def __init__(self):
-        self.db = get_db()
-        self.matcher = RouteMatcher()
-    
-    def process_incident(self, incident: Incident):
-        # Save to Firestore
-        incident_ref = self.db.collection('incidents').add(incident.dict())
-        incident.id = incident_ref[1].id
-        
-        # Find affected users
-        affected_users = self.find_affected_users(incident)
-        
-        # Send alerts
-        for user in affected_users:
-            self.send_alert(user, incident)
-    
-    def find_affected_users(self, incident: Incident) -> List[UserProfile]:
-        affected = []
-        now = datetime.now()
-        users = self.db.collection('users').stream()
-        
-        for user_doc in users:
-            user = UserProfile(**user_doc.to_dict())
-            for route in user.routes:
-                if not route.active:
-                    continue
-                
-                # Check day
-                today = now.strftime('%A').lower()
-                if today not in route.schedule.days:
-                    continue
-                
-                # Check time window
-                arrive_time = datetime.strptime(route.schedule.arrive_by, '%H:%M')
-                arrive_time = arrive_time.replace(
-                    year=now.year, month=now.month, day=now.day
-                )
-                minutes_until = (arrive_time - now).total_seconds() / 60
-                
-                if minutes_until < 0 or minutes_until > route.schedule.alert_window_minutes:
-                    continue
-                
-                # Check route affected
-                impact = self.matcher.is_route_affected(incident, route)
-                if impact['affected']:
-                    affected.append(user)
-                    break
-        
-        return affected
-    
-    def send_alert(self, user: UserProfile, incident: Incident):
-        if not user.fcm_token:
-            return
-        
-        title = f"{incident.line.upper()} Alert"
-        body = f"{incident.summary}. Consider leaving early."
-        
-        send_notification(
-            token=user.fcm_token,
-            title=title,
-            body=body,
-            data={'incident_id': incident.id}
-        )
-        
-        self.db.collection('users').document(user.id).collection('alerts').add({
-            'incident_id': incident.id,
-            'title': title,
-            'body': body,
-            'sent_at': datetime.now(),
-            'read': False
-        })
-```
+**Location:** `/server/jobs/monitor_social.py`
 
-### 2.8 Background Job (`/server/jobs/monitor_social.py`)
+**Functions:**
+- `monitor_social_media()` - Scrape Reddit, extract incidents, process alerts
+- `start_scheduler()` - Start APScheduler with interval job
 
-```python
-from apscheduler.schedulers.background import BackgroundScheduler
-from services.reddit_scraper import scrape_reddit
-from services.gemini_ai import extract_incident
-from services.alert_service import AlertService
-from config.settings import settings
-from datetime import datetime
+**Schedule:** Every 30 minutes
 
-alert_service = AlertService()
+### 2.8 FastAPI App
 
-def monitor_social_media():
-    print(f"[{datetime.now()}] Monitoring...")
-    posts = scrape_reddit()
-    print(f"Found {len(posts)} posts")
-    
-    for post in posts:
-        incident = extract_incident(post)
-        if incident:
-            print(f"Incident: {incident.summary}")
-            alert_service.process_incident(incident)
-    
-    print("Complete")
+**Location:** `/server/main.py`
 
-def start_scheduler():
-    scheduler = BackgroundScheduler()
-    scheduler.add_job(
-        monitor_social_media,
-        'interval',
-        minutes=settings.scrape_interval_minutes,
-        id='monitor_social_media'
-    )
-    scheduler.start()
-    return scheduler
-```
+**Endpoints:**
+- `GET /` - API info
+- `POST /trigger-monitoring` - Manual trigger for testing
+- `GET /health` - Health check
 
-### 2.9 FastAPI App (`/server/main.py`)
+**Startup:** Start background scheduler
 
-```python
-from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
-from jobs.monitor_social import start_scheduler, monitor_social_media
-from contextlib import asynccontextmanager
-
-@asynccontextmanager
-async def lifespan(app: FastAPI):
-    scheduler = start_scheduler()
-    print("Scheduler started")
-    yield
-    scheduler.shutdown()
-
-app = FastAPI(title="Donki-Wonki API", lifespan=lifespan)
-
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["*"],
-    allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
-
-@app.get("/")
-def root():
-    return {"message": "Donki-Wonki API", "status": "running"}
-
-@app.post("/trigger-monitoring")
-def trigger_monitoring():
-    monitor_social_media()
-    return {"status": "completed"}
-
-@app.get("/health")
-def health():
-    return {"status": "healthy"}
-
-if __name__ == "__main__":
-    import uvicorn
-    uvicorn.run(app, host="0.0.0.0", port=8000)
-```
+**CORS:** Allow all origins (for mobile app)
 
 ---
 
@@ -545,102 +206,109 @@ if __name__ == "__main__":
 
 ### 3.1 Firebase Setup
 
-```bash
-cd app
-npm install @react-native-firebase/app
-npm install @react-native-firebase/auth
-npm install @react-native-firebase/firestore
-npm install @react-native-firebase/messaging
-```
+**Dependencies:**
+- @react-native-firebase/app
+- @react-native-firebase/auth
+- @react-native-firebase/firestore
+- @react-native-firebase/messaging
 
-Download `google-services.json` → `/app/android/app/`
+**Configuration:**
+- Download google-services.json from Firebase Console
+- Place in /app/android/app/
+- Update android/build.gradle and android/app/build.gradle
 
-**`/app/src/services/firebase.ts`:**
-```typescript
-import firestore from '@react-native-firebase/firestore';
-import auth from '@react-native-firebase/auth';
-import messaging from '@react-native-firebase/messaging';
+**Location:** `/app/src/services/firebase.ts`
 
-export { firestore, auth, messaging };
+**Exports:** firestore, auth, messaging, requestNotificationPermission()
 
-export async function requestNotificationPermission() {
-  const authStatus = await messaging().requestPermission();
-  const enabled =
-    authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-    authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+### 3.2 Screens
 
-  if (enabled) {
-    return await messaging().getToken();
-  }
-  return null;
-}
-```
+**Location:** `/app/src/screens/`
 
-### 3.2 Real-Time Listener
+**Files to create:**
+- `HomeScreen.tsx` - Dashboard with real-time incidents, route status, recent alerts
+- `OnboardingScreen.tsx` - First-time setup (home/work locations, route, schedule)
+- `RouteSetupScreen.tsx` - Add/edit/delete routes
+- `SettingsScreen.tsx` - Quiet hours, severity threshold, notifications
 
-**`/app/src/screens/HomeScreen.tsx`:**
-```typescript
-import React, { useEffect, useState } from 'react';
-import { firestore } from '../services/firebase';
-import { Incident } from '../models/Incident';
+**HomeScreen:**
+- Real-time Firestore listener for incidents (where resolvedAt == null)
+- Display route status
+- Show active incidents
+- Show recent alerts
 
-export default function HomeScreen() {
-  const [incidents, setIncidents] = useState<Incident[]>([]);
+**OnboardingScreen:**
+- Location input (manual or geolocation)
+- Find nearest station
+- Select origin/destination
+- Set arrival time and days
+- Save to Firestore
 
-  useEffect(() => {
-    // Real-time listener - NO API CALLS
-    const unsubscribe = firestore()
-      .collection('incidents')
-      .where('resolvedAt', '==', null)
-      .orderBy('createdAt', 'desc')
-      .onSnapshot(snapshot => {
-        const data = snapshot.docs.map(doc => ({
-          id: doc.id,
-          ...doc.data()
-        })) as Incident[];
-        setIncidents(data);
-      });
+### 3.3 Components
 
-    return unsubscribe;
-  }, []);
+**Location:** `/app/src/components/`
 
-  return (
-    // UI
-  );
-}
-```
+**Files to create:**
+- `StationPicker.tsx` - Dropdown for station selection
+- `LocationInput.tsx` - Manual address + geolocation button
+- `TimePicker.tsx` - Time selection
+- `IncidentCard.tsx` - Display incident info
+- `RouteStatusCard.tsx` - Show route status
+- `AlertItem.tsx` - Alert history item
+
+### 3.4 Utils
+
+**Location:** `/app/src/utils/`
+
+**Files to create:**
+- `distance.ts` - Haversine distance calculation
+- `time.ts` - Time parsing and formatting
+- `station-finder.ts` - Find nearest station logic
+
+**Functions:**
+- `calculateDistance(coord1, coord2)` - Haversine formula
+- `findNearestStation(coords, stations)` - Find closest station
+- `parseTime(timeStr)` - Parse "HH:MM" to Date
+- `formatTime(date)` - Format Date to "HH:MM"
+
+### 3.5 Navigation
+
+**Location:** `/app/src/navigation/AppNavigator.tsx`
+
+**Stack:**
+- Onboarding
+- Home
+- RouteSetup
+- Settings
 
 ---
 
 ## Phase 4: Deployment
 
-### FastAPI (Render)
+### 4.1 FastAPI (Render)
 
-**`render.yaml`:**
-```yaml
-services:
-  - type: web
-    name: donki-wonki-api
-    env: python
-    buildCommand: pip install -r requirements.txt
-    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
-    envVars:
-      - key: FIREBASE_CREDENTIALS_PATH
-        sync: false
-      - key: REDDIT_CLIENT_ID
-        sync: false
-      - key: GEMINI_API_KEY
-        sync: false
-```
+**File:** `render.yaml`
 
-Push to GitHub → Connect to Render → Deploy
+**Configuration:**
+- Service type: web
+- Environment: python
+- Build command: pip install -r requirements.txt
+- Start command: uvicorn main:app --host 0.0.0.0 --port $PORT
+- Environment variables: FIREBASE_CREDENTIALS_PATH, REDDIT_CLIENT_ID, GEMINI_API_KEY
 
-### Firebase
+**Steps:**
+1. Push to GitHub
+2. Connect to Render
+3. Add environment variables
+4. Deploy
 
-1. Create project
-2. Enable Auth (Email/Password)
+### 4.2 Firebase
+
+**Setup:**
+1. Create Firebase project
+2. Enable Authentication (Email/Password)
 3. Create Firestore database
-4. Download service account key
+4. Download service account key for FastAPI
 5. Enable Cloud Messaging
 
 ---
