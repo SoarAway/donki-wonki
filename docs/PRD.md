@@ -1,10 +1,11 @@
 # Product Requirements Document: Donki-Wonki (Hyperlocal Predictive Rail Alerts)
 
 **Product Name:** Donki-Wonki  
-**Version:** 1.2 (Rail-Focused Merge)  
-**Last Updated:** 2026-01-28  
-**Target City:** Klang Valley (Kuala Lumpur & Selangor), Malaysia
-**Scope:** Public Transportation (Trains/Rail) Only
+**Version:** 2.0 (Hackathon MVP)  
+**Last Updated:** 2026-02-03  
+**Target City:** Klang Valley (Kuala Lumpur & Selangor), Malaysia  
+**Scope:** All Major Rail Lines (LRT, MRT, Monorail, KTM Komuter)  
+**Platform:** Android Mobile App + Firebase Backend
 
 ---
 
@@ -52,13 +53,15 @@ Unlike reactive apps that tell you "the train is delayed" when you're already at
 
 ### 2.1 How It Works (High-Level)
 
-The platform operates as an **intelligent aggregator and predictor** that sits between scattered disruption data and the individual commuter. It continuously monitors sources, extracts relevant signals for rail lines, and proactively alerts only when a disruption affects the user's specific route and schedule.
+The platform operates as an **intelligent aggregator and predictor** that sits between scattered disruption data and the individual commuter. It monitors sources every 30 minutes via batch processing, extracts relevant signals for rail lines using AI, and proactively alerts only when a disruption affects the user's specific route and schedule.
 
 **The User Flow:**
-1. **Set & Forget**: User inputs "Home Station: Subang Jaya", "Work Station: KLCC", "Arrive by 9:00 AM".
-2. **Background Monitor**: App scans Twitter/Reddit for "LRT", "Kelana Jaya", "Subang", "Delay" keywords.
-3. **Incident Detect**: "Signal fault reported at Bangsar" (on user's route).
-4. **Proactive Alert**: "Alert: LRT Signal Fault at Bangsar. Recommend leaving 15 min early."
+1. **Set & Forget**: User inputs home/work location, app finds nearest stations, user confirms route and arrival time.
+2. **Background Monitor**: Backend scans Reddit (and Twitter free tier) every 30 minutes for rail-related posts.
+3. **AI Analysis**: Gemini AI extracts incident details from posts + comments (handles ambiguous posts like "LRT rosak").
+4. **Incident Detect**: "Signal fault reported at Bangsar on KJ Line" (on user's route).
+5. **Time-Window Check**: Is user commuting within alert window? (e.g., within 60 mins of departure)
+6. **Proactive Alert**: "Alert: KJ Line Signal Fault at Bangsar. Leave 15 min early."
 
 ### 2.2 three-Layer Intelligence Model
 
@@ -70,15 +73,19 @@ The platform operates as an **intelligent aggregator and predictor** that sits b
 
 #### **Layer 2: External Social & Official Monitoring** (The Core Intelligence)
 **Sources:**
-- **Social Media:** Twitter/X, Reddit (r/malaysia). Keywords: "LRT rosak", "KJ line stuck", "MRT delay".
-- **Official Channels:** @askrapidkl, @myrapidkl, @ktmkomuter.
-- **Inference:** High volume of complaints about "hot" or "crowded" often precedes official delay announcements.
+- **Social Media:** Reddit (r/malaysia, r/kualalumpur) + Twitter free tier. Keywords: "LRT rosak", "KJ line stuck", "MRT delay", "Monorail", "KTM".
+- **Batch Processing:** Runs every 30 minutes (configurable).
+- **Comment Analysis:** Reads post + top 5 comments to resolve ambiguous posts (e.g., "LRT rosak" → check comments for which line).
+- **Official Channels:** @askrapidkl, @myrapidkl, @ktmkomuter (via Twitter free tier).
+- **AI Extraction:** Gemini 1.5 Flash extracts line, station, incident type, severity, confidence score.
 
-#### **Layer 3: In-App Community Reporting** (The Validation Layer)
-**Features:**
+#### **Layer 3: In-App Community Reporting** (Future Phase)
+**Features (Not in Hackathon MVP):**
 - **Quick Report:** Users at station tapping "Train Stopped", "Crowded", "AC Broken".
 - **Verification:** Users can upvote "True" or downvote reports.
 - **Station Geofencing:** Only allows certain detailed reports if GPS shows user is at a station.
+
+**MVP Scope:** Community features deferred to post-hackathon phase.
 
 ### 2.3 Intelligence Flow: From Data to Alert
 
@@ -187,13 +194,29 @@ graph TB
     C3 --> B
 ```
 
-### 5.2 Tech Stack (Free/Low Cost)
+### 5.2 Tech Stack (Zero-Cost Hackathon MVP)
 
-*   **App**: React Native (Cross-platform).
-*   **Backend**: Firebase (Auth, Firestore, Cloud Functions).
-*   **AI**: Gemini 1.5 Flash (Text extraction from social posts).
-*   **Maps**: OpenStreetMap (Station locations).
-*   **Notification**: Firebase Cloud Messaging (FCM).
+**Platform:**
+*   **Mobile App**: React Native (Android only for MVP, iOS support planned).
+*   **Backend**: Firebase Cloud Functions (Node.js, TypeScript).
+*   **Database**: Cloud Firestore (NoSQL, real-time).
+*   **Authentication**: Firebase Auth.
+
+**AI & Data:**
+*   **AI**: Google Gemini 1.5 Flash (Free tier - text extraction from social posts + comments).
+*   **Social Media**: 
+    *   Reddit API (Free tier, PRAW library) - Primary source
+    *   Twitter API (Free tier, 500K tweets/month) - Secondary source
+*   **Processing**: Batch processing every 30 minutes (Cloud Scheduler).
+
+**Maps & Location:**
+*   **Station Data**: Existing public datasets (MyRapid, OpenStreetMap, Wikipedia).
+*   **Nearest Station**: Haversine formula for distance calculation (no external API needed).
+
+**Notifications:**
+*   **Push Notifications**: Firebase Cloud Messaging (FCM) - Free.
+
+**Cost:** $0/month (all free tiers).
 
 ### 5.3 Data Strategy
 
