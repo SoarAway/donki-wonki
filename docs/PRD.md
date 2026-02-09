@@ -5,7 +5,7 @@
 **Last Updated:** 2026-02-03  
 **Target City:** Klang Valley (Kuala Lumpur & Selangor), Malaysia  
 **Scope:** All Major Rail Lines (LRT, MRT, Monorail, KTM Komuter)  
-**Platform:** Android Mobile App + Firebase Backend
+**Platform:** Android Mobile App + FastAPI Backend + Firebase Services
 
 ---
 
@@ -73,10 +73,10 @@ The platform operates as an **intelligent aggregator and predictor** that sits b
 
 #### **Layer 2: External Social & Official Monitoring** (The Core Intelligence)
 **Sources:**
-- **Social Media:** Reddit (r/malaysia, r/kualalumpur) + Twitter free tier. Keywords: "LRT rosak", "KJ line stuck", "MRT delay", "Monorail", "KTM".
+- **Social Media (MVP priority):** Reddit (r/malaysia, r/kualalumpur) as primary source; Twitter as secondary source when credentials/quota are available. Keywords: "LRT rosak", "KJ line stuck", "MRT delay", "Monorail", "KTM".
 - **Batch Processing:** Runs every 30 minutes (configurable).
 - **Comment Analysis:** Reads post + top 5 comments to resolve ambiguous posts (e.g., "LRT rosak" → check comments for which line).
-- **Official Channels:** @askrapidkl, @myrapidkl, @ktmkomuter (via Twitter free tier).
+- **Official Channels (optional):** @askrapidkl, @myrapidkl, @ktmkomuter, ingested only when source integration is enabled.
 - **AI Extraction:** Gemini 1.5 Flash extracts line, station, incident type, severity, confidence score.
 
 #### **Layer 3: In-App Community Reporting** (Future Phase)
@@ -90,7 +90,7 @@ The platform operates as an **intelligent aggregator and predictor** that sits b
 ### 2.3 Intelligence Flow: From Data to Alert
 
 **Step-by-step process:**
-1. **Input**: Twitter user posts "Kelana Jaya line stuck at Abdullah Hukum for 10 mins!". Timestamp: 7:45 AM.
+1. **Input**: A social post reports "Kelana Jaya line stuck at Abdullah Hukum for 10 mins!". Timestamp: 7:45 AM.
 2. **AI Extraction (Gemini)**:
     - **Line**: Kelana Jaya Line.
     - **Location**: Abdullah Hukum.
@@ -146,12 +146,14 @@ The platform operates as an **intelligent aggregator and predictor** that sits b
 *   **Content**: Incident cause, predicted delay, relevance (why am I seeing this?).
 *   **Credibility Score**: "High (Official Confirmed)" vs "Medium (Crowd Reported)".
 
-### 4.2 Community Features
+### 4.2 Community Features (Post-MVP)
 
 #### **Incident Reporting**
 *   **Station Check-in**: Detects user is at station. Prompts: "How is the crowd?"
 *   **Quick Buttons**: [Train Stopped] [Skipping Station] [Gate Broken].
 *   **Karma System**: Points for accurate reports. "Trusted Reporter" badge.
+
+**MVP Clarification:** Community reporting is intentionally deferred and not required for initial hackathon delivery.
 
 ---
 
@@ -159,7 +161,7 @@ The platform operates as an **intelligent aggregator and predictor** that sits b
 
 ### 5.1 System Components
 
-**Serverless Mobile-First Architecture**
+**Mobile-First Architecture (FastAPI Core)**
 
 ```mermaid
 graph TB
@@ -181,13 +183,15 @@ graph TB
     end
     
     subgraph "Backend"
-        B[Firebase Cloud Functions]
+        B[FastAPI Backend (Python)]
+        F[Optional Firebase Cloud Functions]
         E[(Firestore Database)]
     end
     
     C1 -->|Raw Text| D1
     D1 -->|Structured Incident| B
     B -->|Store/Update| E
+    E -->|Event-driven hooks (optional)| F
     E -->|Route Match| D2
     D2 -->|Targeted Alert| A1
     A -->|Report Incident| C3
@@ -197,8 +201,11 @@ graph TB
 ### 5.2 Tech Stack (Zero-Cost Hackathon MVP)
 
 **Platform:**
-*   **Mobile App**: React Native (Android only for MVP, iOS support planned).
-*   **Backend**: Firebase Cloud Functions (Node.js, TypeScript).
+*   **Mobile App**: React Native (Android only for MVP).
+*   **Backend**: FastAPI (Python) for ingestion, extraction, route matching, and alert orchestration.
+*   **Optional Event Layer**: Firebase Cloud Functions for event-driven Firebase triggers when needed.
+    *   Use Cloud Functions only for Firebase-native triggers (for example Firestore `onCreate`/`onUpdate` and Auth triggers).
+    *   FastAPI remains the source of truth for core business workflows.
 *   **Database**: Cloud Firestore (NoSQL, real-time).
 *   **Authentication**: Firebase Auth.
 
@@ -207,7 +214,7 @@ graph TB
 *   **Social Media**: 
     *   Reddit API (Free tier, PRAW library) - Primary source
     *   Twitter API (Free tier, 500K tweets/month) - Secondary source
-*   **Processing**: Batch processing every 30 minutes (Cloud Scheduler).
+*   **Processing**: Batch processing every 30 minutes (APScheduler in FastAPI; optional Cloud Scheduler/Cloud Functions integration).
 
 **Maps & Location:**
 *   **Station Data**: Existing public datasets (MyRapid, OpenStreetMap, Wikipedia).

@@ -132,16 +132,16 @@ git commit -m "WIP"
 ### Common Commands
 
 ```bash
-# Create feature branch
-git checkout -b app/feat-<name>
+# Create personal working branch
+git checkout -b app/app_<YourName>  # or server/server_<YourName>
 
 # Commit changes
 git add <files>
 git commit -m "<type>(<scope>): <description>"
 
 # Push regularly
-git push origin app/app_Ash  # or server/server_Diana
-```
+git push origin app/app_<YourName>  # or server/server_<YourName>
+
 # Push branch
 git push origin app/app_<YourName>
 
