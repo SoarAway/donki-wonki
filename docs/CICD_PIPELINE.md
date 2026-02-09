@@ -63,7 +63,7 @@ main (production-ready)
 
 **Examples:**
 ```
-app/app_Ash
+app/app_Ashley
 TICKET-1-login-ui
 server/server_Diana
 TICKET-2-api-endpoints
