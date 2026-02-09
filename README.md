@@ -79,7 +79,7 @@ All **8 major Klang Valley rail lines** (~100 stations):
 
 ```bash
 # Clone repository
-git clone https://github.com/yourusername/donki-wonki.git
+git clone https://github.com/soaraway/donki-wonki.git
 cd donki-wonki
 
 # Install all dependencies
