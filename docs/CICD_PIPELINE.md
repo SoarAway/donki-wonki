@@ -107,7 +107,7 @@ TICKET-2-api-endpoints
 - `firebase` - Firebase integration
 - `models` - Data models
 
-### Rules
+### Rules 
 
 1. **Use lowercase** for type and scope
 2. **Use imperative mood** ("add" not "added")
