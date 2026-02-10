@@ -1,8 +1,9 @@
-name: Docs -> Main PR + Auto-merge
-   
+name: All Branches -> Main Auto-PR
+
 on:
   push:
-    branches: [docs]
+    branches-ignore:
+      - main  # Prevent the workflow from triggering on main itself
 
 permissions:
   contents: write
@@ -14,34 +15,34 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install GitHub CLI
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y gh
-
       - name: Create PR if missing
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # If a PR from docs -> main already exists, do nothing
-          existing=$(gh pr list --base main --head docs --state open --json number -q '.[0].number')
+          # Get current branch name
+          BRANCH_NAME=${GITHUB_REF#refs/heads/}
+          
+          # Check if a PR already exists from this branch to main
+          existing=$(gh pr list --base main --head "$BRANCH_NAME" --state open --json number -q '.[0].number')
+          
           if [ -n "$existing" ]; then
-            echo "PR already exists: #$existing"
-            exit 0
+            echo "PR already exists for $BRANCH_NAME: #$existing"
+          else
+            gh pr create \
+              --base main \
+              --head "$BRANCH_NAME" \
+              --title "Auto PR: $BRANCH_NAME to main" \
+              --body "Automated PR created for branch $BRANCH_NAME."
           fi
-
-          gh pr create \
-            --base main \
-            --head docs \
-            --title "docs: update on documentation" \
-            --body "Automated PR from docs branch." \
-            --label "docs" \
-            --label "automated"
 
       - name: Enable auto-merge
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          pr=$(gh pr list --base main --head docs --state open --json number -q '.[0].number')
+          BRANCH_NAME=${GITHUB_REF#refs/heads/}
+          pr=$(gh pr list --base main --head "$BRANCH_NAME" --state open --json number -q '.[0].number')
+          
           echo "Enabling auto-merge on PR #$pr"
+          # This sets the 'auto-merge' flag. 
+          # It will only actually merge if your 'Guard main' workflow passes.
           gh pr merge "$pr" --auto --squash
