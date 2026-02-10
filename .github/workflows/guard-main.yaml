@@ -15,3 +15,6 @@ jobs:
             echo "Only PRs from 'docs' are allowed to merge into main."
             exit 1
           fi
+
+          # Enable auto-merge so it merges once the Guard passes
+          gh pr merge docs --auto --merge
