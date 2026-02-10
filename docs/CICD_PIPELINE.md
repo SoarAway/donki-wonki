@@ -157,6 +157,8 @@ git commit -m "WIP"
 ### Common Commands
 
 ```bash
+# Create personal working branch
+git checkout -b app/app_<YourName>  # or server/server_<YourName>
 # Create ticket branch
 git checkout -b TICKET-1-short-desc
 
@@ -164,12 +166,8 @@ git checkout -b TICKET-1-short-desc
 git add <files>
 git commit -m "<type>(<scope>): <description>"
 
-# Merge to personal branch (e.g., app/app_Ash)
-git checkout app/app_Ash
-git merge TICKET-1-short-desc
-
-# Push personal branch
-git push origin app/app_Ash
+# Push regularly
+git push origin app/app_Ash  # or server/server_Diana
 ```
 # Push branch
 git push origin app/app_<YourName>

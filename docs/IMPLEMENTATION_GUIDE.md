@@ -2,6 +2,10 @@
 
 FastAPI (Python) backend + React Native mobile app + Firebase services.
 
+Optional integration: Firebase Cloud Functions can be added for event-driven hooks (for example Firestore/Auth triggers), but FastAPI remains the primary backend.
+
+Data source priority for MVP: Reddit first. Twitter and official channel ingestion are optional extensions and can be enabled after the base pipeline is stable.
+
 ---
 
 ## Architecture
@@ -18,7 +22,12 @@ FastAPI Server (Python)
     ├─ Gemini AI (extract incidents)
     ├─ Route Matcher (BFS graph traversal)
     └─ Alert Service (Firestore + FCM)
+
+Optional Firebase Cloud Functions
+    └─ Firestore/Auth trigger handlers (only when needed)
 ```
+
+Cloud Functions should be used only for Firebase-native event hooks. Keep scraping, AI extraction, route matching, and alert orchestration in FastAPI to avoid duplicate logic paths.
 
 ---
 
