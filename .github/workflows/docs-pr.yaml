@@ -1,5 +1,5 @@
 name: Docs -> Main PR + Auto-merge
-
+   
 on:
   push:
     branches: [docs]
@@ -33,7 +33,7 @@ jobs:
           gh pr create \
             --base main \
             --head docs \
-            --title "Docs update" \
+            --title "docs: update on documentation" \
             --body "Automated PR from docs branch." \
             --label "docs" \
             --label "automated"
