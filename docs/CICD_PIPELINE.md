@@ -8,7 +8,7 @@ This document defines the branching strategy, commit conventions, and CI/CD pipe
 
 ## Development Workflow
 
-All development work must be tracked via tickets to ensure traceability.
+All development work must be tracked via tickets to ensure traceability. 
 
 1.  **Create Ticket**:
     *   Go to the [Notion ticketing board](https://www.notion.so/Donki-Wonki-2f6bb9f9e5f98018a5bbd56df9c5b883).
