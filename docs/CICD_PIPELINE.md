@@ -6,7 +6,7 @@ This document defines the branching strategy, commit conventions, and CI/CD pipe
 
 ---
 
-## Development Workflow
+## Development Workflow 
 
 All development work must be tracked via tickets to ensure traceability. 
 
