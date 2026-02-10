@@ -10,7 +10,7 @@ jobs:
     steps:
       - name: Only allow PRs from docs
         run: |
-          echo "Head ref: ${{ github.head_ref }}"
+          echo "test Head ref: ${{ github.head_ref }}"
           if [ "${{ github.head_ref }}" != "docs" ]; then
             echo "Only PRs from 'docs' are allowed to merge into main."
             exit 1
