@@ -28,6 +28,3 @@ jobs:
               --title "docs: auto-update documentation" \
               --body "Automated PR from docs branch."
           fi
-          
-          # Enable auto-merge so it merges once the Guard passes
-          gh pr merge docs --auto --merge
