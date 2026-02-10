@@ -44,3 +44,6 @@ jobs:
             echo "PR already exists for branch $BRANCH_NAME. PR #$existing"
             echo "::notice title=PR Exists::PR #$existing already exists."
           fi
+
+          # Enable auto-merge so it merges if the Guard passes
+          gh pr merge $BRANCH_NAME --auto --merge
