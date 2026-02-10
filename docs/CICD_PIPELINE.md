@@ -1,12 +1,12 @@
 # CI/CD Pipeline & Git Workflow
 
-## Overview
+## Overview 
 
 This document defines the branching strategy, commit conventions, and CI/CD pipeline for the Donki-Wonki project.
 
 ---
 
-## Development Workflow 
+## Development Workflow   
 
 All development work must be tracked via tickets to ensure traceability. 
 
