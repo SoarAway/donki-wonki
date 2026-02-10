@@ -63,7 +63,7 @@ main (production-ready)
 
 **Examples:**
 ```
-app/app_Ash
+app/app_Ashley
 TICKET-1-login-ui
 server/server_Diana
 TICKET-2-api-endpoints
@@ -107,7 +107,7 @@ TICKET-2-api-endpoints
 - `firebase` - Firebase integration
 - `models` - Data models
 
-### Rules
+### Rules 
 
 1. **Use lowercase** for type and scope
 2. **Use imperative mood** ("add" not "added")
