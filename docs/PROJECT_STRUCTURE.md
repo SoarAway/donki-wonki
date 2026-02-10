@@ -2,6 +2,8 @@
 
 ## 📁 Project Overview
 
+Note: The tree below is the target structure for implementation. Some modules are planned and may not exist yet in the current repository state.
+
 ```
 donki-wonki/                          # Root monorepo
 │
@@ -42,30 +44,24 @@ donki-wonki/                          # Root monorepo
 │   ├── package.json
 │   └── README.md
 │
-├── 🔧 server/                        # Firebase Cloud Functions
-│   ├── src/
-│   │   ├── index.ts                 # Cloud Functions entry point
-│   │   │
-│   │   ├── scrapers/                # Social media monitoring
-│   │   │   ├── reddit.ts           # Reddit API integration
-│   │   │   └── twitter.ts          # Twitter API (optional)
-│   │   │
-│   │   ├── ai/                      # AI processing
-│   │   │   └── gemini.ts           # Gemini API for text extraction
-│   │   │
-│   │   ├── alerts/                  # Alert logic
-│   │   │   ├── processor.ts        # Main alert processing
-│   │   │   └── route-matcher.ts    # Route impact analysis
-│   │   │
-│   │   └── models/                  # Shared TypeScript interfaces
-│   │       ├── Incident.ts
-│   │       ├── Station.ts
-│   │       ├── User.ts
-│   │       └── Alert.ts
-│   │
-│   ├── lib/                         # Compiled JavaScript (auto-generated)
-│   ├── package.json
-│   ├── tsconfig.json
+├── 🔧 server/                        # FastAPI backend (Python)
+│   ├── main.py                      # FastAPI entry point
+│   ├── config/
+│   │   ├── settings.py              # Environment variable loading
+│   │   └── firebase.py              # Firebase Admin initialization
+│   ├── models/
+│   │   ├── station.py
+│   │   ├── incident.py
+│   │   ├── user.py
+│   │   └── alert.py
+│   ├── services/
+│   │   ├── reddit_scraper.py
+│   │   ├── gemini_ai.py
+│   │   ├── route_matcher.py
+│   │   └── alert_service.py
+│   ├── jobs/
+│   │   └── monitor_social.py        # APScheduler jobs
+│   ├── requirements.txt
 │   ├── .env                         # Environment variables (not in git)
 │   └── README.md
 │
@@ -74,16 +70,16 @@ donki-wonki/                          # Root monorepo
 │   │   └── all-lines.json          # All ~100 stations data
 │   │
 │   └── scripts/
-│       └── seed-database.ts        # Script to populate Firestore
+│       └── seed_firestore.py       # Script to populate Firestore
 │
 ├── 📚 docs/                          # Documentation
-│   ├── implementation_plan.md
-│   ├── api-design.md
-│   └── architecture.md
+│   ├── PROJECT_STRUCTURE.md
+│   ├── PRD.md
+│   ├── IMPLEMENTATION_GUIDE.md
+│   └── CICD_PIPELINE.md
 │
 ├── .gitignore
-├── package.json                     # Root package.json (workspace)
-├── PRD.md                           # Product Requirements Document
+├── PRD.md                           # Product Requirements Document (optional root copy)
 └── README.md                        # Main README
 ```
 
@@ -91,7 +87,7 @@ donki-wonki/                          # Root monorepo
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
-│                     BACKEND (Firebase)                      │
+│                     BACKEND (FastAPI)                       │
 │                                                             │
 │  ┌──────────────┐      ┌──────────────┐                   │
 │  │   Reddit     │      │   Twitter    │                   │
@@ -154,8 +150,15 @@ donki-wonki/                          # Root monorepo
 ### 1. Install Dependencies
 
 ```bash
-# From root directory
-npm run install:all
+# Backend dependencies
+cd server
+python -m venv venv
+venv\Scripts\activate
+pip install -r requirements.txt
+
+# Mobile dependencies
+cd ..\app
+npm install
 ```
 
 ### 2. Setup Backend
@@ -163,14 +166,11 @@ npm run install:all
 ```bash
 cd server
 
-# Create .env file
-echo "GEMINI_API_KEY=your_key" > .env
-echo "REDDIT_CLIENT_ID=your_id" >> .env
-echo "REDDIT_CLIENT_SECRET=your_secret" >> .env
+# Create .env from template and fill credentials
+copy .env.example .env
 
-# Initialize Firebase
-firebase login
-firebase init
+# Run API
+uvicorn main:app --reload
 ```
 
 ### 3. Setup Mobile
@@ -178,27 +178,28 @@ firebase init
 ```bash
 cd app
 
-# Install dependencies (already done if you ran install:all)
+# Install dependencies
 npm install
 
 # Run on Android
 npx react-native run-android
 ```
 
-## 📦 Shared Models
+## 📦 Shared Data Contract
 
-Both `app/src/models/` and `server/src/models/` contain the same TypeScript interfaces to ensure type safety across the stack:
+The app and backend share one domain contract, implemented in two languages:
 
-- `Station.ts` - Rail station data structure
-- `Incident.ts` - Disruption incident data
-- `User.ts` - User profile and routes
-- `Alert.ts` - Alert notification data
+- `app/src/models/*.ts` - TypeScript app models
+- `server/models/*.py` - Python backend models
+
+Keep fields aligned across both sides (`Station`, `Incident`, `User`, `Alert`).
 
 ## 🔐 Environment Variables
 
 ### Backend (.env)
 ```
 GEMINI_API_KEY=your_gemini_api_key
+FIREBASE_CREDENTIALS_PATH=./serviceAccountKey.json
 REDDIT_CLIENT_ID=your_reddit_client_id
 REDDIT_CLIENT_SECRET=your_reddit_client_secret
 REDDIT_REFRESH_TOKEN=your_reddit_refresh_token
@@ -209,8 +210,8 @@ Configured via `google-services.json` (Android)
 
 ## 📝 Next Steps
 
-1. ✅ Project structure created
-2. ⏳ Implement backend Cloud Functions
+1. ✅ Baseline project folders created
+2. ⏳ Implement backend FastAPI services
 3. ⏳ Create station data file
 4. ⏳ Build mobile app UI
 5. ⏳ Test end-to-end flow
