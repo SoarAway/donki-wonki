@@ -1,0 +1,20 @@
+name: Guard main merges
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  allow-only-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Only allow PRs from docs
+        run: |
+          echo "test Head ref: ${{ github.head_ref }}"
+          if [ "${{ github.head_ref }}" != "docs" ]; then
+            echo "Only PRs from 'docs' are allowed to merge into main."
+            exit 1
+          fi
+
+          # Enable auto-merge so it merges once the Guard passes
+          gh pr merge docs --auto --merge
