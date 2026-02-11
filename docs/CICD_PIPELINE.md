@@ -1,10 +1,30 @@
 # CI/CD Pipeline & Git Workflow
 
-## Overview
+## Overview 
 
 This document defines the branching strategy, commit conventions, and CI/CD pipeline for the Donki-Wonki project.
 
 ---
+
+## Development Workflow   
+
+All development work must be tracked via tickets to ensure traceability. 
+
+1.  **Create Ticket**:
+    *   Go to the [Notion ticketing board](https://www.notion.so/Donki-Wonki-2f6bb9f9e5f98018a5bbd56df9c5b883).
+    *   [Create a new ticket](https://www.notion.so/302bb9f9e5f980f09381d66d37016e34) for your task.
+    *   Obtain the Ticket ID.
+    *   **Note**: Always raise a new ticket for a new task.
+
+2.  **Branching**:
+    *   In your own working branch (`app/app_<Name>` or `server/server_<Name>`), branch out new branch.
+    *   **Naming Convention**: `<ticket_id>-<short_desc>`
+        *   Example: `TICKET-1-login-ui`
+
+3.  **Development**:
+    *   Develop in that ticket branch.
+    *   **Record all findings, exploration, blockers, and thought process in each of their notion ticket.**
+    *   Purpose: Easier to refer which commit is for which ticket.
 
 ## Branching Strategy
 
@@ -14,11 +34,13 @@ This document defines the branching strategy, commit conventions, and CI/CD pipe
 main (production-ready)
   ├── app/ (mobile app integration)
   │   ├── app/app_Ash (developer: Ash's personal working branch)
+  │   │   └── TICKET-1-login-ui (Ticket branch)
   │   ├── app/app_Bob (developer: Bob's personal working branch)
   │   └── app/app_Charlie (developer: Charlie's personal working branch)
   │
   └── server/ (backend integration)
       ├── server/server_Diana (developer: Diana's personal working branch)
+      │   └── TICKET-2-api-endpoints (Ticket branch)
       ├── server/server_Eve (developer: Eve's personal working branch)
       └── server/server_Frank (developer: Frank's personal working branch)
 ```
@@ -31,17 +53,20 @@ main (production-ready)
 | `app/` | Mobile app integration | `app/` | `main` |
 | `server/` | Backend integration | `server/` | `main` |
 | Personal working | Individual developer work | `app/app_<Name>` or `server/server_<Name>` | `app/` or `server/` |
+| Ticket Branch | Specific Task | `<ticket_id>-<short_desc>` | Personal working branch |
 
 ### Branch Naming Convention
 
-**Format:** `<workspace>/<workspace>_<DeveloperName>`
+**Format:**
+*   Personal: `<workspace>/<workspace>_<DeveloperName>`
+*   Ticket: `<ticket_id>-<short_desc>`
 
 **Examples:**
 ```
-app/app_Ash
-app/app_Bob
+app/app_Ashley
+TICKET-1-login-ui
 server/server_Diana
-server/server_Eve
+TICKET-2-api-endpoints
 ```
 
 ## Commit Convention
@@ -82,7 +107,7 @@ server/server_Eve
 - `firebase` - Firebase integration
 - `models` - Data models
 
-### Rules
+### Rules 
 
 1. **Use lowercase** for type and scope
 2. **Use imperative mood** ("add" not "added")
@@ -134,14 +159,16 @@ git commit -m "WIP"
 ```bash
 # Create personal working branch
 git checkout -b app/app_<YourName>  # or server/server_<YourName>
+# Create ticket branch
+git checkout -b TICKET-1-short-desc
 
 # Commit changes
 git add <files>
 git commit -m "<type>(<scope>): <description>"
 
 # Push regularly
-git push origin app/app_<YourName>  # or server/server_<YourName>
-
+git push origin app/app_Ash  # or server/server_Diana
+```
 # Push branch
 git push origin app/app_<YourName>
 

@@ -58,7 +58,7 @@ Server will start at `http://localhost:8000`
 
 ```
 server/
-├── main.py                 # FastAPI app entry point
+├── main.py                # FastAPI app entry point
 ├── config/
 │   ├── settings.py        # Environment variables
 │   └── firebase.py        # Firebase initialization

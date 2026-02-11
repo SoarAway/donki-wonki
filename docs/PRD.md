@@ -132,7 +132,7 @@ The platform operates as an **intelligent aggregator and predictor** that sits b
 
 ---
 
-## 4. Features
+## 4. Features    
 
 ### 4.1 User-Facing Features
 
