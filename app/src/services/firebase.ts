@@ -11,3 +11,22 @@ export async function requestNotificationPermission(): Promise<boolean> {
     status === messaging.AuthorizationStatus.PROVISIONAL
   );
 }
+
+export async function getFcmToken(): Promise<string | null> {
+  try {
+    return await messaging().getToken();
+  } catch {
+    return null;
+  }
+}
+
+export function onForegroundFcmMessage(
+  callback: (payload: {title?: string; body?: string}) => void,
+): () => void {
+  return messaging().onMessage(async remoteMessage => {
+    callback({
+      title: remoteMessage.notification?.title,
+      body: remoteMessage.notification?.body,
+    });
+  });
+}

@@ -2,8 +2,63 @@ import React from 'react';
 import {StatusBar, StyleSheet, Text, useColorScheme, View} from 'react-native';
 import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
 
+import {
+  getFcmToken,
+  onForegroundFcmMessage,
+  requestNotificationPermission,
+} from './src/services/firebase';
+
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
+  const [permissionStatus, setPermissionStatus] = React.useState('Checking...');
+  const [tokenPreview, setTokenPreview] = React.useState('Pending...');
+  const [lastForegroundMessage, setLastForegroundMessage] = React.useState(
+    'No message yet.',
+  );
+
+  React.useEffect(() => {
+    let isMounted = true;
+
+    const setupFcm = async () => {
+      const granted = await requestNotificationPermission();
+      if (!isMounted) {
+        return;
+      }
+
+      setPermissionStatus(granted ? 'Granted' : 'Denied');
+
+      if (!granted) {
+        setTokenPreview('Unavailable (permission denied)');
+        return;
+      }
+
+      const token = await getFcmToken();
+      if (!isMounted) {
+        return;
+      }
+
+      if (!token) {
+        setTokenPreview('Unavailable (failed to fetch token)');
+        return;
+      }
+
+      const preview = `${token.slice(0, 14)}...${token.slice(-8)}`;
+      setTokenPreview(preview);
+    };
+
+    setupFcm();
+
+    const unsubscribeForeground = onForegroundFcmMessage(payload => {
+      const title = payload.title ?? 'Untitled message';
+      const body = payload.body ?? 'No body';
+      setLastForegroundMessage(`${title}: ${body}`);
+    });
+
+    return () => {
+      isMounted = false;
+      unsubscribeForeground();
+    };
+  }, []);
 
   return (
     <SafeAreaProvider>
@@ -11,9 +66,10 @@ function App() {
       <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
         <View style={styles.content}>
           <Text style={styles.title}>Donki-Wonki App Base</Text>
-          <Text style={styles.subtitle}>
-            Folder structure baseline is ready for implementation.
-          </Text>
+          <Text style={styles.subtitle}>FCM permission: {permissionStatus}</Text>
+          <Text style={styles.subtitle}>FCM token: {tokenPreview}</Text>
+          <Text style={styles.subtitle}>Last foreground message:</Text>
+          <Text style={styles.message}>{lastForegroundMessage}</Text>
         </View>
       </SafeAreaView>
     </SafeAreaProvider>
@@ -41,6 +97,11 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: 14,
     color: '#61584D',
+    textAlign: 'center',
+  },
+  message: {
+    fontSize: 13,
+    color: '#3A352F',
     textAlign: 'center',
   },
 });
