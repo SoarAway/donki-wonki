@@ -1,4 +1,4 @@
-package com.donkiwonkiapp
+package com.donkiwonki.ontheway
 
 import com.facebook.react.ReactActivity
 import com.facebook.react.ReactActivityDelegate

@@ -50,3 +50,7 @@ build/
 # Testing
 coverage/
 .nyc_output/
+
+# Local agent knowledge files
+AGENTS.md
+**/AGENTS.md
