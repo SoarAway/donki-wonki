@@ -61,13 +61,13 @@ export JAVA_HOME="/c/Program Files/Android/Android Studio/jbr"
 npm run android
 ```
 
-### If app opens but stays on white screen
+### If app opens but stays on white screen (Connection Issue)
 
-```bash
-adb reverse tcp:8081 tcp:8081
-```
-
-Then shake device/emulator and tap Reload.
+1.  Run this command to bridge the port:
+    ```bash
+    adb reverse tcp:8081 tcp:8081
+    ```
+2.  Shake your phone (or press `R` twice in Metro terminal) and select **Reload**.
 
 ## 5) Local development commands
 
@@ -100,6 +100,7 @@ npm test
 ## 8) Troubleshooting
 
 ### `Could not move temporary workspace` (Windows file lock)
+This is a Windows-specific file locking issue with Gradle.
 
 ```bash
 # Kill stuck Java processes
@@ -118,12 +119,14 @@ Ensure `app/android/local.properties` exists:
 sdk.dir=C:\\Users\\YOUR_USERNAME\\AppData\\Local\\Android\\Sdk
 ```
 
-### Gradle plugin/repository issues
+### `Plugin not found` or Gradle Errors
 
 - Ensure `android/gradle/wrapper/gradle-wrapper.properties` uses `gradle-8.13-bin.zip`
 - Ensure `android/settings.gradle` includes `google()` and `mavenCentral()` in `pluginManagement`
 
 ### `JAVA_HOME is not set`
+
+Run this before your commands in Git Bash:
 
 ```bash
 export JAVA_HOME="/c/Program Files/Android/Android Studio/jbr"
