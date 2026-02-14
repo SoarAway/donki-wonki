@@ -1,51 +1,311 @@
+# ============================================
+# PYTHON / FASTAPI BACKEND
+# ============================================
+
+# Python virtual environment
+venv/
+env/
+ENV/
+.venv/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+*.pyo
+*.pyd
+
+# Python distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# PyInstaller
+*.manifest
+*.spec
+
+# Unit test / coverage
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+coverage/
+*.cover
+.hypothesis/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# pyenv
+.python-version
+
+# Celery
+celerybeat-schedule
+celerybeat.pid
+
+# ============================================
+# REACT NATIVE / MOBILE APP
+# ============================================
+
 # Dependencies
 node_modules/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+package-lock.json
+yarn.lock
 
-# Environment variables
+# Expo
+.expo/
+.expo-shared/
+expo-env.d.ts
+
+# Android
+app/android/app/build/
+app/android/.gradle/
+app/android/app/debug/
+app/android/app/release/
+app/android/.idea/
+app/android/local.properties
+*.apk
+*.ap_
+*.aab
+
+# iOS
+app/ios/Pods/
+app/ios/build/
+app/ios/.xcode.env.local
+app/ios/Podfile.lock
+*.ipa
+*.xcuserstate
+*.xcworkspace
+
+# Signing & Certificates
+*.jks
+*.p8
+*.p12
+*.key
+*.keystore
+*.mobileprovision
+*.certSigningRequest
+
+# Metro bundler
+.metro-health-check*
+metro-cache/
+
+# ============================================
+# ENVIRONMENT & SECRETS
+# ============================================
+
+# Environment files
 .env
 .env.local
 .env.*.local
+.env.production
+.env.development
 
 # Firebase
 .firebase/
 firebase-debug.log
 firestore-debug.log
+ui-debug.log
+serviceAccountKey.json
+firebaseServiceAccountKey.json
+google-services.json
+GoogleService-Info.plist
 
-# Mobile (React Native)
-mobile/.expo/
-mobile/.expo-shared/
-mobile/android/app/build/
-mobile/android/.gradle/
-mobile/ios/Pods/
-mobile/ios/build/
-*.jks
-*.p8
-*.p12
-*.key
-*.mobileprovision
+# API Keys
+*.pem
+secrets/
+credentials/
 
-# IDE
+# ============================================
+# IDE & EDITORS
+# ============================================
+
+# VS Code
 .vscode/
+*.code-workspace
+
+# IntelliJ IDEA
 .idea/
+*.iml
+*.iws
+*.ipr
+
+# Vim
 *.swp
 *.swo
 *~
 
-# OS
+# Emacs
+*~
+\#*\#
+.\#*
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# ============================================
+# OS FILES
+# ============================================
+
+# macOS
 .DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# Windows
 Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+Desktop.ini
+
+# Linux
+*~
+
+# ============================================
+# BUILD & LOGS
+# ============================================
 
 # Build outputs
 dist/
 build/
+out/
+*.map
+
+# Logs
 *.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# ============================================
+# TESTING
+# ============================================
+
+# Test coverage
+coverage/
+.nyc_output/
+*.lcov
+
+# ============================================
+# MISC
+# ============================================
 
 # TypeScript
 *.tsbuildinfo
+*.tgz
 
-# Testing
-coverage/
-.nyc_output/
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Watchman
+.watchmanconfig
+
+# Buck
+buck-out/
+
+# Bundle artifact
+*.jsbundle
+
+# Ai Agents 
+AGENTS.md
+
+# OSX
+#
+.DS_Store
+
+# Xcode
+#
+build/
+*.pbxuser
+!default.pbxuser
+*.mode1v3
+!default.mode1v3
+*.mode2v3
+!default.mode2v3
+*.perspectivev3
+!default.perspectivev3
+xcuserdata
+*.xccheckout
+*.moved-aside
+DerivedData
+*.hmap
+*.ipa
+*.xcuserstate
+**/.xcode.env.local
+
+# Android/IntelliJ
+#
+build/
+.idea
+.gradle
+local.properties
+*.iml
+*.hprof
+.cxx/
+*.keystore
+!debug.keystore
+.kotlin/
+
+# node.js
+#
+node_modules/
+npm-debug.log
+yarn-error.log
+
+# fastlane
+#
+# It is recommended to not store the screenshots in the git repo. Instead, use fastlane to re-generate the
+# screenshots whenever they are needed.
+# For more information about the recommended setup visit:
+# https://docs.fastlane.tools/best-practices/source-control/
+
+**/fastlane/report.xml
+**/fastlane/Preview.html
+**/fastlane/screenshots
+**/fastlane/test_output
+
+# Bundle artifact
+*.jsbundle
+
+# Ruby / CocoaPods
+**/Pods/
+/vendor/bundle/
+
+# Temporary files created by Metro to check the health of the file watcher
+.metro-health-check*
+
+# testing
+/coverage
+
+# Yarn
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
