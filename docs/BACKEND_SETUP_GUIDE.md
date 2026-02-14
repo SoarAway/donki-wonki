@@ -35,7 +35,9 @@ pip install -r requirements.txt
 
 # Configure environment variables
 copy .env.example .env
-# Edit .env with your API keys
+
+# Note: Download service account key from Whatsapp group then put inside server folder
+/server/firebaseServiceAccountKey.json
 
 # Run FastAPI server
 uvicorn main:app --reload
