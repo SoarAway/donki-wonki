@@ -45,6 +45,8 @@ jobs:
             echo "::notice title=PR Exists::PR #$existing already exists."
           fi
 
+          sleep 10
+          
           # Enable auto-merge ONLY for docs branch (others must pass Guard manually)
           if [ "$BRANCH_NAME" == "docs" ]; then
             gh pr merge $BRANCH_NAME --auto --merge
