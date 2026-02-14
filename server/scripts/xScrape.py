@@ -10,16 +10,22 @@ import tempfile
 # --- CONFIGURATION ---
 TARGET_ACCOUNT = "https://x.com/AskRapidKL"  # Replace with the account URL
 TARGET_WINDOW_TITLE = "x_askrapidkl"         # The specific window title to look for
-POST_COUNT = 10                              # Increased to capture more in case of threads
+POST_COUNT = 10                              # Number of posts to retrieve
 HEADLESS = False                             # Must be False to see the process
 TIMEOUT = 60000                              # 60 seconds
-
-# Original Profile Path
-ORIGINAL_USER_DATA = os.path.join(os.environ['LOCALAPPDATA'], 'Microsoft/Edge/User Data')
-PROFILE_NAME = "Default" 
+JSON_FILE = "x_latest_posts.json"
 # ---------------------
 
 async def scrape_x_posts():
+    # --- STEP 0: EMPTY/DELETE PREVIOUS RESULTS ---
+    print(f"🧹 Clearing previous results in {JSON_FILE}...")
+    if os.path.exists(JSON_FILE):
+        try:
+            os.remove(JSON_FILE)
+            print(f"✅ {JSON_FILE} cleared.")
+        except Exception as e:
+            print(f"⚠️ Could not clear {JSON_FILE}: {e}")
+
     # 1. Focus the window (Visual aid)
     print(f"🔍 Searching for window: '{TARGET_WINDOW_TITLE}'...")
     windows = gw.getWindowsWithTitle(TARGET_WINDOW_TITLE)
@@ -48,7 +54,7 @@ async def scrape_x_posts():
                 headless=HEADLESS,
                 args=[
                     "--no-sandbox",
-                    f"--profile-directory={PROFILE_NAME}"
+                    f"--profile-directory={PROFILE_NAME}" if 'PROFILE_NAME' in globals() else "--profile-directory=Default"
                 ],
                 viewport={'width': 1280, 'height': 800},
                 user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
@@ -86,16 +92,14 @@ async def scrape_x_posts():
             for tweet in tweets:
                 if count >= POST_COUNT: break
                     
-                # Extract text content - specifically looking for the tweet body
+                # Extract text content
                 text_element = await tweet.query_selector('div[data-testid="tweetText"]')
                 if not text_element: continue
                     
-                # Get the inner text, preserving whitespace for multi-line updates
                 text = await text_element.inner_text()
                 if not text.strip(): continue
 
-                # Check if this is part of a thread (X often uses a "Show this thread" or specific grouping)
-                # We also look for the 'social context' like "Replying to..."
+                # Check if this is part of a thread
                 social_context = await tweet.query_selector('div[data-testid="socialContext"]')
                 context_text = await social_context.inner_text() if social_context else ""
 
@@ -105,7 +109,7 @@ async def scrape_x_posts():
                 stats_group = await tweet.query_selector('div[role="group"]')
                 stats_text = await stats_group.get_attribute('aria-label') if stats_group else "No stats"
 
-                # Check for images/media in the update
+                # Check for images/media
                 has_media = await tweet.query_selector('div[data-testid="tweetPhoto"]') is not None
 
                 posts.append({
@@ -119,10 +123,10 @@ async def scrape_x_posts():
                 count += 1
                 print(f"✅ Scraped {'update/reply' if posts[-1]['is_reply'] else 'post'} {count}")
 
-            with open("x_latest_posts.json", "w", encoding="utf-8") as f:
+            with open(JSON_FILE, "w", encoding="utf-8") as f:
                 json.dump(posts, f, indent=4, ensure_ascii=False)
             
-            print(f"\n✨ Done! Saved {len(posts)} items to x_latest_posts.json")
+            print(f"\n✨ Done! Saved {len(posts)} items to {JSON_FILE}")
 
         except Exception as e:
             print(f"❌ Error during scraping: {e}")
