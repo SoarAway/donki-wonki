@@ -22,12 +22,16 @@ app.add_middleware(
     allow_headers=["*"],              # Allow all headers
 )
 
-# Request model for testing alerts
+# Request models
 class AlertRequest(BaseModel):
     token: str
     title: str
     body: str
     data: dict = {}
+
+class EchoRequest(BaseModel):
+    message: str
+    timestamp: str | None = None
 
 @app.get("/")
 def root():
@@ -49,6 +53,36 @@ def health_check():
             }
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Firebase not initialized: {str(e)}")
+
+@app.get("/api/test")
+def test_get():
+    """
+    Simple GET endpoint for mobile app testing.
+    No authentication required.
+    """
+    return {
+        "success": True,
+        "message": "Hello from Donki-Wonki API!",
+        "timestamp": "2026-02-16T02:30:00Z",
+        "data": {
+            "server": "FastAPI",
+            "version": "0.1.0",
+            "environment": "development"
+        }
+    }
+
+@app.post("/api/test/echo")
+def test_echo(request: EchoRequest):
+    """
+    POST endpoint that echoes back the message.
+    Tests POST requests and JSON parsing.
+    """
+    return {
+        "success": True,
+        "echo": request.message,
+        "received_at": request.timestamp,
+        "message": f"Server received: '{request.message}'"
+    }
 
 @app.post("/test-alert")
 def test_alert(alert: AlertRequest):
