@@ -116,7 +116,7 @@ The platform operates as an **intelligent aggregator and predictor** that sits b
 *   **Pain Point**: KTM frequency is low. If he misses one or it's cancelled, he's very late.
 *   **Donki-Wonki Value**: "KTM Technical Issue reported at Padang Jawa." Advises him to drive to a nearby LRT station instead of waiting for the uncertain KTM.
 
-### 3.2 User Scenarios
+### 3.2 User Scenarios   
 
 #### **Scenario 1: Morning Signal Fault**
 1.  **7:15 AM**: Official RapidKL tweet: "Trains moving slowly due to signal fault."
