@@ -1,4 +1,5 @@
 from fastapi import FastAPI, HTTPException
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 # Import Firebase config to initialize on startup
@@ -6,6 +7,20 @@ from config import firebase
 from services import alert_service
 
 app = FastAPI(title="Donki-Wonki FastAPI Backend", version="0.1.0")
+
+# CORS Middleware Configuration
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:3000",      # React web dev
+        "http://localhost:19006",     # Expo web
+        "http://10.0.2.2:8000",       # Android emulator
+        "*"                           # Allow all for development (restrict in production)
+    ],
+    allow_credentials=True,
+    allow_methods=["*"],              # Allow all methods (GET, POST, PUT, DELETE, etc.)
+    allow_headers=["*"],              # Allow all headers
+)
 
 # Request model for testing alerts
 class AlertRequest(BaseModel):
