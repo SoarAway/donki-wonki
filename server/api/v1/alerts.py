@@ -5,6 +5,7 @@ from services import alert_service
 
 router = APIRouter()
 
+# endpoint = api/v1/alerts/
 
 @router.post("/send", response_model=AlertResponse)
 def send_alert(alert_in: AlertRequest) -> AlertResponse:
