@@ -1,110 +1,59 @@
-from fastapi import FastAPI, HTTPException
+from contextlib import asynccontextmanager
+
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
 
-# Import Firebase config to initialize on startup
-from config import firebase
-from services import alert_service
+from api.v1.api import api_router
+from core.config import get_settings
+from core.firebase import get_firestore_client, initialize_firebase
 
-app = FastAPI(title="Donki-Wonki FastAPI Backend", version="0.1.0")
+settings = get_settings()
 
-# CORS Middleware Configuration
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=[
-        "http://localhost:3000",      # React web dev
-        "http://localhost:19006",     # Expo web
-        "http://10.0.2.2:8000",       # Android emulator
-        "*"                           # Allow all for development (restrict in production)
-    ],
-    allow_credentials=True,
-    allow_methods=["*"],              # Allow all methods (GET, POST, PUT, DELETE, etc.)
-    allow_headers=["*"],              # Allow all headers
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Startup
+    initialize_firebase()
+    yield
+    # Shutdown (if needed in future)
+
+
+app = FastAPI(
+    title=settings.PROJECT_NAME,
+    openapi_url="/openapi.json",
+    docs_url="/docs",
+    lifespan=lifespan,
 )
 
-# Request models
-class AlertRequest(BaseModel):
-    token: str
-    title: str
-    body: str
-    data: dict = {}
+# CORS origins based on environment
+allowed_origins = ["*"] if settings.ENVIRONMENT == "development" else [settings.FRONTEND_URL]
 
-class EchoRequest(BaseModel):
-    message: str
-    timestamp: str | None = None
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=allowed_origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
+app.include_router(api_router, prefix=settings.API_V1_STR)
+
+# Root endpoint (will show when app starts)
 @app.get("/")
 def root():
     return {
-        "message": "Donki-Wonki Backend API",
-        "version": "0.1.0",
-        "status": "running"
+        "message": "Welcome to Donki-Wonki API",
+        "docs": "/docs",
+        "health": "/health",
     }
+
 
 @app.get("/health")
-def health_check():
-    """Check if Firebase is initialized"""
-    try:
-        # If firebase.db exists, Firebase is initialized
-        if firebase.db:
-            return {
-                "status": "healthy",
-                "firebase": "connected"
-            }
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Firebase not initialized: {str(e)}")
-
-@app.get("/api/test")
-def test_get():
-    """
-    Simple GET endpoint for mobile app testing.
-    No authentication required.
-    """
+def health_check() -> dict[str, str]:
+    db = get_firestore_client()
+    firebase_status = "connected" if db else "not initialized"
     return {
-        "success": True,
-        "message": "Hello from Donki-Wonki API!",
-        "timestamp": "2026-02-16T02:30:00Z",
-        "data": {
-            "server": "FastAPI",
-            "version": "0.1.0",
-            "environment": "development"
-        }
+        "status": "healthy",
+        "service": "Donki-Wonki API",
+        "firebase": firebase_status,
     }
-
-@app.post("/api/test/echo")
-def test_echo(request: EchoRequest):
-    """
-    POST endpoint that echoes back the message.
-    Tests POST requests and JSON parsing.
-    """
-    return {
-        "success": True,
-        "echo": request.message,
-        "received_at": request.timestamp,
-        "message": f"Server received: '{request.message}'"
-    }
-
-@app.post("/test-alert")
-def test_alert(alert: AlertRequest):
-    """
-    Test endpoint to send an alert to a device.
-    Requires a valid FCM token from a real device.
-    """
-    try:
-        response = alert_service.send_alert_to_device(
-            token=alert.token,
-            title=alert.title,
-            body=alert.body,
-            data=alert.data
-        )
-        
-        if response:
-            return {
-                "status": "success",
-                "message": "Alert sent successfully",
-                "fcm_response": response
-            }
-        else:
-            raise HTTPException(status_code=500, detail="Failed to send alert")
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
