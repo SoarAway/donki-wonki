@@ -17,12 +17,20 @@ def initialize_firebase() -> None:
 
     try:
         firebase_creds_json = settings.FIREBASE_CREDENTIALS_JSON
+        cred = None
 
         if firebase_creds_json:
-            cred_dict = json.loads(firebase_creds_json)
-            cred = credentials.Certificate(cred_dict)
-            print("Firebase Admin Initialized (from JSON env var)")
-        else:
+            try:
+                cred_dict = json.loads(firebase_creds_json)
+                cred = credentials.Certificate(cred_dict)
+                print("Firebase Admin Initialized (from JSON env var)")
+            except json.JSONDecodeError:
+                print(
+                    "Warning: FIREBASE_CREDENTIALS_JSON is not valid JSON. "
+                    "Falling back to FIREBASE_CREDENTIALS_PATH."
+                )
+
+        if cred is None:
             cred_path = settings.FIREBASE_CREDENTIALS_PATH
             if os.path.exists(cred_path):
                 cred = credentials.Certificate(cred_path)
