@@ -1,0 +1,12 @@
+import React from 'react';
+import { ActivityIndicator, ColorValue } from 'react-native';
+import { colors } from '../tokens';
+
+export interface SpinnerProps {
+  size?: 'small' | 'large';
+  color?: string;
+}
+
+export const Spinner: React.FC<SpinnerProps> = ({ size = 'small', color = colors.primary[500] }) => {
+  return <ActivityIndicator size={size} color={color as ColorValue} />;
+};
