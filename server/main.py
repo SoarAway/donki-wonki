@@ -1,9 +1,11 @@
 from contextlib import asynccontextmanager
+import logging
+import time
 
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, Response
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
 from api.schemas.error import ErrorResponse
@@ -12,6 +14,9 @@ from core.config import get_settings
 from core.firebase import get_firestore_client, initialize_firebase
 
 settings = get_settings()
+
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger("api.interceptor")
 
 
 @asynccontextmanager
@@ -39,6 +44,45 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+@app.middleware("http")
+async def log_requests_and_responses(request: Request, call_next) -> Response:
+    request_body = await request.body()
+    request_body_text = request_body.decode("utf-8", errors="replace")
+
+    start_time = time.perf_counter()
+    response = await call_next(request)
+    duration_ms = (time.perf_counter() - start_time) * 1000
+
+    response_body_bytes = b""
+    async for chunk in response.body_iterator:
+        response_body_bytes += chunk
+
+    response_body_text = response_body_bytes.decode("utf-8", errors="replace")
+
+    logger.info(
+        "REQUEST method=%s path=%s query=%s body=%s",
+        request.method,
+        request.url.path,
+        request.url.query,
+        request_body_text,
+    )
+    logger.info(
+        "RESPONSE method=%s path=%s status=%s duration_ms=%.2f body=%s",
+        request.method,
+        request.url.path,
+        response.status_code,
+        duration_ms,
+        response_body_text,
+    )
+
+    return Response(
+        content=response_body_bytes,
+        status_code=response.status_code,
+        headers=dict(response.headers),
+        media_type=response.media_type,
+    )
 
 app.include_router(api_router, prefix=settings.API_V1_STR)
 
