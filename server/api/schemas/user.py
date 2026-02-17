@@ -15,3 +15,4 @@ class SendTokenResponse(BaseModel):
     status: str
     message: str
     token: str
+    notification_id: str | None = None

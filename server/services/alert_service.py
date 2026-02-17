@@ -26,6 +26,15 @@ def send_alert_to_device(
         return None
 
 
+def send_token_received_notification(token: str) -> str | None:
+    return send_alert_to_device(
+        token=token,
+        title="Donki-Wonki",
+        body="Notification setup successful.",
+        data={"type": "token_registered"},
+    )
+
+
 def predict_incident(text: str, source: str) -> dict[str, Any]:
     keywords = ["delay", "fault", "stuck", "breakdown", "disruption"]
     is_incident = any(keyword in text.lower() for keyword in keywords)
