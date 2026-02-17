@@ -27,6 +27,7 @@ def _build_fcm_message(
         android=messaging.AndroidConfig(
             priority="high",
             notification=messaging.AndroidNotification(
+                channel_id="default",
                 sound="default",
                 priority="max",
             ),
