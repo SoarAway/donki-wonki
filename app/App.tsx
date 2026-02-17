@@ -1,19 +1,19 @@
 import React from 'react';
-import {Alert, StatusBar, StyleSheet, useColorScheme, View} from 'react-native';
-import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
+import { Alert, StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
+import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 
 import {
   getFcmToken,
   onForegroundFcmMessage,
   requestNotificationPermission,
 } from './src/services/firebase';
-import {checkHealth, fetchIncidents} from './src/services/api/incidentsApi';
-import {setErrorCallback, setLoadingCallback} from './src/services/api/apiClient';
-import {Incident} from './src/services/api/types';
-import {Text} from './src/components/atoms/Text';
-import {Button} from './src/components/atoms/Button';
-import {LoadingOverlay} from './src/components/molecules/LoadingOverlay';
-import {colors, spacing, radius} from './src/components/tokens';
+import { checkHealth, fetchIncidents, sendToken } from './src/services/api/incidentsApi';
+import { setErrorCallback, setLoadingCallback, wakeServer } from './src/services/api/apiClient';
+import { Incident } from './src/services/api/types';
+import { Text } from './src/components/atoms/Text';
+import { Button } from './src/components/atoms/Button';
+import { LoadingOverlay } from './src/components/molecules/LoadingOverlay';
+import { colors, spacing, radius } from './src/components/config';
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
@@ -22,7 +22,7 @@ function App() {
   const [lastForegroundMessage, setLastForegroundMessage] = React.useState(
     'No message yet.',
   );
-  const [apiStatus, setApiStatus] = React.useState('Checking API...');
+  const [apiStatus, setApiStatus] = React.useState('Waking server...');
   const [incidents, setIncidents] = React.useState<Incident[]>([]);
   const [loading, setLoading] = React.useState(false);
   const [globalLoading, setGlobalLoading] = React.useState(false);
@@ -42,18 +42,27 @@ function App() {
   React.useEffect(() => {
     let isMounted = true;
 
-    // Check API health
-    checkHealth()
-      .then(res => {
-        if (isMounted) {
-          setApiStatus(`Connected: ${res.status}`);
+    const initializeApp = async () => {
+      try {
+        setApiStatus('Waking server (may take up to 60s)...');
+        await wakeServer();
+        if (!isMounted) {
+          return;
         }
-      })
-      .catch(err => {
+        setApiStatus('Server awake. Checking health...');
+
+        const healthResponse = await checkHealth();
         if (isMounted) {
-          setApiStatus(`API Error: ${err.message}`);
+          setApiStatus(`Connected: ${healthResponse.status}`);
         }
-      });
+      } catch (err) {
+        if (isMounted) {
+          setApiStatus(`Server wake failed: ${(err as Error).message}`);
+        }
+      }
+    };
+
+    initializeApp();
 
     const setupFcm = async () => {
       const granted = await requestNotificationPermission();
@@ -79,6 +88,15 @@ function App() {
       }
 
       const preview = `${token.slice(0, 14)}...${token.slice(-8)}`;
+
+      try {
+        await sendToken(token);
+      } catch {
+        if (isMounted) {
+          setApiStatus('FCM token could not be sent to server.');
+        }
+      }
+
       setTokenPreview(preview);
     };
 

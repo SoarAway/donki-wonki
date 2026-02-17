@@ -1,9 +1,8 @@
 // Generic API wrapper for the Donki-Wonki backend
 
-// The base URL for the backend API
-// If you are running locally on Android, use 'http://10.0.2.2:8000'
-// If you are running on production, use the deployed URL
 const BASE_URL = 'https://donki-wonki.onrender.com';
+const WAKE_TIMEOUT_MS = 60000; // 60 seconds
+const WAKE_RETRY_ATTEMPTS = 3;
 
 interface ApiConfig {
   baseUrl: string;
@@ -44,39 +43,6 @@ function notifyError(message: string) {
   if (errorCallback) {
     errorCallback(message);
   }
-}
-
-async function parseErrorMessage(response: Response): Promise<string> {
-  try {
-    const data: unknown = await response.json();
-
-    if (typeof data === 'string' && data.trim().length > 0) {
-      return data;
-    }
-
-    if (data && typeof data === 'object') {
-      const errorData = data as Record<string, unknown>;
-
-      if (
-        typeof errorData.message === 'string' &&
-        errorData.message.trim().length > 0
-      ) {
-        return errorData.message;
-      }
-
-      if (typeof errorData.error === 'string' && errorData.error.trim().length > 0) {
-        return errorData.error;
-      }
-
-      if (typeof errorData.detail === 'string' && errorData.detail.trim().length > 0) {
-        return errorData.detail;
-      }
-    }
-  } catch (error) {
-    console.error('Failed to parse API error response:', error);
-  }
-
-  return `API Error: ${response.status} ${response.statusText}`;
 }
 
 /**
@@ -145,4 +111,85 @@ export async function post<T>(path: string, body: any): Promise<T> {
   } finally {
     notifyLoading(false);
   }
+}
+
+async function parseErrorMessage(response: Response): Promise<string> {
+  try {
+    const data: unknown = await response.json();
+
+    if (typeof data === 'string' && data.trim().length > 0) {
+      return data;
+    }
+
+    if (data && typeof data === 'object') {
+      const errorData = data as Record<string, unknown>;
+
+      if (
+        typeof errorData.message === 'string' &&
+        errorData.message.trim().length > 0
+      ) {
+        return errorData.message;
+      }
+
+      if (typeof errorData.error === 'string' && errorData.error.trim().length > 0) {
+        return errorData.error;
+      }
+
+      if (typeof errorData.detail === 'string' && errorData.detail.trim().length > 0) {
+        return errorData.detail;
+      }
+    }
+  } catch (error) {
+    console.error('Failed to parse API error response:', error);
+  }
+
+  return `API Error: ${response.status} ${response.statusText}`;
+}
+
+
+function sleep(ms: number): Promise<void> {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+/**
+ * Wake up Render backend from cold start (free tier spins down after inactivity)
+ * Retries with exponential backoff to handle slow cold starts
+ * @returns Promise that resolves when server is awake, rejects after max retries
+ */
+export async function wakeServer(): Promise<void> {
+  for (let attempt = 1; attempt <= WAKE_RETRY_ATTEMPTS; attempt++) {
+    try {
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), WAKE_TIMEOUT_MS);
+
+      const response = await fetch(`${config.baseUrl}/health`, {
+        method: 'GET',
+        signal: controller.signal,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      clearTimeout(timeoutId);
+
+      if (response.ok) {
+        console.log(`Server wake successful (attempt ${attempt}/${WAKE_RETRY_ATTEMPTS})`);
+        return;
+      }
+
+      console.warn(`Server wake attempt ${attempt}/${WAKE_RETRY_ATTEMPTS} failed: ${response.status}`);
+    } catch (error) {
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+      console.warn(`Server wake attempt ${attempt}/${WAKE_RETRY_ATTEMPTS} failed: ${errorMessage}`);
+
+      // Wait 2 seconds before retrying
+      if (attempt < WAKE_RETRY_ATTEMPTS) {
+        const backoffDelay = 2000 * Math.pow(2, attempt - 1);
+        console.log(`Retrying in ${backoffDelay}ms...`);
+        await sleep(backoffDelay);
+      }
+    }
+  }
+
+  throw new Error('Failed to wake server after maximum retry attempts');
 }
