@@ -1,9 +1,9 @@
 import React from 'react';
-import {Modal, StyleSheet, View} from 'react-native';
-import {Box} from '../atoms/Box';
-import {Text} from '../atoms/Text';
-import {Spinner} from '../atoms/Spinner';
-import {colors, spacing} from '../tokens';
+import { Modal, StyleSheet, View } from 'react-native';
+import { Box } from '../atoms/Box';
+import { Text } from '../atoms/Text';
+import { Spinner } from '../atoms/Spinner';
+import { colors, spacing } from '../config';
 
 export interface LoadingOverlayProps {
   visible: boolean;
