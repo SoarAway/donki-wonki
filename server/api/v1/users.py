@@ -21,8 +21,7 @@ ERROR_RESPONSES: dict[int | str, dict[str, Any]] = {
 )
 def send_token(send_token: SendTokenRequest) -> SendTokenResponse:
     notification_id = send_token_received_notification(send_token.token)
-    print("Token received and notification sent", notification_id)
-    
+
     if not notification_id:
         raise HTTPException(status_code=500, detail="Failed to send test notification")
 

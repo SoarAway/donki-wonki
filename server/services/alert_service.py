@@ -1,6 +1,9 @@
+import logging
 from typing import Any
 
 from firebase_admin import messaging
+
+logger = logging.getLogger("services.alerts")
 
 
 def send_alert_to_device(
@@ -19,10 +22,10 @@ def send_alert_to_device(
             token=token,
         )
         response = messaging.send(message)
-        print(f"Successfully sent message to device: {request}{response}")
+        logger.info("Successfully sent message to device: %s", response)
         return response
     except Exception as exc:
-        print(f"Error sending message to device: {exc}")
+        logger.exception("Error sending message to device: %s", exc)
         return None
 
 
