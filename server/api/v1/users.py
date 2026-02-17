@@ -4,7 +4,7 @@ from fastapi import APIRouter, HTTPException
 
 from api.schemas.error import ErrorResponse
 from api.schemas.user import SendTokenRequest, SendTokenResponse, UserResponse
-from services.alert_service import send_token_received_notification
+from services.alert_service import send_token_received_notification_with_debug
 
 router = APIRouter()
 
@@ -20,10 +20,13 @@ ERROR_RESPONSES: dict[int | str, dict[str, Any]] = {
     responses=ERROR_RESPONSES,
 )
 def send_token(send_token: SendTokenRequest) -> SendTokenResponse:
-    notification_id = send_token_received_notification(send_token.token)
+    notification_id, error_detail = send_token_received_notification_with_debug(send_token.token)
 
     if not notification_id:
-        raise HTTPException(status_code=500, detail="Failed to send test notification")
+        detail = "Failed to send test notification"
+        if error_detail:
+            detail = f"{detail}: {error_detail}"
+        raise HTTPException(status_code=500, detail=detail)
 
     return SendTokenResponse(
         status="success",
