@@ -5,11 +5,12 @@ All HTTP concerns (retries, timeouts, error handling) are handled here.
 """
 
 from typing import Any
-import google.generativeai as genai
+
+from google import genai
+
 from core.config import get_settings
 
 _settings = get_settings()
-genai.configure(api_key=_settings.GEMINI_API_KEY)
 
 
 class GeminiClient:
@@ -17,7 +18,8 @@ class GeminiClient:
     
     def __init__(self) -> None:
         """Initialize Gemini client with configuration."""
-        self.model = genai.GenerativeModel(_settings.GEMINI_MODEL)
+        self.model_name = _settings.GEMINI_MODEL
+        self.client = genai.Client(api_key=_settings.GEMINI_API_KEY)
     
     async def generate_content(
         self, 
