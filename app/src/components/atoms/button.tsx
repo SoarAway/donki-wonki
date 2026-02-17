@@ -1,6 +1,6 @@
 import React from 'react';
 import { TouchableOpacity, ViewStyle } from 'react-native';
-import { colors, radius, spacing } from '../tokens';
+import { colors, radius, spacing } from '../config';
 import { Text } from './Text';
 import { Spinner } from './Spinner';
 

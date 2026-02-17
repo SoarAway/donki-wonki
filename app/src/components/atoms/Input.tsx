@@ -1,6 +1,6 @@
 import React from 'react';
 import { TextInput, StyleSheet, TextInputProps } from 'react-native';
-import { colors, radius, spacing, typography } from '../tokens';
+import { colors, radius, spacing, typography } from '../config';
 import { Box } from './Box';
 import { Text } from './Text';
 

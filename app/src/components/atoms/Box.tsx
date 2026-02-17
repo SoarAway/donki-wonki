@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, ViewStyle, ViewProps } from 'react-native';
-import { colors, spacing, radius } from '../tokens';
+import { colors, spacing, radius } from '../config';
 
 export interface BoxProps extends ViewProps {
   padding?: keyof typeof spacing;

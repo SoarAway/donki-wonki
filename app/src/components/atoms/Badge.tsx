@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { colors, radius, spacing } from '../tokens';
+import { colors, radius, spacing } from '../config';
 import { Text } from './Text';
 
 export interface BadgeProps {

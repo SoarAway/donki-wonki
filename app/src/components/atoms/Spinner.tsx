@@ -1,6 +1,6 @@
 import React from 'react';
 import { ActivityIndicator, ColorValue } from 'react-native';
-import { colors } from '../tokens';
+import { colors } from '../config';
 
 export interface SpinnerProps {
   size?: 'small' | 'large';

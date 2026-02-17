@@ -1,6 +1,6 @@
 import React from 'react';
 import { Image, View, StyleSheet } from 'react-native';
-import { colors } from '../tokens';
+import { colors } from '../config';
 import { Text } from './Text';
 
 export interface AvatarProps {

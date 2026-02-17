@@ -1,6 +1,6 @@
 import React from 'react';
 import { Text as RNText, TextProps as RNTextProps, TextStyle } from 'react-native';
-import { colors, typography } from '../tokens';
+import { colors, typography } from '../config';
 
 export interface TextProps extends RNTextProps {
   variant?: keyof typeof typography.sizes;
