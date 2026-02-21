@@ -14,65 +14,137 @@ if project_root not in sys.path:
 
 from core.firebase import initialize_firebase, get_firestore_client
 
-def run_etl():
+def register_user(user_name, user_password, user_email, dob):
     """
-    Simple ETL process:
-    1. Extract: Hardcoded sample data.
-    2. Transform: Normalize names, emails, and roles; add timestamp.
-    3. Load: Save to 'users_etl' collection in Firestore.
-    4. Verify: Read back written data.
+    Registers a new user into Firestore after normalization.
     """
-    print("--- Starting Simple ETL ---")
-    
-    # Initialize Firebase
     initialize_firebase()
     db = get_firestore_client()
     
     if db is None:
         print("Error: Could not obtain Firestore client.")
-        return
+        return None
 
-    # 1. Extract
-    # shall replace with input from frontend later
-    user_name = input("Enter your username: ")
-    user_password = input("Enter your password: ")
-    user_email = input("Enter your email: ")
-    dob = input("Enter your date of birth (YYYY-MM-DD): ")
-
-    # Parse DOB into a datetime object
+    # Parse DOB into a datetime object (UTC+8)
+    tz_utc8 = datetime.timezone(datetime.timedelta(hours=8))
     try:
-        dob_dt = datetime.datetime.strptime(dob, "%Y-%m-%d").replace(tzinfo=datetime.timezone.utc)
+        dob_dt = datetime.datetime.strptime(dob, "%Y-%m-%d").replace(tzinfo=tz_utc8)
     except ValueError:
         print("Invalid date format. Using current time as fallback.")
         dob_dt = datetime.datetime.now(datetime.timezone.utc)
 
-    # 2. Transform
-    # Create the record from inputs
+    # Transform/Normalize
     record = {
         "user_name": user_name,
         "password_enc": user_password,
-        "email": user_email,
+        "email": user_email.lower(),
         "date_of_birth": dob_dt,
         "created_at": datetime.datetime.now(datetime.timezone.utc),
         "last_modified": datetime.datetime.now(datetime.timezone.utc),
     }
 
-    # 3. Load
-    print(f"Loading user '{user_name}' into Firestore (collection: 'users')...")
+    # Load
     collection_ref = db.collection("users")
-    
-    # Use UUID for document ID
     doc_id = str(uuid.uuid4())
     collection_ref.document(doc_id).set(record)
+    print(f"User '{user_name}' registered successfully with ID: {doc_id}")
+    return doc_id
 
-    # 4. Verify (Read Back)
-    print("\nVerifying data from Firestore:")
-    docs = collection_ref.stream()
-    for doc in docs:
-        data = doc.to_dict()
-        print(f"  [ID: {doc.id}] => Name: {data.get('user_name')}, Email: {data.get('email')}, DOB: {data.get('date_of_birth')}")
+def check_email_exists(email):
+    """
+    Checks if a user with the given email exists in Firestore.
+    """
+    initialize_firebase()
+    db = get_firestore_client()
+    if db is None:
+        return False
+
+    collection_ref = db.collection("users")
+    query = collection_ref.where("email", "==", email.lower()).limit(1)
+    results = query.stream()
     
-    print("--- ETL Process Finished ---")
+    # Check if results stream has at least one document
+    for _ in results:
+        return True
+    return False
+
+def get_user_by_email(email):
+    """
+    Retrieves user info from Firestore by email.
+    """
+    if not check_email_exists(email):
+        print(f"No user found with email: {email}")
+        return None
+
+    db = get_firestore_client()
+    collection_ref = db.collection("users")
+    query = collection_ref.where("email", "==", email.lower()).limit(1)
+    results = query.stream()
+
+    user_data = None
+    for doc in results:
+        user_data = doc.to_dict()
+        dob = user_data.get('date_of_birth')
+        if isinstance(dob, datetime.datetime):
+            dob_str = dob.strftime("%Y-%m-%d")
+        else:
+            dob_str = str(dob)
+            
+        print(f"\nUser Found [ID: {doc.id}]:")
+        print(f"  Name: {user_data.get('user_name')}")
+        print(f"  Email: {user_data.get('email')}")
+        print(f"  DOB: {dob_str}")
+        break
+    
+    return user_data
+
+def login_user():
+    """
+    Prompts for email and password, then validates credentials.
+    """
+    email = input("Enter email: ")
+    password = input("Enter password: ")
+
+    if not check_email_exists(email):
+        print("Account does not exist.")
+        return False
+
+    db = get_firestore_client()
+    collection_ref = db.collection("users")
+    query = collection_ref.where("email", "==", email.lower()).limit(1)
+    results = query.stream()
+
+    for doc in results:
+        data = doc.to_dict()
+        if data.get("password_enc") == password:
+            print("Login success!")
+            return True
+        else:
+            print("Password incorrect.")
+            return False
+    
+    return False
+
+def main():
+    print("--- User Management System ---")
+    print("1. Register New Account")
+    print("2. Lookup User by Email")
+    print("3. Login")
+    choice = input("Select an option (1/2/3): ")
+
+    if choice == "1":
+        user_name = input("Enter username: ")
+        user_password = input("Enter password: ")
+        user_email = input("Enter email: ")
+        dob = input("Enter date of birth (YYYY-MM-DD): ")
+        register_user(user_name, user_password, user_email, dob)
+    elif choice == "2":
+        email = input("Enter email to lookup: ")
+        get_user_by_email(email)
+    elif choice == "3":
+        login_user()
+    else:
+        print("Invalid choice.")
 
 if __name__ == "__main__":
-    run_etl()
+    main()
