@@ -1,0 +1,86 @@
+# XHS Scrape Run Report
+
+- Started: 2026-02-21 00:56:25
+- Script: xhsScrape.py
+
+- 🔍 Checking assets in folder: D:\Ash Stuff\Coding\KitaHack 2026\donki-wonki\server\scripts
+- ✅ All assets verified.
+- 🔎 Matched 3 target windows.
+-    - lrt is bad again - Xiaohongshu search - Google Chrome
+-    - lrt维修 - 小红书搜索 - Google Chrome
+-    - lrt kelanajaya - 小红书搜索 - Google Chrome
+- 🧹 Cleaning up old data and folders...
+
+- 🚀 PHASE: WINDOW_1 (Window: lrt is bad again - Xiaohongshu search - Google Chrome)
+-    Reloading...
+-    Running navigation sequence (p1 -> p2 -> p3)...
+-    Setup complete. Scanning for hearts...
+-    Searching in window region: (0, 0, 2542, 1702)
+-    Region scan found 10 potential hearts.
+-    Found 9 posts.
+-    ✅ Saved xhs_scraped_posts_lrt_is_bad_again_xiaohongshu_search_google_chrome\post_1.png
+-    ✅ Saved xhs_scraped_posts_lrt_is_bad_again_xiaohongshu_search_google_chrome\post_2.png
+-    ✅ Saved xhs_scraped_posts_lrt_is_bad_again_xiaohongshu_search_google_chrome\post_3.png
+-    ⚠️ Skipped post_4: top-right anchor not found: anchor_tr.png
+-       Debug full screenshot: xhs_scraped_posts_lrt_is_bad_again_xiaohongshu_search_google_chrome\debug_post_4_full.png
+-    ⚠️ Skipped post_5: top-right anchor not found: anchor_tr.png
+-       Debug full screenshot: xhs_scraped_posts_lrt_is_bad_again_xiaohongshu_search_google_chrome\debug_post_5_full.png
+-    ✅ Saved xhs_scraped_posts_lrt_is_bad_again_xiaohongshu_search_google_chrome\post_6.png
+-    ✅ Saved xhs_scraped_posts_lrt_is_bad_again_xiaohongshu_search_google_chrome\post_7.png
+-    ⚠️ Skipped post_8: bottom-left anchor not found: anchor_bl_1.png, anchor_bl_2.png
+-       Debug full screenshot: xhs_scraped_posts_lrt_is_bad_again_xiaohongshu_search_google_chrome\debug_post_8_full.png
+-    ⚠️ Skipped post_9: top-right anchor not found: anchor_tr.png
+-       Debug full screenshot: xhs_scraped_posts_lrt_is_bad_again_xiaohongshu_search_google_chrome\debug_post_9_full.png
+-    Capture failures: 4/9
+-    Category extracted posts: 5
+
+- 🚀 PHASE: WINDOW_2 (Window: lrt维修 - 小红书搜索 - Google Chrome)
+-    Reloading...
+-    Running navigation sequence (p1 -> p2 -> p3)...
+-    Setup complete. Scanning for hearts...
+-    Searching in window region: (0, 0, 2542, 1702)
+-    Region scan found 8 potential hearts.
+-    Found 7 posts.
+-    ⚠️ Skipped post_1: top-right anchor not found: anchor_tr.png
+-       Debug full screenshot: xhs_scraped_posts_lrt_google_chrome\debug_post_1_full.png
+-    ⚠️ Skipped post_2: top-right anchor not found: anchor_tr.png
+-       Debug full screenshot: xhs_scraped_posts_lrt_google_chrome\debug_post_2_full.png
+-    ⚠️ Skipped post_3: top-right anchor not found: anchor_tr.png
+-       Debug full screenshot: xhs_scraped_posts_lrt_google_chrome\debug_post_3_full.png
+-    ⚠️ Skipped post_4: top-right anchor not found: anchor_tr.png
+-       Debug full screenshot: xhs_scraped_posts_lrt_google_chrome\debug_post_4_full.png
+-    ⚠️ Skipped post_5: top-right anchor not found: anchor_tr.png
+-       Debug full screenshot: xhs_scraped_posts_lrt_google_chrome\debug_post_5_full.png
+-    ⚠️ Skipped post_6: top-right anchor not found: anchor_tr.png
+-       Debug full screenshot: xhs_scraped_posts_lrt_google_chrome\debug_post_6_full.png
+-    ⚠️ Skipped post_7: top-right anchor not found: anchor_tr.png
+-       Debug full screenshot: xhs_scraped_posts_lrt_google_chrome\debug_post_7_full.png
+-    Capture failures: 7/7
+-    Category extracted posts: 0
+
+- 🚀 PHASE: WINDOW_3 (Window: lrt kelanajaya - 小红书搜索 - Google Chrome)
+-    Reloading...
+-    Running navigation sequence (p1 -> p2 -> p3)...
+-    Setup complete. Scanning for hearts...
+-    Searching in window region: (0, 0, 2542, 1702)
+-    Region scan found 9 potential hearts.
+-    Found 9 posts.
+-    ✅ Saved xhs_scraped_posts_lrt_kelanajaya_google_chrome\post_1.png
+-    ✅ Saved xhs_scraped_posts_lrt_kelanajaya_google_chrome\post_2.png
+-    ⚠️ Skipped post_3: top-right anchor not found: anchor_tr.png
+-       Debug full screenshot: xhs_scraped_posts_lrt_kelanajaya_google_chrome\debug_post_3_full.png
+-    ⚠️ Skipped post_4: top-right anchor not found: anchor_tr.png
+-       Debug full screenshot: xhs_scraped_posts_lrt_kelanajaya_google_chrome\debug_post_4_full.png
+-    ⚠️ Skipped post_5: top-right anchor not found: anchor_tr.png
+-       Debug full screenshot: xhs_scraped_posts_lrt_kelanajaya_google_chrome\debug_post_5_full.png
+-    ✅ Saved xhs_scraped_posts_lrt_kelanajaya_google_chrome\post_6.png
+-    ⚠️ Skipped post_7: top-right anchor not found: anchor_tr.png
+-       Debug full screenshot: xhs_scraped_posts_lrt_kelanajaya_google_chrome\debug_post_7_full.png
+-    ⚠️ Skipped post_8: top-right anchor not found: anchor_tr.png
+-       Debug full screenshot: xhs_scraped_posts_lrt_kelanajaya_google_chrome\debug_post_8_full.png
+-    ⚠️ Skipped post_9: top-right anchor not found: anchor_tr.png
+-       Debug full screenshot: xhs_scraped_posts_lrt_kelanajaya_google_chrome\debug_post_9_full.png
+-    Capture failures: 6/9
+-    Category extracted posts: 3
+
+- ✅ ALL CATEGORIES COMPLETE.
