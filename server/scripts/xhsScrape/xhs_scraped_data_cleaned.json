@@ -1,0 +1,647 @@
+{
+  "cleaner": "xhs_data_cleaner_v2_pattern_script",
+  "input_path": "D:\\Ash Stuff\\Coding\\KitaHack 2026\\donki-wonki\\server\\scripts\\xhsScrape\\xhs_scraped_data_clean.json",
+  "output_path": "D:\\Ash Stuff\\Coding\\KitaHack 2026\\donki-wonki\\server\\scripts\\xhsScrape\\xhs_scraped_data_cleaned.json",
+  "csv_path": "D:\\Ash Stuff\\Coding\\KitaHack 2026\\donki-wonki\\server\\scripts\\xhsScrape\\xhs_scraped_data_clean.csv",
+  "stats": {
+    "categories": 11,
+    "posts": 101,
+    "removed_lines_total": 1749,
+    "learned_noise_count": 2,
+    "learned_noise_sample": [
+      "author",
+      "reply"
+    ],
+    "csv_rows": 101
+  },
+  "categories": {
+    "🇲🇾LRT KelanajayaLine通告,列车降速 - 小红书 - Google Chrome": [
+      {
+        "filename": "post_1.png",
+        "window_title": "🇲🇾LRT KelanajayaLine通告，列车降速 - 小红书 - Google Chrome",
+        "scraped_at": "2026-02-21T17:36:04",
+        "enhanced_cleaned": "There is a problem with LRT Kelana Restored to normalx Edited on February Gth in Malaysia working people Is everything normal now Im planning to transfer from Ampang Park to LRT 02 06 Malaysia pralse Ootashi store for home use Latest news things have returned to normal THE END something"
+      },
+      {
+        "filename": "post_2.png",
+        "window_title": "🇲🇾LRT KelanajayaLine通告，列车降速 - 小红书 - Google Chrome",
+        "scraped_at": "2026-02-21T17:36:24",
+        "enhanced_cleaned": "MYLRT Kelanajayaline Announcement Trains Reduce Speed Rapid Rail has issued a media statement confirming that the Kelana Jaya LRT line has resumed normal operations following the incident Points On December 10 2025 the Kelana line fully resumed operationat 7 41 AM The incident was caused bya maintenance Vehicle derailing on the tracks at Universiti station in the early morning damaging the local signaling system Service has now been restored after technicians completed repairs Incidentand Investigation A detailed investigation is ongoing to determine the cause and implement further preventative measures Response Measures Alternative routes and shuttle services were provided during the outage to assist passengers these are currently closed Safety and Assistance The Rapid Rail team will continue to closely monitor operations Police and staff will remain stationed at relevant stations to assist with passenger flow Passenger reports indicate very intervals between trains peak hours with trains consistently overcrowded Trains appear to be operating at reduced speeds to avoid accidents Passengers are advised to plan their journeys in advance and allow extra tme_ Source Rapid KL Malaysia Transportation LRT MRT Xiaoxuan Talk Malaysia Official Kelana Jaya LRT Line Update Obstacles on the tracks near Kerinchi Station have been cleared Alternative train services are suspended Train timetables are something during"
+      },
+      {
+        "filename": "post_3.png",
+        "window_title": "🇲🇾LRT KelanajayaLine通告，列车降速 - 小红书 - Google Chrome",
+        "scraped_at": "2026-02-21T17:36:41",
+        "enhanced_cleaned": "LRT Kelana Back to Normal Edited on 2025 11 14 Little Red Potato 683403C4 And coincidentally i happened to be Friday again 2025 11 14 Malaysia Im speechless Myjob requires me to be onti me i has to start at 8 O clock Xiao Bei been sitting here since 7 15 and it s Still nottime I m finally experiencing how troublesome i is for you guys on the early shift to say there s a problem with the LRT just finished my late shift If We keep doing this Grab will beri diculously expensive during peak hours All my e arnings from work will 90 to Grab 酉 Busy working people Isit not ready Ootashi store for home use something I ve"
+      },
+      {
+        "filename": "post_5.png",
+        "window_title": "🇲🇾LRT KelanajayaLine通告，列车降速 - 小红书 - Google Chrome",
+        "scraped_at": "2026-02-21T17:37:23",
+        "enhanced_cleaned": "Kelana LRT maintenance completed MvKelana Jaya LRT Latest Announcement Kuala Lumpur October 28 2025 Rapid Rail Sdn Bhd has announced that maintenance Work on the power supply failure between Gombak and Wangsa Maju stations on the Kelana LRT line has been successfully completed Earlier today the Kelana LRT line experienced service delays due to a power outage at Gombak Station At the time of the incident trains from Putra Heights could only travel to Wangsa Maju and then turned back With the completion of the maintenance Work the temporary shuttle bus service will be immediately suspended Currently train timetables are undergoing final adjustments and service will resume normally soon The affected bus routes 202 and 250 will also be reopening soon Rapid KLsincerely apologizes for any inconvenience caused and thanks all passengers for their understanding and patience during the maintenance period Source Rapid Malaysia LRT rapidkl kelanajaya malaysia kl Xiaoxuan Talk Malaysia Officia lt s 2025 11 01 Malaysia Xiaolingding Thank God Malaysla Dralse something"
+      },
+      {
+        "filename": "post_6.png",
+        "window_title": "🇲🇾LRT KelanajayaLine通告，列车降速 - 小红书 - Google Chrome",
+        "scraped_at": "2026-02-21T17:37:45",
+        "enhanced_cleaned": "Morning Traffic Announcement October MYMYMY MRT and LRT have resumed normal operation SO YoU can travel with peace of mind today October 28 2025 Kuala Lumpur News MRT Putrajaya Line Free shuttle bus service is being offered in parallel and train operations are gradually becoming smoother Trains are now in normal use but to prevent instability issues during the trial operation phase the shuttle bus service remains in operation ZON 1 Kwasa Damansara Kampung Selamat Sungai Buloh ZON 2 Sungai Sri Delima Via Damansara Damai Sri Damansara Barat Sri Damansara Sentral Metro Prima Kepong Baru and other stations ZON 3 Sri Delima Sentul Barat ZON 4 Sentul Barat Ampang Park ZON 5 Ampang Park Tun Razak Exchange ZON 6 Tun Razak Exchange Taman Naga Emas ZON 7 Taman Naga Emas Serdang Selatan ZON 8 Serdang Selatan UPMZON 9 UPM 16 Sierra ZON 10 16 Sierra Putrajaya Sentral Evening rush hour inspections showed passenger flow and smooth overall operation Currently 26 trains are in service on the Putrajaya Line With trains running 7 minutes_ The Rapid Rail technical team is continuously monitoring the train signaling system in real time to ensure optimal reliability stability and operational performance LRT Kelana Jaya Line Mechanical fault repaired service fully restored Yesterday afternoon a mechanical fault in a track component caused on the LRT Kelana Line temporarily limiting service to platform 2 between Bangsar and KL Sentral Repairs were completed yesterday and the temporary replacement service was discontinued Train timetables have been readjusted and service has resumed normally something delays"
+      },
+      {
+        "filename": "post_7.png",
+        "window_title": "🇲🇾LRT KelanajayaLine通告，列车降速 - 小红书 - Google Chrome",
+        "scraped_at": "2026-02-21T17:38:03",
+        "enhanced_cleaned": "Hangin there for another month The current process is LRT Sentul Timur Bandaraya then LRT 10 Bandaraya Masjid Jamek and finally Masjid Jamek Hang Tuah Just look for signs held up by staff indicating Ampang or Putra Heights The official announcement indicates i s expected to resume serice on February 2gth Aftera year of repairs it s finally going to be fixed RapidKL Irt Information source Rapidkl Edited on 2024 01 05 81 years old Please pray they pass the test SO we can board on February 2gth After being stuck at Hang Tuah for a year finally 90 directly to Masjid Jamek Elephants on their way to a world of childhood Escaped to the mountains of LA with a Waaaaaah finally no more changing stations Nara Xuan wanted many raw stones No need to squeeze anymore something"
+      },
+      {
+        "filename": "post_8.png",
+        "window_title": "🇲🇾LRT KelanajayaLine通告，列车降速 - 小红书 - Google Chrome",
+        "scraped_at": "2026-02-21T17:38:21",
+        "enhanced_cleaned": "MYLRT resumes operation Thanks to all the working people Apower outage occurred on the Kelana Jaya LRT line between University Station and Abdullah Hukun Station causing significant disruption to passenger travel Nearly three hours after the outage Rapid KL issued a statement on its official Facebook page Rapid KL stating that had been completed andall train services had resumed Repairs work on the Kelana LRT line has been completed and alternative train shuttle bus services have been suspended Train timetables are currently being adjusted and services have returned to normal KL expressed its sincere apologies for the inconvenience caused and thanked the public for their patience OrientalDailyMalaysia Malaysialife Malaysia LRT PublicTransportation LRTOutage kelanajaya There is Jingjia As a student Im speechless Normally should be home by 6 30 but because of the malfunction wentto my mom s company and didn t get home until 10 30 Please please stop this October 10 2025 Malaysia THE END something repairs"
+      },
+      {
+        "filename": "post_9.png",
+        "window_title": "🇲🇾LRT KelanajayaLine通告，列车降速 - 小红书 - Google Chrome",
+        "scraped_at": "2026-02-21T17:38:43",
+        "enhanced_cleaned": "The LRT experienced a malfunction this morning but has since resumed operation Irt LateAtWork Edited on 2024 11 06 Earthlings Rapid KL has announced thatit has resumed operations FrelrlLJr mCarc 1 CLJHI K1 HliMtrntun altT MIYTTTUNSy H LlTscl uJbJl77 cILralunedd Z2JLT J FrTHIIfF 1 Tf 1 TLIIh ImatlIFII 44 1 HIAIII 1 MLC i FI Iclrri h Frku h jircitl r THLHI HHII TTIhls 1 OA HF1 LFIIn IaJJeIJJ eyJIIyUs IILNIO Pinned comment ACD played in Slow motion Is i still possible to travel from Irt maluri to hangtuah Being a fangirl of XCIIIis my mainjob It s back to normal THE END something"
+      }
+    ],
+    "lrtkelanajaya故障 - 小红书搜索 - Google Chrome": [
+      {
+        "filename": "post_1.png",
+        "window_title": "lrtkelanajaya故障 - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T17:48:01",
+        "enhanced_cleaned": "Irt kelana jaya line current status There Was a problem so everyone was forced to get off the train and the entire train stopped working The LRT Local Transit System information is also posted below This is a wasteland Click to comment something 众1 O10"
+      },
+      {
+        "filename": "post_2.png",
+        "window_title": "lrtkelanajaya故障 - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T17:48:20",
+        "enhanced_cleaned": "MYLRT resumes operation Thanks to all the working people Apower outage occurred on the Kelana Jaya LRT line between University Station and Abdullah Hukun Station causing significant disruption to passenger travel Nearly three hours after the outage Rapid KL issued a statement on its official Facebook page Rapid KL stating that had been completed andall train services had resumed Repairs work on the Kelana LRT line has been completed and alternative train shuttle bus services have been suspended Train timetables are currently being adjusted and services have returned to normal KL expressed its sincere apologies for the inconvenience caused and thanked the public for their patience OrientalDailyMalaysia Malaysialife Malaysia LRT PublicTransportation LRTOutage kelanajaya There is Jingjia As a student Im speechless Normally should be home by 6 30 but because of the malfunction wentto my mom s company and didn t get home until 10 30 Please please stop this October 10 2025 Malaysia THE END something repairs"
+      },
+      {
+        "filename": "post_4.png",
+        "window_title": "lrtkelanajaya故障 - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T17:49:02",
+        "enhanced_cleaned": "Kelana LRT maintenance completed MvKelana Jaya LRT Latest Announcement Kuala Lumpur October 28 2025 Rapid Rail Sdn Bhd has announced that maintenance Work on the power supply failure between Gombak and Wangsa Maju stations on the Kelana LRT line has been successfully completed Earlier today the Kelana LRT line experienced service delays due to a power outage at Gombak Station At the time of the incident trains from Putra Heights could only travel to Wangsa Maju and then turned back With the completion of the maintenance Work the temporary shuttle bus service will be immediately suspended Currently train timetables are undergoing final adjustments and service will resume normally soon The affected bus routes 202 and 250 will also be reopening soon Rapid KLsincerely apologizes for any inconvenience caused and thanks all passengers for their understanding and patience during the maintenance period Source Rapid Malaysia LRT rapidkl kelanajaya malaysia kl Xiaoxuan Talk Malaysia Officia lt s 2025 11 01 Malaysia Xiaolingding Thank God Malaysla Dralse something"
+      },
+      {
+        "filename": "post_5.png",
+        "window_title": "lrtkelanajaya故障 - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T17:49:18",
+        "enhanced_cleaned": "LRT failure LRT Kelana Jaya is out Of service again today A 15 minute stop at one station m going to be latel What kind oftree produces peanuts Was late 2025 08 26 Malaysia Asmile can dispel worries Wow not bad at least there s some scenery on myway to work"
+      },
+      {
+        "filename": "post_7.png",
+        "window_title": "lrtkelanajaya故障 - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T17:49:58",
+        "enhanced_cleaned": "The Kelana LRT line is broken The broadcast said there Was an issue at Pasar Seni Anyone know how lateit is Irt kelanajayaline Irtkelanajaya pasarseni metro malaysia need to get off and transfer tracks now or do just need to wait inside the same train 2025 06 09 Malaysia pralse C611j1 Ifyou re ina hurry its best to use other means 0 transportation waiting is really too long No need for dipping sauce when eating hot Hello will it affect my travel from the gateway to SS15 C_61Ijl It seems SO but I m not sure xtineyoww0 Are you done THE END something 97 A105"
+      },
+      {
+        "filename": "post_1.png",
+        "window_title": "lrtkelanajaya故障 - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T18:13:39",
+        "enhanced_cleaned": "MYLRT Kelanajayaline Announcement Trains Reduce Speed Rapid Rail has issued a media statement confirming that the Kelana Jaya LRT line has resumed normal operations following the incident Points On December 10 2025 the Kelana line fully resumed operationat 7 41 AM The incident was caused by a maintenance Vehicle derailing on the tracks at Universiti station in the early morning damaging the local signaling system Service has now been restored after technicians completed repairs Incidentand Investigation A detailed investigation is ongoing to determine the cause and implement further preventative measures Response Measures Alternative routes and shuttle services were provided during the outage to assist passengers these are currently closed Safety and Assistance The Rapid Rail team will continue to closely monitor operations Police and staff will remain stationed at relevant stations to assist with passenger flow Passenger reports indicate very intervals between trains during peak hours with trains consistently overcrowded Trains appear to be operating at reduced speeds to avoid accidents Passengers are advised to plan their journeys in advance and allow extra Source Rapid KL Malaysia Transportation LRT MRT Xiaoxuan Talk Malaysia Official Kelana Jaya LRT Line Update Obstacles on the tracks near Kerinchi Station have been cleared Alternative train services are suspended Train timetables are something"
+      },
+      {
+        "filename": "post_2.png",
+        "window_title": "lrtkelanajaya故障 - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T18:13:55",
+        "enhanced_cleaned": "LRT failure LRT Kelana Jaya is out Of serice again minute stop at one station m going to be latel What kind of tree produces peanuts Was late 2025 08 26 Malaysia Asmile can dispel worries Wow not bad at least there s some scenery on my way to work"
+      },
+      {
+        "filename": "post_3.png",
+        "window_title": "lrtkelanajaya故障 - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T18:14:12",
+        "enhanced_cleaned": "MYLRT malfunction caused delays in work so 川I take this as a reward The LRT broke down this morning Those needing supporting documents to submit to HR can get this Slip from Rapid Abang Kakak at the counter Malaysia LRT LRTBreak Delayslip LunarNewYear3rd GoodluckStart LunarNewYear3rd klcc kelanajaya Irtkelanajaya 2 days agoin Malaysia Taking it is useless i will be as late as it takes 2 days ag0 Malaysia Summer Winnie the Pooh clouds Its a bit frustrating because we weren t late whe 0 We left but we were late because of the train B ut thinking about i its better than being docke d pay a90 Malaysia pralse THE END something 凸15 03"
+      },
+      {
+        "filename": "post_4.png",
+        "window_title": "lrtkelanajaya故障 - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T18:14:29",
+        "enhanced_cleaned": "odds of winning aren t that high and hit by Kelana Jaya line from Abdullah Hukum towards Putra Height Struck by lightning Currently alighting at Paramount 14 10 2025 6 45pm Luckily got offat my stop kelanajaya Irt kelanajayalrt kelanajayalrtline Edited on 2025 10 14 Leo from the North Pinhed comment 2025 10 14 Malaysia Big fat pig What Struck by lightning Surprised Unexpected Love chocolate but dont love 计 too much Was terrified There were four emergency breaks thankfully Off at this stop My husband was chnrton whon ho C3I 计 Caiinn IVnlr Iifo almnct something"
+      },
+      {
+        "filename": "post_5.png",
+        "window_title": "lrtkelanajaya故障 - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T18:14:46",
+        "enhanced_cleaned": "Kelana Line LRT has a problem It s that damn 6 05 PM Tuesday LRT again and its incredibly crowded There were many people leaving work this morning so even morel Update 6 30 PM LRT trains are stopping for every station there seems to be a problem Irtkelanajaya Irt Edited on 2025 12 02 There is a cute little autumn happened to be on the problematic bus and Was kicked Off Malaysla Busy working people Which station 2025 12 02 Malaysia DD Singapore Malaysia Intemational Shipping Here We goagain 2025 12 03 Malaysia don t like green vegetables don t know what s wrong with how many people are acting SO strangely Fishing in troubled waters something collect"
+      },
+      {
+        "filename": "post_6.png",
+        "window_title": "lrtkelanajaya故障 - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T18:15:05",
+        "enhanced_cleaned": "LRT Kelana Line Phase 2 Repair Experience Some experiences during Phase 2 maintenance of the Line Phase 2 maintenance of the LRT Kelana Line runs from LRT Gombak to LRT KLCC At each LRT station staff are on hand to assist you on Which bus Bus 2 or Bus 3 to take to your destination Ifyou re unsure you can ask them Since Was going to LRT Dang Wangi took Bus 3 Figure 2 You can Off at Dang Wangi and take the LRT You can also check inadvance which bus goes to your desired LRT station Ifyou want to know in advance whether the LRT is still under maintenance you can download the app shown in Figure It will display notifications indicating whether maintenance is ongoing or completed Figures show maintenance ongoing Phase 3 of LRT maintenance is about to begin so you can check in advance Which day the LRT will be under maintenance to plan your trip LRTWangsaMaju LRT RAPIDKL Edited on 2025 10 15 This is a wasteland Click to comment something 众1 0 Comment"
+      },
+      {
+        "filename": "post_7.png",
+        "window_title": "lrtkelanajaya故障 - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T18:15:20",
+        "enhanced_cleaned": "LRT trauma Sisters do you understand Today s LRT outage isall too familiar to you so many people are unable to get back to their homes planned to Wait until after dinner before taking the LRT to wait a bit longer until it was fixed and the crowds dispersed But never expected that the person next to me with smelly feet would their foot rightin front of mell What a traumatic day Irt Irtkelanajaya Irtoutage Irtpasarseni am yourtreasure 2025 10 09 Malaysia don t understand why Should report them THE END something"
+      },
+      {
+        "filename": "post_8.png",
+        "window_title": "lrtkelanajaya故障 - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T18:15:39",
+        "enhanced_cleaned": "Kelana LRT maintenance completed MvKelana Jaya LRT Latest Announcement Kuala Lumpur October 28 2025 Rapid Rail Sdn Bhd has announced that maintenance Work on the power supply failure between Gombak and Wangsa Maju stations on the Kelana Jaya LRT line has been successfully completed Earlier today the Kelana LRT line experienced service due to a power outage at Gombak Station At the time of the incident trains from Putra Heights could only travel to Wangsa Maju and then turned back With the completion of the maintenance Work the temporary shuttle bus service will be immediately suspended Currently train tmetables are undergoing final adjustments and service will resume normally soon The affected bus routes 202 and 250 will also be reopening soon Rapid KLsincerely apologizes for any inconvenience caused and thanks all passengers for their understanding and patience during the maintenance period Source Rapid Malaysia LRT rapidkl kelanajaya malaysia kl Xiaoxuan Talk Malaysia Officia lt s 2025 11 01 Malaysia Xiaolingding Thank God Malaysia Dralse something delays"
+      },
+      {
+        "filename": "post_9.png",
+        "window_title": "lrtkelanajaya故障 - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T18:15:59",
+        "enhanced_cleaned": "LRT Kelana has problems again The Taman Bahagia station is experiencing problems again but other stations are operating normally Edited on 2025 11 21 There are"
+      }
+    ],
+    "mrt fault - 小红书搜索 - Google Chrome": [
+      {
+        "filename": "post_1.png",
+        "window_title": "mrt fault - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T17:51:10",
+        "enhanced_cleaned": "Eating or drinking on the subway in the US can resultin a EatingOnTheSubway Subway Singaporelife Fine MRT CivilizedTravel Afriend recently asked me 讦 eating on the Singapore subway is really punishable by a fine specifically sent this photo of myself on the subway absolutely forbiddenl The maximum fine is 500 SGD Vealmost never seen anyone eating Or drinking on the subway and always aneye on my two kids to make sure don teat on the street Everyone follows the rules Also smoking carrying flammable items and carrying durian are all prohibited and violations will also result in fines Everyone should travel responsibly Eating and drinking can result in a maximum fine of 500 SGD smoking can resultin a maximum fine of 1000 SGD carrying flammable items can result in a maximum fine 500 SGD carrying durian can result in a maximum fine 禁 禁 禁 Edited on 2025 09 11 Half Moon Good Luck ENFP Accelerated Version Actually rarely see people eating Or drinking on the subway even in China This might be a bit 2025 09 11 Jiangxi Kevie in Singapore Haha that s true People in China are very civilize d though they might bring a milk tea or somethi ng because it s SO cheap I m so envious something O5 众2 06"
+      },
+      {
+        "filename": "post_3.png",
+        "window_title": "mrt fault - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T17:51:54",
+        "enhanced_cleaned": "MRT took me to another ending It Wasn tthat got on the wrong train i Was that got on the wrong train The same line could lead to two completely different outcomes Today Was my first of full time work and my brain Was completely fried after work all wanted to do Was stood on the MRT platform and saw a train coming thinking This is the line need to takel Fullof confidence boarded found a seat put on my headphones and prepared to close my eyes and relax and then tragedy struck Turns out even within the subway line there are trains on different routes had the misfortune of boarding the wrong one Watched helplessly as my intended stop got further and further away and even got Off at a station Id never heard of before_ In the end got off boarded again and then went back My commute home took almost an hour My first impression of work The MRT robbed me ofit Me Im off work but my mind is completely exhausted Hasanyone else experienced the same mental confusion caused by getting lost on the MRT LRT lines Welcome to share your traffic trap experiences Otherise really thought Was the only one Who scammed TheWorldWasOnlyMeWhoWounded HowDidlGetBackHere WrongBus Daydreaming every day 1also missed this one 2025 07 06 Malaysia something"
+      },
+      {
+        "filename": "post_4.png",
+        "window_title": "mrt fault - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T17:52:11",
+        "enhanced_cleaned": "MYWho understands What i feels like to be the only person left on the MRT It s the feeling of terror the feeling of running the fear Of being trapped inside the fear that the staff won t see you and the feeling of lucky enough to get LeavingMetroStation Alone MRT 1 25 You got off at the same place you were going to ahhahah By the way you re very lucky 2025 12 15 Malaysia Ni An an From Maluri to Tmn Connaught hahaha MRT was also unusually late today but Was luck Kirby is not thin Isn tthe last MRT train around 11 O clock Countless lights Yeah Im curious too something"
+      },
+      {
+        "filename": "post_7.png",
+        "window_title": "mrt fault - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T17:53:15",
+        "enhanced_cleaned": "sGLeave evidence of my lateness Today Was a train fault on the Red Line It was the first time d ever experienced the MRT turning off the lights and telling everyone to get off Wasn t sure if there Would be another train could take but decided against it because feltit would be crowded Singapore MRTl They were actually trapped for half an hour Singapore Nameless Cat 2025 07 08 Singapore Why do feel like the additonal was more than 10 minutes It Was Supposed to be 9 15 but didnt arrive until 10 didn tarrive until 10 o clock It s because the bu s ride Was quite long haha Losing weight while wearing Empire s pigs You can a certificate from the passenger center something"
+      },
+      {
+        "filename": "post_9.png",
+        "window_title": "mrt fault - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T17:53:57",
+        "enhanced_cleaned": "don t know what time I get home The MRT line that was supposed to return was suspended Staff said someone had trespassed onto the tracks at one station suspected of stealing cables SO the line Was forced to stop We had to wait for the opposite line to arrive MRT staff then directed us to 9o downstairs to wait for the bus MRT OffWork MRTMorgue kwasadamansara The sea changes into mulberry fields OMG really need to take the bus to Putrajaya later 2025 06 06 Malaysia took the Metro Prima route back to Kwasa Dam ansara don t know 讦fyours will be affected Matcha Milk Ice Has i returned to normal Notyet something A5 O34"
+      },
+      {
+        "filename": "post_2.png",
+        "window_title": "mrt fault - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T22:13:30",
+        "enhanced_cleaned": "MYA must read for working people in China No more fear Of your boss docking your pay 讦f you re late No more worrying about your boss docking your pay for late for MRT LRT Are you often late for work due to public transport delays while working in KL Your boss never believes explanations and you re about to lose your pay Don t worry Now you have a savior Asecret most people don t know You can geta Certificate RapidKl 冒 This will clear your name convince your boss of your innocence and never have to about losing your pay again 1 This thoughtful service applies to all public transport on RapidKL LRT Monorail Rapid Bus worrying about traffic delays affecting your perfect attendance bonus Save this super useful nOW SO yOU won t panic the next time you re late for the bus or MRT Send this to your colleagues Who take the MRT LRT every day Let them know this life saving tip for working peoplel Have you ever been late because of public transport delays Finally can prove i Na but l save this first and share your experiencel rapidkl Irt mrt monorail rapidbus publictransport latetimeproof workingpeople Kualalumpur This is a wasteland Click to comment something"
+      },
+      {
+        "filename": "post_4.png",
+        "window_title": "mrt fault - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T22:14:30",
+        "enhanced_cleaned": "MRS talks about wishes MRT talks about costs how should she choose Microeconomics has a concept called the Marginal Rate of Transformation MRT It s defined as given limited resources how much of another must you give up to gain more Of something else In other words 讦 this you have to give up that iyou want more you have to lose less suddenly thought of this concept while reading a romance novel with a system binding her to the male lead The female lead is bound to a Conquerthe Male Lead System She has a fixed amount Of daily task points like a resource budget that she can freely allocate The system provides several task options each with different costs and rewards She has tWo options Side Quest AJ Skill Training Read for 3 hours Female lead gains 10 independent growth points Side Quest B Intimate Interaction Late night umbrella delivery forehead to forehead contact for 30 seconds lead s affection 20 Insufficient task points only one can be completed She hesitated The system Please select a task path She began to calculate in her mind If choose B my favorability will increase quickly but won t be able to increase my growth value today If choose A i seems like I m taking a steady approach but the male lead s progress willfall behind At this moment she wasn t making an emotional choice but rather a Marginal Rate of Change MRT calculation How much growth value willing to sacrifice to gain 1 more unit af favorability Is this exchange ratio worthwhile She chose to give him the umbrella After completing the task the male lead took the umbrella with a dark face but gently touched the top of her head Favorability 20 the system notification sounded But that day she failed to complete her self upgradeand missed the something"
+      },
+      {
+        "filename": "post_5.png",
+        "window_title": "mrt fault - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T22:14:51",
+        "enhanced_cleaned": "The MRT is having problems again during the morning rush hour m speechless This morning the Kwasa Damansara line experienced a major disruption arrived at Kuchai station around 8 20 AM only to encounter a train that was delayed by 15 minutes Normally trains run 5 minutes but today with the delay the platform Was instantly packed Three trains came in a row but couldn t get onatall there were just too many people and every time the doors opened it Was a shove could only Watch helplessly as the trains left fnally managed to squeeze onto the train around 8 50 AM and with the journey arrived at the station around 9 05 AM By the time got to work i Was already 9 15 AM This journey usually takes about 15 minutes but i dragged on foralmost 40 minutes_ really hope the train schedule during rush hour can be more consistent Leaving early is useless 讦 there s a delay still miss mytrain Has anyone else experienced the same hope its just an isolated incident today otherwise this morning is just too much ofa hassle MRTComplaints MorningRushHourCommuting KuchaiStation KwasaDamansaraline MRTDelay CommutingDaily Edited on 2025 07 29 Nancy enjoys being alone Was there this morning too and every bus Was packed ended up at the back of the finally chose walked back across the street to my car and drove to Work didn t get to the company until 9 45 2025 07 29 Malaysia something"
+      },
+      {
+        "filename": "post_6.png",
+        "window_title": "mrt fault - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T22:15:08",
+        "enhanced_cleaned": "The MRT is broken again Here i comes Working on Sundays is annoying enough and now the MRT is going to break down too mrt connaught broken kajang kwasadamansara Is i still the same now 2025 08 03 Malaysia Now it s also becaUse take Grab there pralse Malaysian Ah Isi better now True friendship is revealed in times of adversity Nowits all good Those Who need to work can start settingi 叩 Cloud Dew something"
+      },
+      {
+        "filename": "post_7.png",
+        "window_title": "mrt fault - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T22:15:40",
+        "enhanced_cleaned": "Regarding the incident of being slapped in the face When getting off the MRT First Experience 1 What happened 1 got off at Bugis station The guy in front of me swung his hand down and hit me in the face My glasses fell to the ground Peoplearound me screamed Then a man helped me pick up my glasses chased after him hesitating whether to tell him or not After getting on the escalator mustered up my courage and caught up with him Uncle you hit mein the do you know know you don t blame the people in front of you you come to blame me so hit you So what What can you do to me Go call the policel Are you out of your mind 川 call the police 1 then dialed 999 The uncle had already left so the police officer Who answered the phone said they couldn t send anyone down and told me to call the police online The online caller then told me to find MRT staff to assist with the investigation went there and we described the incident in the staff room verified my identity and Waited for the police to arrive About ten minutes later four young police officers arrived two of whom were handling their first case from their conversation explained the incident 1 don t know how many tmes cried during this time helped me confirm exited and took photos from the surrounding cameras thought they would directly check the CCTV footage but after waiting fora told me that a higher level officer would come down shortly and give me a document to take to the State Courts Complex The people there would continue to follow up on my case Throughout the process these four police officers kept apologizing to me saying could only do so much and that would check back tomorrow don t intend to give up on this If any of you have encountered similar something"
+      },
+      {
+        "filename": "post_8.png",
+        "window_title": "mrt fault - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T22:15:55",
+        "enhanced_cleaned": "The Tohoku Line subway is malfunctioning please come quickly NEL MRT Down Power Fault SCDF immediate dispatch PunggolMRT NEL Emergency Powerfault SGLife Transport This is a wasteland Click to comment collect something"
+      },
+      {
+        "filename": "post_9.png",
+        "window_title": "mrt fault - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T22:16:16",
+        "enhanced_cleaned": "sGLeave evidence of my lateness Was a train fault on the Red Line It Was the first tme I d ever experienced the MRT turning Off the lights and telling everyone to get off Wasn t sure if there Would be another train could take but decided against i because feltit would be crowded Singapore MRT l They were actually trapped for halfan hour Singapore Nameless Cat Oh my god 2025 07 08 Singapore Why do feel like the additonal Was more than 10 minutes I Was Supposed to be 9 15 but arrive until 10 didnt arrive until 10 O clock It s because the bu s ride Was quite long haha Losing weight while wearing Empire s pigs YoU can a certificate from the passenger center something"
+      }
+    ],
+    "lrt is bad again - Xiaohongshu search - Google Chrome": [
+      {
+        "filename": "post_3.png",
+        "window_title": "lrt is bad again - Xiaohongshu search - Google Chrome",
+        "scraped_at": "2026-02-21T17:56:45",
+        "enhanced_cleaned": "MY The whole world is late My daily commute to work was disrupted by the LRT malfunction My first reaction was No Way left home super early and it s happening againl 川 record this for the company as evidence kl malaysia Irt Irtbroken Meat loving shumai sauce l turns out wasn tthe only one Who was late forgot to record the evidence 2025 04 28 Malaysia A Little Spicy Qingqing With my evidence replies Vincent Will the company look at this pralse ALittle Spicy Qingqing You can t deduct Wages hahaha Squidward Someone on the train kept fidgeting and touching me with their feet and didn t even apologize What kind of something"
+      },
+      {
+        "filename": "post_4.png",
+        "window_title": "lrt is bad again - Xiaohongshu search - Google Chrome",
+        "scraped_at": "2026-02-21T17:57:08",
+        "enhanced_cleaned": "thrilling experience on the Kuala Lumpur The story happened on Christmas Eve December 24 2025 I m only just remembering to post this now so more friends can bealerted remember reading to the end the last part Was really scary That day three friends and Went to celebrate Christmas Eve near KLCC After the celebration around 8 30 pm We took the LRT back to school We were on a train Without women only carriages SO We randomly entered one It was crowded and there were no seats left so we huddled togetherin a small circle holding onto the middle rail At that moment SaW a foreign worker looked like he was Bangladeshi standing diagonally opposite me We made eye contact about three times At first thought hmm maybe it s normal to make eye contact When we re diagonally opposite each other But then my friend standing next to me suddenly said Don tyou think its scary to have someone wearing black clothes in the carriage She said she felt the foreign worker staring at her and she kept making eye contact with him At that point We realized something Was wrong At the next stop people started getting Off one after another and there were tWo empty seats One of my friends and ran to those two seats by this time my seat was in the same row as the foreign worker no longer diagonally opposite him while my other two friends continued to stand in the same place diagonally opposite the foreign worker After sat pretended to look in the direction of the foreign worker and found that he really Was staring at my friend After a While he turned his head and looked at us and made eye contact with again At that point We were about four or five stops away something"
+      },
+      {
+        "filename": "post_5.png",
+        "window_title": "lrt is bad again - Xiaohongshu search - Google Chrome",
+        "scraped_at": "2026-02-21T17:57:24",
+        "enhanced_cleaned": "MY We almost had to use the carpool The most crowded stop Packed with Irtbad abdullahhukum travel enthusiasts Does this look like the correct Wangsa Maju website 2025 03 24 Malaysia Xiao Hongshu 7788 adullah hukum The Minion s name is Ah Hao lt s the trip from Bangsar to Pasar Seni was smooth ALittle Spicy Qingqing Hahaha i Was okay later Zon lee You took a picture of me 2025 03 25 Malaysia THE END something"
+      },
+      {
+        "filename": "post_7.png",
+        "window_title": "lrt is bad again - Xiaohongshu search - Google Chrome",
+        "scraped_at": "2026-02-21T17:58:02",
+        "enhanced_cleaned": "MY LRT malfunction mat BKS Puchong now thought there were so many people but it turns out there s a malfunction It s after work hours Irtmalfunction bkSpuchong Tadalia s Keeper My friend works at the LRT near Tesco he said Bomba brought a stretcher Ip 2025 06 03 Malaysia Elleyis Isitin Puchong Please call me a single dog ThankyoU It wasn t a malfunction someone fell down Malavsia something"
+      },
+      {
+        "filename": "post_8.png",
+        "window_title": "lrt is bad again - Xiaohongshu search - Google Chrome",
+        "scraped_at": "2026-02-21T17:58:17",
+        "enhanced_cleaned": "The LRT is malfunctioning again Please please don t break i Waaaaahl Irt workingperson late huiseen I malready thinking about taking a Grab to work but the price is outrageous The villainous cold blooded puppy See a lotof people have chosen Grab ts really expensive J type is different Im going to be late for workagain Wow still stuffing Drallse something"
+      },
+      {
+        "filename": "post_9.png",
+        "window_title": "lrt is bad again - Xiaohongshu search - Google Chrome",
+        "scraped_at": "2026-02-21T17:58:37",
+        "enhanced_cleaned": "MY0512 This time its the LRT that s broken The queues are insane right now Im so frustrated Either the MRT or the LRTis broken LRT rapidkl Malaysia A cool girl who can be both cute and sweet K HT l IFTI il OIsNP In Mslemst LRHUIIIh Hulm tinn Cl OTTs STIIITI updale I2E STIIIIPTIIPI Tlatt 1n T TC C RTTIHTTe S TnTe 月 ThIG Irr sTII Objection Your Excellency It s really delayed no more Sterling The kerinchi was in the same situation but it goton the subway Cherry tomatoes How many rounds does it take to geton top Zi Zichun something Rpld AL"
+      }
+    ],
+    "mrt - 小红书搜索 - Google Chrome": [
+      {
+        "filename": "post_9.png",
+        "window_title": "mrt - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T18:02:08",
+        "enhanced_cleaned": "MY Learn how to take the MRT to Sunway Velocity in 30 seconds in Malaysia Malaysia Kualalumpur LRT MRT sunwayvelocity TravelGuide Edited yesterday at 22 15 in Malaysia Isn t i faster to Off at Maluri station 16 hours ago Malaysia Fish Life with You Maluri gets a little sun but you can Still getther 16 hours ago in Malaysia Fuck mold Can yoU release a one utama hour ago in Malaysia Let me get ready Winking emoji Laughing em 42 minutes ago Malaysia Ive been riding the Maluri station for So long you re telling me don thave to bein the sun hours ago i Malaysia something"
+      },
+      {
+        "filename": "post_1.png",
+        "window_title": "mrt - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T18:16:21",
+        "enhanced_cleaned": "Damansara Height MRT rental Damansara Height Bukit Damansara with private attached toilet Walking distance to MRT Station Pusat Bandar Damansara Landed house room not condo Price 1K If not suitable other PJ rooms are available large medium small Inquire by WhatsApp 288 pjrenting klrenting renting mrtrenting bangsarrenting 220 02 01 Malaysia Yuli 6507976088 Yesterdayat 23 33 Malaysia Avocados are So oily 01 15 Malaysia No serious iness 01 05 Malaysia something"
+      },
+      {
+        "filename": "post_2.png",
+        "window_title": "mrt - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T18:16:38",
+        "enhanced_cleaned": "MY Astep by step guide to getting to the airport using the MRT in Malaysia Malaysia Airport TravelGuide day ago Malaysia Grace in the world What kind of card do need to to take the Subway Little Lion a90 Malaysia Show 4 replies Meow meow is not a cat My heart broke when Saw that i requires a one Yesterdayat 12 22 Australia Malaysian Good Finds Yesterday at 13 53 Malaysla Alice Wonderland What app do yoU use to view the timetable day ag0 Malaysia something"
+      },
+      {
+        "filename": "post_3.png",
+        "window_title": "mrt - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T18:16:56",
+        "enhanced_cleaned": "Shopping malls in Kuala Lumpur accessible by Want to avoid traffic jams during your Kuala Lumpur trip Explore the MRT SaVe this ultimate MRT Putrajaya Line guidel Easily visit must try attractions and eat your way through traffic without Direct access to popular restaurants shopping paradises and cultural landmarks Save time and money travel with ease and zero traffic worries Bookmark this MRT guide now and unlock the coolest Way to experience KL Malaysia MRT Metro Kualalumpur Putrajayaline DayTrip KualalumpurCheckln MalaysiaTourism Peach flavored taro balls You need to update your information a feW years ago iyOU wanted to g0 to Velo you could also Off at Cochrance 2025 11 10 Malaysia How do 1 to Cochrane 讦 get off the train the 2025 11 22 Malaysia THE END something"
+      },
+      {
+        "filename": "post_4.png",
+        "window_title": "mrt - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T18:17:14",
+        "enhanced_cleaned": "MY Learn how to take the MRT to Sunway Velocity in 30 seconds in Malaysia Malaysia Kualalumpur LRT MRT sunwayvelocity TravelGuide Edited yesterday at 22 15 in Malaysia Isn tit faster to get off at Maluri station 17 hours ago in Malaysia Fish Life with You Maluri gets a little sun but you can Still getther 16 hours ago in Malaysia Fuck mold Can yoU release a one utama 2 hours ago in Malaysia Let me get ready Winking emoji Laughing em 57 minutes ago Malaysia ve been riding the Maluri station for so long you re telling me don t have to be in the sun 8 hours ago in Malaysia something"
+      },
+      {
+        "filename": "post_5.png",
+        "window_title": "mrt - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T18:17:31",
+        "enhanced_cleaned": "Already have pigs MRT central room RMG5O per month including utilities free Wi Fi bi weekly cleaning 45Om walk to MRT Sentul Barat 6 minutes Within 5 minutes walk to NSK banks and kopitiam All spacious rooms with windows andair conditioning separate electricity meter Brand new furniture and appliances Kitchen refrigerator Water filter microwave induction cooker Dining area laundry area drying areaCCTV at the entrance Elevator only goes to a fixed floor Low looking tenants Minimum 1 year rentl AlI housemates are Chinese not Weirdos Mixed unit rental KL Kualalumpur Selangor Selangor Sentul MRTrental Edited on January 3oth Malaysia ICE AGE 1d like to know more 2025 11 23 Malaysia Want to understand 01 21 Belgium ctill hJio Snir something"
+      },
+      {
+        "filename": "post_6.png",
+        "window_title": "mrt - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T18:17:54",
+        "enhanced_cleaned": "Beware of street scams in Kepong Malaysia Yesterday after Work took the MRT back to SD Barat station As exited the gate made eye contact witha She asked if there was an HSBC nearby since she and had lost her bank card and needed to replace i told her the HSBC should beat the MP station Replacing a bank card requires a counter but it Was around 5 30 pm and the bank Was already closed thought that was the end ofit but then she asked 讦 could Wait 3 5 minutes so she could call her assistant to arrange a driver and tell the driver the location Then she started saying she Was in the medical equipment business and was there to discuss business offering to give me a commission 讦 knew anyone She then asked a lot of questions asking 讦 taking up too much of her time and seemed apologetic Later she received a call saying she couldn t find a driver and had to go back herself Then came the important part She apologized for taking up SO much time and asked for one last she had lost her bank card and couldn t withdraw money so she asked 讦 could transfer money to her so she could withdraw cash At first thought shejust needed fare So offered to calla Grab for herand pay She then told me not to misunderstand that she had a few hundred Malaysian Ringgit MYR on enough for a taxi but she didn t have cash to pay for the hotel tonight which would cost around RM1000 per night She emphasized that she wasn t short of money just couldn t withdrawi and even showed me her HSBC App name Li Nan Okay so she wasn tafter small amounts but knew something was Off as SOOnas saw the UI occupational hazard haha She kept trying to persuade me to go to the ATMin the mall next door even offering to transfer an extra RM1OOO as a reward Whatajokel My brother something"
+      },
+      {
+        "filename": "post_7.png",
+        "window_title": "mrt - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T18:18:13",
+        "enhanced_cleaned": "MRT3 has been modified Construction to beginin 2026 According to Wangsa Maju a representative of the People s Justice Party PKR four locations have been confirmed Kampung Puah 2Jalan Langkawi Danau Kota The Pallete and Setapak Giant Setapak Aside slight change at Kampung Puah the other locations are confirmed and will be announced after August this year Expected to beginafter 2026 3 Provisional Stations Kampung Puah Auz Bukit Kiara No station on Jalan Kuching Kompleks Duta will replace it station on Salak Mont Kiara s new station numberis 32 not 33 so there will be no Mont Kiara station New map not released using the old map fornow setapak jalanlangkawi danaukota giantsetapak pv thepallete wangsamaju mrt3 kl klmrt Edited on 2024 07 05 Traveling the world on a budget What does UM stand for A Piece of Cake had already graduated by then 圈 THE END something"
+      },
+      {
+        "filename": "post_9.png",
+        "window_title": "mrt - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T18:18:59",
+        "enhanced_cleaned": "Working professionals in Malaysia Taking the MRT Vs Driving choice between the two Taking the MRT No traffic jams can use your phone or daydream but involves walking changing stations and crammedin Driving to work Time seems more controllable but i s more expensive than the MRT and the gas parking and traffic jams are exhausting m curious about everyone s choices currently take the MRT or drive Is taking the MRT cheaper Commuting Workinglife CommutingDaily MRT DrivingToWork CommutingChoices Workinglife UrbanWorkinglife Lifestyle WorkinglifeResonance Edited on 01 15 Slowly Manman Taking the MRT costs only RM5O and walking can also be considered exercise otherwise there would be chance to exercise 01 16 Malaysia Mr Kilmer And walking really can help you lose weight 01 28 Malaysia Not the quiet twenty one something"
+      },
+      {
+        "filename": "post_10.png",
+        "window_title": "mrt - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T18:19:19",
+        "enhanced_cleaned": "1d like to ask you all about renting a place Why can Walk 10 minutes to the MRT but not take a 10 minute bus ride Also renting near the MRT means l be disturbed when want to rest So is anyone looking for a room near the MRTin Kwasa Sentral that won t be noisy Taking the bus is only 10 minutes much easier than walking Ifyou re a student at HelpSubang 2 there s even a shuttle bus to school mrtkajangrental nadayugolrental subangbestarirental HELPUNlstudents HelpSubangrental helpudormitory Listening to the Clouds used the bus for three months and half of those timnes Was Stood up Complaining to Rapid KL didn t help Once there were no buses and couldntgeta Was Still waiting for the bus at the transfer station to and a half hours after Off workand Was SO frustrated that cried at the bus stop after tWo months booked a car and i will arrive next really can t stand buses that don t follow the timetable at all When Was Studying abroad found taking the bus inconvenient but coming back to my own country and being frustrated to the point of tears is just unbelievable 2025 03 27 Malaysia Bryan Kong was near Salted It seems that Mvbus really needs to improve 2025 03 28 Malaysia something 众15 037"
+      }
+    ],
+    "🇲🇾LRT停运 注意了‼️ - 小红书 - Google Chrome": [
+      {
+        "filename": "post_1.png",
+        "window_title": "🇲🇾LRT停运 注意了‼️ - 小红书 - Google Chrome",
+        "scraped_at": "2026-02-21T18:10:50",
+        "enhanced_cleaned": "Attention LRT service in Malaysia is suspended Attention LRT passengers Plan your trip in advancel LRT MalaysialRT Malaysia LRTSuspension malaysiaMy malaysialrt LRT kelanajaya Irtkelanajaya Edited on 2025 07 25 Does that mean things will return to normal after 9 O clock Malaysia twenty four Tangyuan Enen 2025 07 25 Malaysia Strawbery Cheese PotatoShredded momo Shredded potatoes Its always Saturday and Sunday awkward emoj Little Red Potato 658859AF But where are We supposed to wait for the bus something"
+      },
+      {
+        "filename": "post_2.png",
+        "window_title": "🇲🇾LRT停运 注意了‼️ - 小红书 - Google Chrome",
+        "scraped_at": "2026-02-21T18:11:06",
+        "enhanced_cleaned": "9 6 2025 LRT broke LRT also has Monday blues LRT doesn t want to go to Work on Monday either rapidkl Malaysia Irt Shoo ga di old lady Masjid Jamek was asked to get off the LRT after Waiting for more than 20 minutes Malaysla Candles pretending to be sunlight Oh my god 2025 06 09 Malaysia Im also stuck in the LRT now i took me 15 minutes to get from WM to setiawangsa something"
+      },
+      {
+        "filename": "post_3.png",
+        "window_title": "🇲🇾LRT停运 注意了‼️ - 小红书 - Google Chrome",
+        "scraped_at": "2026-02-21T18:11:25",
+        "enhanced_cleaned": "MY The whole world is late My daily commute to disrupted by the LRT malfunction My first reaction was No Way home super early and it s happening againl 川 record this for the company as evidence kl malaysia Irt Irtbroken Meat loving shumai sauce l turns out wasn tthe only one Who Was late forgot to record the evidence 2025 04 28 Malaysia ALittle Spicy Qingqing With my evidence replies Vincent Will the company look at this pralse A Little Spicy Qingqing You can t deduct Wages hahaha Show 4 Squidward Someone on the train kept fidgeting and touching me with theirfeet and didn t even apologize What kind of something"
+      },
+      {
+        "filename": "post_4.png",
+        "window_title": "🇲🇾LRT停运 注意了‼️ - 小红书 - Google Chrome",
+        "scraped_at": "2026-02-21T18:11:47",
+        "enhanced_cleaned": "thrilling experience on the Kuala Lumpur happened on Christmas Eve December 24 2025 I m only just remembering to post this now so more friends can bealerted remember reading to the end the last part Was really scary That day three friends and Went to celebrate Christmas Eve near KLCC After the celebration around 8 30 pm we took the LRT back to school We were on a train Without women only carriages SO We randomly entered one It was crowded and there were no seats left so we huddled togetherin a small circle holding onto the middle rail At that moment saw a foreign worker looked like he was Bangladeshi standing diagonally opposite me We made eye contact about three times At first thought hmm maybe it s normal to make eye contact When we re diagonally opposite each other But then my friend standing next to me suddenly said Don tyou think its scary to have someone wearing black clothes in the carriage She said she felt the foreign worker staring at her and she kept making eye contact with him At that point We realized something Was wrong At the next stop people started getting Off one after another and there were tWo empty seats One of my friends and ran to those two seats by this time my seat was in the same row as the foreign worker no longer diagonally opposite him while my other two friends continued to stand in the same place diagonally opposite the foreign worker After sat pretended to look in the direction of the foreign worker and found that he really Was staring at my friend After a While he turned his head and looked at us and made eye contact with again At that point We were about four or five stops away something"
+      },
+      {
+        "filename": "post_5.png",
+        "window_title": "🇲🇾LRT停运 注意了‼️ - 小红书 - Google Chrome",
+        "scraped_at": "2026-02-21T18:12:03",
+        "enhanced_cleaned": "MY We almost had to use the carpool The most crowded stop Packed with Irtbad abdullahhukum travel enthusiasts Does this look like the correct Wangsa Maju website Malaysia Xiao Hongshu 7788 adullah hukum 2025 03 24 Malaysia The Minion s name is Ah Hao lt s the trip from Bangsar to Pasar Seni was smooth ALittle Spicy Qingqing Hahaha i Was okay later Zon lee You took a picture of me 2025 03 25 Malaysia THE END something"
+      },
+      {
+        "filename": "post_6.png",
+        "window_title": "🇲🇾LRT停运 注意了‼️ - 小红书 - Google Chrome",
+        "scraped_at": "2026-02-21T18:12:20",
+        "enhanced_cleaned": "The LRT broke everyone take carel My LRT broke down everyone take care heading home late at night Malaysia rapidkl Iit 1d like to ask how farit is from LRT Masjid Jamek Kelana Jaya Line to LRT Ampang Line Do need to CrOSs a footbridge 2025 03 10 Malaysia Acool girl who can be both cute and Notfar summerscent The train stopped for at least fve minutes at each station 2025 03 07 Malaysia Xiao Wu has a cat stopped at that station for 30 minutes i haven t gotten back Malaysla pralse something"
+      },
+      {
+        "filename": "post_7.png",
+        "window_title": "🇲🇾LRT停运 注意了‼️ - 小红书 - Google Chrome",
+        "scraped_at": "2026-02-21T18:12:35",
+        "enhanced_cleaned": "MY LRT malfunction Imat BK5 Puchong now thought there were so many people but it turns out there s a malfunction It s after work hours Irtmalfunction bkSpuchong Tadalia s Keeper My friend works at the LRT near Tesco he said Bomba brought a stretcher Ip 2025 06 03 Malaysia Elleyis Isitin Puchong Please call me a single ThankyoU It wasn t a malfunction someone fell down Malavsia something"
+      },
+      {
+        "filename": "post_8.png",
+        "window_title": "🇲🇾LRT停运 注意了‼️ - 小红书 - Google Chrome",
+        "scraped_at": "2026-02-21T18:12:51",
+        "enhanced_cleaned": "LRT is malfunctioning again Please please don t break i Waaaaah workingperson late huiseen I malready thinking about taking a Grab to work but the price is outrageous The villainous cold blooded puppy see a lot of people have chosen Grab ts really expensive J type is different Im going to be late for workagain Wow still stuffing Drallse something 众11 080"
+      },
+      {
+        "filename": "post_9.png",
+        "window_title": "🇲🇾LRT停运 注意了‼️ - 小红书 - Google Chrome",
+        "scraped_at": "2026-02-21T18:13:12",
+        "enhanced_cleaned": "MY0512 This time its the LRT that s broken The queues are insane right now Im so frustrated Either the MRT or the LRTis broken LRT rapidkl Malaysia A cool girl who can be both cute and sweet K HT l IFTI il SNP In Mslemst LRHUIIIh Hulm tinn Cl OTTs updale STIIIIPTIIPI Tlatt 1n T TC C RTTIHTTe S TnTe 曰 1 TAIITTT TTIT Objection Your Excellency It s really delayed no more Sterling The kerinchi was in the same situation but it goton the Subway Cherry tomatoes How many rounds does it take to geton top Zi Zichun something Rpld AL"
+      }
+    ],
+    "mrt kajang - 小红书搜索 - Google Chrome": [
+      {
+        "filename": "post_2.png",
+        "window_title": "mrt kajang - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T22:07:13",
+        "enhanced_cleaned": "Mrt kajang line MRT Kajang line to Kwasa Damansara Malaysian citizen pass only 6 Kuala Lumpur s latest low price for must visit spots Everything you need for eating drinking and entertainmentl Connaught Wednesday s pasar malam Mutiara Eko Cheras Mall Leisure Mall Friday night market Taman Midah Saturday s pasar malam Maluri Aeon Maluri Sunway Velocity Mall Cochrance MyTown Ikea furniture store TRX Tun Rasak Exchange nearby restaurant Hai Kok Ren Lalaport prime location accessible via LRT transfer Bukit Bintang Pavilion Lot 10 Merdeka Stadium Merdeka Pasar Seni Petaling Street centre market cafe Lala Bee Hoon LRT transfer possible Kelana Jaya Line to P Sunway Pavilion Damansara Anew tourist hotspot loved by travelers a great place for Malaysians of all ages to relaxand take photos OutdoorActivities WeekendGetaway NoWorkWantToTakeAVacation NoWorking AccessiblebyMRT MRTKajang WalkingToMRT MikiFoodAndFun MikiTravelDiary RailTransit OnTheRoad SpontaneousTrip DayTrip Edited on 2024 08 13 Another option is to take the MRT Kajang Line to Pasar Seni then transfer to the Kelana Jaya Line LRT to Abdula Hukum station which provides access to Mid From there you can take the KL Sental station to NU Sental something Valley"
+      },
+      {
+        "filename": "post_3.png",
+        "window_title": "mrt kajang - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T22:07:31",
+        "enhanced_cleaned": "A step by step KL to Ukm Metro First take the KJ line to the last stop on the MRT and get off at Exit A one way RM1 8 Then take the T451 to UKM Ifyou re only going to UKM Or PKP get Off at the stop where you see the course one way RMI You can also back on where you got Off but it will take you on a campus tour Which takes about 20 minutes After the campus tour return to the main road Then you can sit back on the MRT to the last stop The return trip takes longer UKM UKM LivinginKl Sad Little Coconut Does the T451 bus take a long time to arrive pralse Won t Dad s dimples private Does the T451 bus go to FTSM College also Iive i KLCC 2025 10 22 Malaysia This bus goes to the school nraice something"
+      },
+      {
+        "filename": "post_4.png",
+        "window_title": "mrt kajang - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T22:07:51",
+        "enhanced_cleaned": "KAJANG LINE MRT line in Malaysia has cracked again The Kajang Line is stuck at Taman Midah Everyone Was forced off the train and i hasn t moved for almost half an hour mrtkajang Malaysia metrofirstview kajangline mrtkajang mrt metrocrowded youngpeopleonthemetro Edited on February 12 Malaysia Ootashi store for home use Fn2n n an l IIIIIL 4 AUHUIUUIIM 历AThI TIIIT 02 12 Malaysia Leisurely kitten There seems to be one shuttle bus running betw Maluriand TMN Suntex but it s always pack ed with people Super handsome Bai Er A person s backpack got stuck in the gap ofthe door causing the door to open something"
+      },
+      {
+        "filename": "post_5.png",
+        "window_title": "mrt kajang - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T22:08:06",
+        "enhanced_cleaned": "The MRT forced us to get the train The MRT Kajang Line Kwasa Damansara train track is blocked by something on the way from Semantan Phileo Damansara From Platfrom 2 Kajang Kwasa Damansara yOU Switch to Platfrom 1 to return to Kwasa Damansara from Semantan Please take note Remember to Off at Semantan otherwise bein a smoke trap damansaramrt semantan semantanmrt phileodamansara Malaysiamrt kwasadamansaramrt There is Kimmyk The train is running normally 2025 10 22 Malaysia something twenty four you II"
+      },
+      {
+        "filename": "post_6.png",
+        "window_title": "mrt kajang - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T22:08:28",
+        "enhanced_cleaned": "5 options not recommended but worth knowing about Jernih Residence by Sunway Station MRT Sungai Jernih Station Features This location reportedly has some historical stories before development you can look up information yourself the story Of Jernih being abandoned Although it s currently a new development the background history is slightly concerning 811 Parkland Residence Station MRT Batu 11 Cheras Station Features Located near a river the Water level may rise during rain posing a risk of flooding However there is a footbridge connecting to the MRT station making travel more convenient on Therefore the ground floor shops are quiet Netizen Residensi Station MRT Bandar Tun Hussein Onn Station Features Close toa cemetery Those Who are particular about might be concerned about this factor but those witha different perspective might find the area relatively You can judge based on your own feelings Aster Residence Station MRT Taman Connaught Station Features This place is close to a high voltage power tower so radiation concerns may arise especially for those sensitive to shui and health This factor may be important to some Nexus Residence Taman Pertama Station MRT Taman Pertama Station Features Close to a cemetery even right behind the apartment The viewat nightis unique brave souls can experience 比 Some apartments are indeed conveniently located but also come with unique factors that require careful consideration before moving in If you have any other discoveries please leave a comment and sharel something"
+      },
+      {
+        "filename": "post_7.png",
+        "window_title": "mrt kajang - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T22:08:46",
+        "enhanced_cleaned": "Find a house Ve surveyed several condos and would like toask fellow residents which one is better m mainly looking fora condo with a linked bridge to the MRT Kajang Line and a grocery store downstairs If you have any other condo recommendations please let me know Immoving inat the end of June Housing Laville MajesticMaxim YouCity3 Metrocheras MRTKajang KLRentals ResidentExperience Cheras Edited on 2025 05 14 Bilibili Thank you everyone 1ve decided to look for Youcity I Ifyou have any recommendations please send me pictures Pinned comment 2025 05 23 Malaysia Ala Ala Circle Imalso looking for a roommate here Have yoU considered sharing a unit 2025 05 28 Malaysia Acarefree traveler Laville has a high budget and many Chinese people It has restaurants on the MRT Maxim has many restaurants and daily necessities but the MRT is Very far Youcity III has restaurants and daily necessities but the MRT is very close i would be perfect if there Was one more mixed rice stall Metro something"
+      },
+      {
+        "filename": "post_8.png",
+        "window_title": "mrt kajang - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T22:09:04",
+        "enhanced_cleaned": "More and more people are getting on the MRT Kajang Line Does anyone else feel the same way It seems like the MRT Kajang line is getting increasingly crowded during rush hour Before Midah and Pertama stations Were practically empty but now thereare queues like Im squeezed like a sardine on the train mrtkajang work workingperson Make you unable to live The Kajang website is getting more and more popular 2025 11 06 Malaysia Taurus mom bom in the 9Os Indeed more and more people There will be more people in the future because more and more condos are being built nearby Taurus mom bomin the 9Os Even hitchhiking isn tas good as driving these days its always packed with people something"
+      },
+      {
+        "filename": "post_9.png",
+        "window_title": "mrt kajang - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T22:09:21",
+        "enhanced_cleaned": "Welcome to KL MRT malfunction means Monday must bea blue Monday was blue but it Was still blue The MRT was waited forever to finally get on only to be told to get off after just one stop So frustrating Kualalumpur Malaysia KL BusyDay Commuting RapidKL MRT MRTKajang MRTDowntime Workinglife Commutinglife Still can t login on Batu 11 Cheras 2025 11 17 Malaysia HR Eunice really didn t expect that couldn teven atu 11 Dumb Sister Are yOU Have you gotten on the train notyet Malaysia Moneyis the t0 SUCCeSS Can t we fire the MRT boss They re so laps Draise something"
+      }
+    ],
+    "lrtkelanajaya线 - 小红书搜索 - Google Chrome": [
+      {
+        "filename": "post_1.png",
+        "window_title": "lrtkelanajaya线 - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T22:10:07",
+        "enhanced_cleaned": "MyKelanalayaline enters Phase 3 maintenance Rapid KL Announces Signaling System Upgrade Work on Kelana Line Service Affected During Hours Kuala Lumpur November 1 2025 Rapid KL announced that the Laluan Kelana Jaya line will undergo signaling system upgrade work Fasa 3 Phase 3 this month to further improve the safety and reliability of train operations During the relevant period train service will be suspended during certain hours and alternative bus services will be provided Construction Schedule The construction will be carried out on the following dates and during the following times November 1st Saturday November 8th Saturday November gth Sunday November 15th Saturday November 16th Sunday Time 6 00 AM to 9 00 AM November 2gth Saturday November 30th Sunday Time 6 00 AM to 12 00 PM Affected Stations The following stations will be affected during the train service suspension Lembah Subang Kelana Jaya Taman Bahagia Taman Paramount Asia Jaya Taman Jaya Universiti Kerinchi Abdullah Hukum Bangsar KL Sentral Pasar Seni Masjid Jamek Dang Wangi Kampung Baru KLCC Ampang Park Alternative Transportation Services To facilitate passenger travel Rapid KL will provide BAS VAN PERANTARA ULANG ALIK shuttle bus and van serice departing approximately every 10 to 15 minutes VAN 1 Kampung Baru KLCC BAS 1 Ara Damansara Abdullah Hukum BAS 2 Ara Damansara Shuttle buses will stop at the affected major stations in sequence Passengers can refer to station notices or ask staff for boarding and alighting locations Information Rapid KL reminds passengers that shuttle bus operations may be subject to adjustments based on traffic conditions please allow extra travel time Source Rapid KL Official Announcement Source Date something"
+      },
+      {
+        "filename": "post_2.png",
+        "window_title": "lrtkelanajaya线 - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T22:10:29",
+        "enhanced_cleaned": "Kelana LRT malfunction The Kelana Jaya Line experienced another malfunction during rush hour leaving many commuters stranded at stations and disrupted This is not the first time the line has malfunctioned at a critical time the relevant authorities have been slow to resolve the issue Which is disappointing Each time the system malfunctions the Ministry Of Transport s response is identical social media notifications public apologies and suggestions to passengers to use alternative modes of transport However this mechanical approach fails to truly alleviate the inconvenience to the public Public transport disruptions are notjust about time delays severely disrupt work study and daily life As one of the busiest light rail lines the Kelana Jaya Line carries millions of passengers daily including commuters students and the elderly When the system malfunctions the impact is far reaching commuters are late or forced to take time Off work students miss classes and exams and the elderly are unable to access medical care on time affecting their treatment Using alternative transport seems like a solution but it s not feasible for many passengers Ride services are overwhelmed during peak hours with prices soaring making them unaffordable for many even 讦 people are willing to pay they may not be able to hail a ride Transport Minister Anthony Loke visited Singapore to learn from its efficient MRT operation Singapore s success lies in its strict implementation of regular maintenance and proactive upkeep Does Malaysia s LRT system have a similar mechanism preventative maintenance and rapid response plans Is there a long term plan to comprehensively improve the quality of public transport In contrast Malaysia rushes to repair after accidents but lacks transparenqy and accountability afterwards with no accountability something hailing"
+      },
+      {
+        "filename": "post_3.png",
+        "window_title": "lrtkelanajaya线 - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T22:10:46",
+        "enhanced_cleaned": "Where do Malaysian workers Im starting Work next month and plan to park my car Subang pJ on the LRT and then take another LRT to Kerinchi Does anyone know where the parking is convenient and where can easily find a seat When Was interning took a Grab to the LRT at 6 pmand the parking lots for Glenmarie sS15 were always full suggestions Also are there any convenientlcheap parking spots near Kerinchi sometimes need to drive Wangsa Maju after work and don t want to come back to PJ to pick up my car and drive there again subang Irt kelanajaya kl malaysia 01 28 Malaysia am parkara damansara Brubru What time do you usually park when there are av ailable spots THE END something"
+      },
+      {
+        "filename": "post_4.png",
+        "window_title": "lrtkelanajaya线 - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T22:11:07",
+        "enhanced_cleaned": "LRT KELANA JAYA LINE Main Stations K1 Gombak K2 Taman Melati accessible to Tarumt KJ3 Wangsa Maju accessible to Tarumt KJg Ampang Park accessible to MRT Putrajaya Line TRXKJIO KLCC K12 Wangi accessible to Monorail KL KL City Centre Pavilion KL Kuen Cheng High School KJ13 Masjid Jamek accessible to LRT Sri Petaling Line LRT Ampang Line Puchong Area IOIMALL Sungai Besi Bukit Jalil KJ14 Pasar Seni accessible to MRT Kajang Line MyTown Sunway Velocity Aeon Cheras KJ15 KL SENTRAL Transport Hub KJ17 Abdullah Hukum accessible to KTM MID VALLEY THE GARDENS MALL KJ1g University UM KL GATEWAY MALL K27 Glenmarie Future transfers available to LRT Johan MBTJ STADIUM KJ28 Subang transfers available to KTM Subang Airport Line Taylor Monash AEON BIG Parade K31 USJ 7 transfers available to SUNWAY BRT KJ37 Putra Heights transfers available to LRT Sri Petaling Line Please feel free to point out any shortcomings Remember to like save and follow a native af tarumt Irt Irtkelanajaya Irtaccessible KlangValley KlangValley Edited on 2025 03 29 Shinichi How do get to KICC from Cahaya It s my first tme taking the bus 2025 08 01 Malaysia pralse Xiao Jiong Take the train to Masiid Jamek and then transfer something Subang Valley"
+      },
+      {
+        "filename": "post_5.png",
+        "window_title": "lrtkelanajaya线 - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T22:11:24",
+        "enhanced_cleaned": "MYLRT malfunction caused delays in work so 川I take this as a reward The LRT broke down this morning Those needing supporting documents to submit to HR can get this Slip from Rapid Abang Kakak at the counter Malaysia LRT LRTBreak Delayslip LunarNewYear3rd GoodluckStart LunarNewYear3rd klcc kelanajaya Irtkelanajaya 2 days agoin Malaysia Taking it is useless i will be as late as it takes 2 days ag0 Malaysia Summer Winnie the Pooh clouds Its a bit frustrating because we weren t late whe 0 We left but we were late because of the train B ut thinking about i its better than being docke d pay in Malaysia pralse THE END something 凸15 03"
+      },
+      {
+        "filename": "post_6.png",
+        "window_title": "lrtkelanajaya线 - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T22:11:42",
+        "enhanced_cleaned": "Kelana immigration passport renew The LRT goes directly to the Kelana Jaya Immigration Office It s only a 5 minute walk Take the Kelana Line to CGC Glenmarie KJ27 then follow the signs on the map Office operating hours are Monday to 8 00am 5 pm Saturday 8 00am 12 30 pm closed Sundays Don task me how only found out after being turned away passportrenewal kelanajaya passportrenewal Malaysiapassportrenewal Sleepy Bear walk in to renew Im not entirely sure about that It should be pos sible Because i wasn t open when went on Sun haven t received ityet Show 4 replies went to pick i up after the online update But i Was closed on Sunday SO I go again this weekend THE END something Friday"
+      },
+      {
+        "filename": "post_7.png",
+        "window_title": "lrtkelanajaya线 - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T22:11:59",
+        "enhanced_cleaned": "Im going to work in KL next month Is the LRT Kelana line reliable It seems to have frequent problems Matcha Milk Ice reliable i likes to break down most often when you re at work or on your way home 2025 10 14 Malaysia twenty four correct answer 2025 10 15 Malaysia"
+      },
+      {
+        "filename": "post_8.png",
+        "window_title": "lrtkelanajaya线 - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T22:12:16",
+        "enhanced_cleaned": "For those of you who have been taking the Kelana Line lately you ve probably encountered this old LRT train quite often just like me The screeching sound of the tracks as it passes certain stations is really piercing andit brakes suddenly quite frequently Imalways afraid be thrown Off 讦f don t hold the handle SharingDailylife kelanajayaline Irt HaveYouEncounteredThisOldTrainEver PK small round circles 1goton that LRT around 7 a m this moming and i braked suddenly the handrail Was all loosened by really don t want to think about what might happen during such a sudden stop i was terrifying Malaysia Summer Star Do you hope to improve the crowded commu conditions for office workers 2025 06 25 Malaysia THE END something"
+      },
+      {
+        "filename": "post_9.png",
+        "window_title": "lrtkelanajaya线 - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T22:12:34",
+        "enhanced_cleaned": "LRT has problems again Monday s commute is exhausting This morning took the LRT from Puchong to Putra Heights and transferred to the Kelana Line On the Way saw many people on XHS saying the LRT was heavily delayed So turned back and took the Sri Petaling Line to Masjid Jamek and transferred to the KJ Line thinking i would be faster However when arrived at Masjid Jamek there were huge crowds queuing upstairs at the platform and it Was difficult to down to the platform Then beganan endless wait Later decided to turn back and take the monorail from Hang Tuah to KL Sentral Running aroundall morning Tm exhausted before even starting workl LRTkelanalaya rapidkl PotatoCaptain XiaohongshuCreatorAssistant XiaohongshuCreatorAcademy XiaohongshuGrowthNotes Edited on 2025 06 09 Where the Stars Fly Has 计 returned to normal now 2025 06 09 Malaysia Hazel isn t black It s back to normal something"
+      }
+    ],
+    "lrt klcc - 小红书搜索 - Google Chrome": [
+      {
+        "filename": "post_1.png",
+        "window_title": "lrt klcc - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T22:32:10",
+        "enhanced_cleaned": "Kuala Lumpur s money saving king KLCC to Petaling Street MRT station for only RMZ Petaling Street MRT Only RM2 3 6 RMB Don t waste RM3O ona taxi to Kuala Lumpur anymore Take the KLCC Exit AK to Petaling Street for only RM2 3 6 RMB compared to RM3O for a taxi a difference of 15 times Beginner s Guide to Zero Failures Route Information Departure Station KLCC LRT Station KJ10 AK Exit directly Arrival Station Pasar Seni Station 5 minute walk from Exit A to Petaling Street Line Line 5 Red Line Fare RM2 one way Duration 10 minute drive 5 minute walk less than 20 minutes in total Important Notes for Ticket Purchase Avoiding Pitfalls Self serice ticket machines onlyaccept RMI RM5 banknotes Do not accept banknotes above RMIO and do not support Alipay Nechat Ifyou don t have change go to the convenience store in KLCC to exchangel follow steps 1 Exit KLCC AK Exit and follow the LRT signs to the MRT station Figure 1 2 Find the self service ticket machine select Pasar Seni as destination and the fare will be RM2 3 Insert a RM1 5 banknote or coin and receive a plastic round ticket 4 Swipe the round ticket to enter the station making sure to go to Platform 2 Putra Heights direction Figure 3 5 Take the train for 4 stops to Pasar Seni station exit from Exit A Figure 4 and walk 5 minutes Petaling Street to avoid pitfalls Don t take taxis soliciting passengers on the street flat rate of RM3O which is a rip off Don tgoin the wrong directionl KLCC station has two directions Platform 1 goes to Gombak and Platform 2 goes to Pasar Seni Figure 3 Petaling Street is most vibrantin the evening remember to wear comfortable shoes Wouldn tit be better to save money for durian and teh something charge"
+      },
+      {
+        "filename": "post_2.png",
+        "window_title": "lrt klcc - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T22:32:26",
+        "enhanced_cleaned": "KLcc to LRT PUDU XiaohongshuSearch TheAlmightyXiaohongshu AskAsk days agoin Malaysia Shuochu Weiding It should be KLCC LRT Majid Jamek internal transfer Pudu There is no route from Pasar Seni to Pudu Malaysia really want to go back to the ordinary bUs 590 Yesterday at 13 51 Malaysia Century egg and lean pork congee without century Go from KLCC to Masjid Jamek then walk up the escalator next to My News to transfer to the you can g0 directly to Pudu 2 days ag0 Jingjing 2 days a90 i Malaysia THE END something 93 d2 06"
+      },
+      {
+        "filename": "post_3.png",
+        "window_title": "lrt klcc - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T22:32:45",
+        "enhanced_cleaned": "Current status of KLCC LRT 1just wanted to 9o toa PS presumably a shopping mall but ended up getting Off two trains one at TM presumably a subway station and the otherat KLCC presumably subway station At KLCC everyone Was stuck on the train for ages the doors wouldn t close Finally an announcement came over the loudspeaker saying there Was a problemand everyone had to theend just called a Grab Dailylife Malaysia CrowdedMetroRushHour ExperiencingCrowds LRT KLCC Pasarseni KL Setapak RomanticlifeRecorder February Malaysia Little Red Potato G7FDgBFA The LRT is breaking down every single day What s wrong with the Minister of Transport 02 11 Malaysia Big head big head no worries about rain The Minister of Transport said that the fewest ba cases this year Tsukisawa Suga It Seems retumed a little early and didn t run into i It wasn t broken by 6 PM something 众9 019"
+      },
+      {
+        "filename": "post_4.png",
+        "window_title": "lrt klcc - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T22:33:00",
+        "enhanced_cleaned": "The LRT broke again LRT is broken You have another problem at KLCC Take your time LRTBreakdown LightRail AfterWork LRTProblem RapidKlOutage Rapid MalaysiaMetroExperience LRT RapidKL kelanajayaline February gth Malaysia Flying Rabbit I broke downan hourago in Mid 02 09 Malaysia Yu ZiJiang Ya Is i still broken THE END something 014 令103 Valley pralse"
+      },
+      {
+        "filename": "post_5.png",
+        "window_title": "lrt klcc - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T22:33:16",
+        "enhanced_cleaned": "Is the LRT on the KJ line in Kuala Lumpur malfunctioning Tve been stuck at KJ1g Universiti station heading towards Gombak and the platform is packed with people from one end to the other Does anyone know what s going on Malaysia Kualalumpur TrafficCongestion RailTransit LRT KLCC Metro Tourkualalumpur LRT universiti 01 27 Malaysia This is a wasteland Click to comment something 众5 042"
+      },
+      {
+        "filename": "post_6.png",
+        "window_title": "lrt klcc - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T22:33:37",
+        "enhanced_cleaned": "KLCC is just an 8 minute Walk away on the LRT Room for rent in KL RC Residences Forall you students interns and more We ve found a gemin Razak City This amazing room at a great price is only available for a limited time regret missing i A wide variety of room types and complete amenities are available Rooms include ceiling fan comfortable bedding large wardrobe and a study desk Air conditioning is optional individual billing is thoughtful Commonareas 3OOMbps high speed WiFi coverage throughout perfect for streaming and gaming Free use of washing machineand saving you time and effort Fully equipped kitchen easily unlock new culinary skills Free utilities air conditioning electricity is extra maximizing value Super convenient location Walking distance to LRT Salak Selatan station making commuting and sightseeing easyl Numerous convenience stores downstairs 7 Eleven 99 Speedmart etc satisfying your snack cravings anytimel Surrounded by Chinese Malay Thai and bubble tea shopsa paradise for food lovers hour security comprehensive surveillance ensures your safety Free access to the swimming pool and gym a healthy lifestyle is within easy reach Important information Only one month s rent required as a deposit Such a high quality property regret missing outl Don t hesitate inquire now to secure your dream home razakrentals studentrentals owner occupied shorttermrental readytomovein Iit KL rental righttomstation convenienttransportation Fnmmontc in tnt3l something 凸12 O85"
+      },
+      {
+        "filename": "post_7.png",
+        "window_title": "lrt klcc - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T22:33:54",
+        "enhanced_cleaned": "How do get to KLCC Convention Centre Which is better to get there from Ampang Park Conlay or Pasar Seni MRTaccessible LRT KLCC HowtogetThere PleaseHelp Retired night owl Ifyou don t want to walk a long way just g0 directly from MRT Equine to MRTampang Park and then transfer to LRT to KICC 2025 12 19 Malaysia Lea Huai leamed Whereare you from From MRT Taman Equine Giselle Yuna Ambang Parkis the closest Then you need to exit the station However there s a covered walkway connecting the two stations Please be careful twenty two something"
+      },
+      {
+        "filename": "post_8.png",
+        "window_title": "lrt klcc - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T22:34:17",
+        "enhanced_cleaned": "Kuala Lumpur MRT All in One Guide Beginner Friendly Guide No Pitfalls Arrived in Kuala Lumpur and feeling overwhelmed by traffic Taxis are painfully expensive Whether you re a seasoned traveler or a freshman this meticulously tested is a lifesaverno traffic jams direct routes toall the popular attractions save it and 90 no more panicl Ticketing Payment Choose from 3 options TNG Card for single journey tickets at the ticket machine select your destination and get a plastic token swipe to enter drop i at the to exit Suitable for those taking 1 2 trips the downside is that you need to a new ticket for transfers and there queues during peak hours TNG Card Universally accepted on the MRT buses convenience stores and highways 20 MYR can be bought at MRT stations or 7 Eleven top upanytime at convenience stores Electronic Payment Some stations support Alipay QR code payment coverage is not comprehensive TNG Card is the preferred choice for short trips Operating Hours 6 AM 3 5 minutes during peak hours 7 10 minutes during off peak hours extremely punctual Quick Guide Color Abbreviation Kuala Lumpur s rail transit system is divided into 5 categories No need to memorize the numbers just remember the colors and uses KTM Electric Train For intercity travel choose i for Batu Caves Prone to check schedules in advance using LRT Light Rail Transit Red Green Blue lines covering attractions the main line for exploring the city MRT Mass Rapid Transit Purple Green lines connecting the suburbs and city center essential for visiting UPK Malland the National Museum Monorail Yellow line elevated short line very flexible for exploring the Bukit Bintang shopping district ERL Airport Rail Link Divided into something delays"
+      },
+      {
+        "filename": "post_9.png",
+        "window_title": "lrt klcc - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T22:34:34",
+        "enhanced_cleaned": "Attention Attention Those taking the LRT to KLCC or Ampang Park please take note Attentionl Anyone taking the LRT to KLCC or Ampang Park please take note The LRT does not stop at KLCC Ampang Park just saw several people on the LRT trying to get off at KLCC but they were confused because the LRT didn t stop and skipped two stops before getting Off at Damai Irt klcc ampangpark railtransit mrt publictransport rapid Edited on 2025 10 26 Have a cup oftea Because someone is going there to demonstrate 2025 10 26 Malaysia Huh Isn tit because someone stole the cable ye sterday and they re repairing it now replies Taro paste 1cried because wanted to g0 to Ampang Park Was also going to Ampang Park but ended 叩 getting off at Jelatek Draise something d7 O29"
+      }
+    ],
+    "mrtkajang问题 - 小红书搜索 - Google Chrome": [
+      {
+        "filename": "post_1.png",
+        "window_title": "mrtkajang问题 - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T22:34:57",
+        "enhanced_cleaned": "There s a problem with the MY MRT Kajang Line The time displayed on the TV was incorrect it showed 0 minutes when arrived at the station but the MRT didn tarrive for several minutes There Was a problem heading towards Kwasa Damansara one train Was out Of service Malaysia MRTKajang MRTFirstView Kajangline MRTKajang RushHourMRT MRT MRTCrowded Transportation Edited on 01 14 Isi okay now 01 14 Malaysia Leisurely kitten Im not sUre becaUse took the Kajang bus back Isi still not fixed 1 m not sure because something collect"
+      },
+      {
+        "filename": "post_2.png",
+        "window_title": "mrtkajang问题 - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T22:35:15",
+        "enhanced_cleaned": "MRT workers Why is the Kajang MRT always so crowded and there are neverany seats morning at 7 30 1stand from Jernih to BB It s like this going to work and it s the same going home Always standing to and I m so tired February 10 Malaysia take the MRT at 5 50 am there are plenty of seats can choose whichever 02 10 Malaysia Honey Fairy Wow SO much earlier Little Red Sweet Potato GG5COgSA There s a chance to Wait for an empty bus in B presumably a bus stop took one back today Do you know what time there are usually empty taxis in the evening ve never managed to catch Malaysla holiovo nnnd thinnc will Voon hnnoninn something 众5 O55"
+      },
+      {
+        "filename": "post_3.png",
+        "window_title": "mrtkajang问题 - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T22:35:32",
+        "enhanced_cleaned": "The MRT is filthy Excuse me young man do you know What dirty means Did you consider the next person Who might sit there Won tthe next person their hands on something you stepped on The way you re sitting Can you be a little more hygienic You re taking public transportation not JOUr own car Public transportation is used by many people can you please consider everyone s needs 0 Protecting the environment is everyone s responsibility cherasarea mrt mRTstation mRTkajang mRTdirty malaysia He s probably hiding from Lava hehe R 2025 12 16 Malaysia KY Little Sweet Potato Hahaha maybe Sweetheart Like You I m really angry that someone like that sits on the MRT Yeah uh R Aa something collect riding"
+      },
+      {
+        "filename": "post_4.png",
+        "window_title": "mrtkajang问题 - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T22:35:51",
+        "enhanced_cleaned": "KAJANG LINE MRT line in Malaysia has cracked again The Kajang Line is stuck at Taman Midah Everyone Was forced off the train and i hasn t moved for almost half an hour mrtkajang Malaysia metrofirstview kajangline mrtkajang mrt metrocrowded youngpeopleonthemetro Edited on February 12 Malaysia Ootashi store for home use Fn2n n an l IIIIIL 4 AUHUIUUIIM 历AThI TIIIT 02 12 Malaysia Leisurely kitten There seems to be one shuttle bus running betw Maluriand TMN Suntex but it s always pack ed with people Super handsome Bai Er A person s backpack got stuck in the gap ofthe door causing the door to open something R11 020"
+      },
+      {
+        "filename": "post_5.png",
+        "window_title": "mrtkajang问题 - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T22:36:04",
+        "enhanced_cleaned": "There is a problem with MRT Kajang Please be aware and follow instructions Restored to normal Edited on 01 14 This is a wasteland Click to comment something 氽1 0 Comment"
+      },
+      {
+        "filename": "post_6.png",
+        "window_title": "mrtkajang问题 - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T22:36:22",
+        "enhanced_cleaned": "Is there a problem with the MRT Kajang Line today Waited quite a KL MRT Commuting Money falling from the sky Isit to walk down or stop 2025 12 09 Malaysia pralse White peach HR Ijust went to ask fora slip but the clerkat the counter said didn t have Malaysia Whale Residue WBAulN o P mBeRNC tonsys Tsrssrjrrsd Mrr 2025 12 11 Malaysia Mu Zilin s Mu Zi After waiting for 10 buses finally got on the 11th something 97A107"
+      },
+      {
+        "filename": "post_8.png",
+        "window_title": "mrtkajang问题 - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T22:37:09",
+        "enhanced_cleaned": "MRT Kajang line The MRT Kajang is having problems rush hour commuting to work or school Waited from 6 30 am until almost 7 am and still no trains came Update 14 11 25 7 40am Others have commented that trains are now running normally MRT MRTKAJANG MRTStation Edited on 2025 11 14 daydreaming salted fish Trains to Kwasa Damansara are running normally The MRT trains that depart Mutiara station are nOW running much faster than yesterday returning to normal with each train taking only a few minutes 2025 11 14 Malaysia Thank you for the update Ahua is not a cat Saw there Was a minute left on the signin Taman Mutiara but that minute turned into three minutes and i still hadn tarrived Since i Was a long Way just decided to take a Grab The change will be better arrived at the station SaW te Wait Was S upposed to be 4 minutes but it turned into a 30 minute wWait finally boarded the train at 7 o cloc kand every station after that Was packed don t Innw 讦 thinnc ufll rotumn tn nnrmal nrrnntinio something 令2 015 During"
+      },
+      {
+        "filename": "post_9.png",
+        "window_title": "mrtkajang问题 - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T22:37:27",
+        "enhanced_cleaned": "It s broken this morning lets go some breakfast first It s 8 05 AM now Seven minutes ago the official announcement said the system had been fixed but the crowds are sO huge you re practically on the other side Fellow working folks please take care ofyour belongings it s really incredibly crowded Ive already been on the train three times in Tmn Maluri and still haven t gotten on LongDay Our Ministry of Transport doesn t see this they re busy cheering for Sabah right now 2025 11 17 Malaysia"
+      }
+    ],
+    "地铁 马来西亚 - 小红书搜索 - Google Chrome": [
+      {
+        "filename": "post_1.png",
+        "window_title": "地铁 马来西亚 - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T22:37:47",
+        "enhanced_cleaned": "snippets of life Life and climate in Malaysia are truly comfortable and the MRT even has women only carriages Malaysia MRT Malaysia Master s hourago in Malaysia This is a wasteland Click to comment collect something"
+      },
+      {
+        "filename": "post_2.png",
+        "window_title": "地铁 马来西亚 - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T22:38:01",
+        "enhanced_cleaned": "Subway Series Episode 13 This time we re showcasing a scene from Hang Tuah station on the Kuala Lumpur Monorail Line 8in Malaysia 3 hours ago This is a wasteland Click to comment something 0 Comment"
+      },
+      {
+        "filename": "post_3.png",
+        "window_title": "地铁 马来西亚 - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T22:38:19",
+        "enhanced_cleaned": "MYMalaysia Rail Transit Figure 1 Kuala Lumpur Rail Transit Line 10 suspended Figures 2 3 and 4 ETS Electric Train yellow KTM Intercity blue Figure 5 KTM Komuter Utara Northern Commuter Railway Figure 6 Sabah State Railway Future Figure 7 Kuala Lumpur Rail Transit MRT3 pending construction Figure 8 ECRL East Coast Rail Link 2027 Zone C 2028 Figure 9 E ART Johor Bahru Elevated Smart Ral Transit KTM Komuter Selatan Southern Commuter Railway planned Figure 10 RTS Johor Bahru Singapore Rapid Transit System 202 Figure 11 LRT Penang Light Rail Transit 2031 Figure 12 KUTS ART Kuching Sarawak Smart Rail Transit System 2027 Figure 13 HSR Kuala Lumpur Singapore High Speed Rail shelved Malaysia MalaysiaRailTransit PublicTransit Railway Metro LightRailTransit ElectricTrain MRT Edited 7 hours ago in Malaysia Wendyis selling her used item Willit reopen at the end ofthe year Line 10 01 09 Malaysia Wind Over the World Uncertain no news imnot nugget have the first picture with Malaysla something"
+      },
+      {
+        "filename": "post_4.png",
+        "window_title": "地铁 马来西亚 - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T22:38:36",
+        "enhanced_cleaned": "RTS Rush TS Line Announces Fares RecordNow Malaysia JohorBahru JohorBahruEconomicZone JohorBahruMRT Singapore 4 hours ago Hubei Dream Swan Esther 47 minutes a90 Malaysia 10 minutes ag0 in Singapore Find a hawker center water expensive hourago in Pikachu beep Sotraffic is still congested hour ago Rice is like a So expensive 2 hours ag0 something"
+      },
+      {
+        "filename": "post_5.png",
+        "window_title": "地铁 马来西亚 - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T22:38:57",
+        "enhanced_cleaned": "Ive noticed that Malaysian girls are really good at makeup took the MRTin Kuala Lumpur with a friend in the women only carriage and noticed how beautiful the makeup of Malaysian girls wasl Their eyeshadow and blush were so perfectly blended The three girls opposite me were wearing headscarves which made their makeup even more noticeable secretly glanced at them a few times but Was too shy to stare Before getting off grabbed a small mirror to touch up my lipstick and when looked up saw several girls around me also touching up their makeup chatting and laughing seemingly unconcerned about stared at It wasn ta big deal just a really nice feeling Kualalumpur Malaysia WomensOnTheMeridianCarriage PhotographylnTheSun HealingMoment 12 hours ago in Malaysia J with a heart belonging to the succulent Finally SaW someone say that girls here donthave appearance anxiety because dont like wearing makeup Of course it s normal not to wear makewp when going out just packing food and throwing itin the trash Otherwise they would wear makeup when going out shopping wearing makeup is a personal choice not wearing makeup is also fine 5 hours ago in Malaysia Farmers don t raise cattle Beauty knows no nationality hours ago Hebei Wwenty three something"
+      },
+      {
+        "filename": "post_6.png",
+        "window_title": "地铁 马来西亚 - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T22:39:12",
+        "enhanced_cleaned": "P issues TNG subway card have RM7 90 left bought the card for RM1O now selling it for RMIZ Pick up in P Malaysia Kualalumpur UniversityofMalaya MRTCard TNGCard Yesterday at 14 40 Malaysia 共6条评论 昨天17 49 马来酽亚 O赞 顺风局蓝色方后排兵 centrestage附近 昨天17 54马酽 展开1条回复 昨天17 23 马来酽 顺风局蓝色方后排兵 作者 centrestage这边 昨天17 31马来哑 Alice的历险记 昨天18 09贵州 THE END something collect"
+      },
+      {
+        "filename": "post_7.png",
+        "window_title": "地铁 马来西亚 - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T22:39:49",
+        "enhanced_cleaned": "Is the signaling system of Kuala Lumpur LRT really that advanced While Waiting for the LRT at Asia passenger bus drove away from the opposite platform and thenan empty bus arrived and passed through the platform Without stopping The distance between the two buses Was probably less than a minute It s quite astonishing how short the distance between buses on Kuala Lumpur s driverless LRT system can bel Malaysia Kualalumpur LightRail RailTransit Railway BlockedSection 01 25 Malaysia Good rain Hmm actually the LRT breaks down every few days seriously affecting my commute to and from get off HSKZ who travels around a lot he stopped in Malaysia and met Easons Version do See this few days Loves not eating vegetables Using CBTC signalling on LRT Kelana Jaya a one minute distance isn ta big problem Ive even seen LRT Sri Petaling where the next train arrives 20 seconds after the previous one departs twenty one something"
+      },
+      {
+        "filename": "post_9.png",
+        "window_title": "地铁 马来西亚 - 小红书搜索 - Google Chrome",
+        "scraped_at": "2026-02-21T22:40:21",
+        "enhanced_cleaned": "Kuala Lumpur MRT station announcements are in Chinese thought Malays The announcer at Kuala Lumpur MRT station turned out to bea Chinese woman with the same face as Us Suhailil always thought it Was a Malay KualalumpurMRT MalaysiaTourism sunflower The reminder from the working class 2025 07 30 Malaysia For me a tourist i marks the start of my vacatio Leaming has no end That familiar voice was actually coming from a Chinese person 2025 07 30 Guangdong mushrooms also thought it Was a Malay announcer something"
+      }
+    ]
+  }
+}
