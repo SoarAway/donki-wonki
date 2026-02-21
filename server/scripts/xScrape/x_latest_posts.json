@@ -1,47 +1,809 @@
-[
+{
+  "generated_at": "2026-02-21T10:36:42.301180+00:00",
+  "dataset_type": "x_account_posts",
+  "source_account": "askrapidkl",
+  "source_url": "https://x.com/askrapidkl",
+  "unique_post_count": 40,
+  "posts": [
     {
-        "id": 1,
-        "timestamp": "2025-04-16T01:51:28.000Z",
-        "url": "https://x.com/askrapidkl/status/1912322923005898946",
-        "is_reply": false,
-        "text": "Saluran sokongan X kami kini fokus pada kemas kini mengenai perkhidmatan dan pengumuman.\n\nHubungi kami melalui saluran lain untuk bantuan! \n______\n\nOur X support channel is now focused on service updates and announcements.\n\nReach us through other channels for support!\n#RapidKL",
-        "has_media": true,
-        "engagement": "54 replies, 10 reposts, 47 likes, 13 bookmarks, 502620 views"
+      "url": "https://x.com/askrapidkl/status/1938210344117387419",
+      "post_id": "1938210344117387419",
+      "timestamp": "2025-06-26T12:18:50.000Z",
+      "author_handle": "askrapidkl",
+      "author_name": "Ask Rapid KL\n@askrapidkl\n·\nJun 26, 2025",
+      "text": "Bermula 1 Julai, Pas My50 boleh dibeli melalui aplikasi TNG eWallet. Save tutorial ni siap-siap ok?\n#RapidKL",
+      "engagement": {
+        "raw": "16 replies, 716 reposts, 1102 likes, 907 bookmarks, 92907 views",
+        "replies": 16.0,
+        "reposts": 716.0,
+        "likes": 1102.0,
+        "bookmarks": 907.0,
+        "views": 92907.0
+      },
+      "has_media": true,
+      "source_account": "askrapidkl",
+      "source_url": "https://x.com/askrapidkl",
+      "id": 1
     },
     {
-        "id": 2,
-        "timestamp": "2024-11-18T02:20:36.000Z",
-        "url": "https://x.com/askrapidkl/status/1858334462922375626",
-        "is_reply": false,
-        "text": "Your bag must love the seat, but don’t forget —there might be someone around who needs it more. Let’s be considerate when using public transport okay? \n#RapidKL",
-        "has_media": true,
-        "engagement": "324 replies, 7736 reposts, 14911 likes, 356 bookmarks, 1087614 views"
+      "url": "https://x.com/askrapidkl/status/1934911123406639165",
+      "post_id": "1934911123406639165",
+      "timestamp": "2025-06-17T09:48:55.000Z",
+      "author_handle": "askrapidkl",
+      "author_name": "Ask Rapid KL\n@askrapidkl\n·\nJun 17, 2025",
+      "text": "Nantikan……. #RapidKL",
+      "engagement": {
+        "raw": "31 replies, 465 reposts, 1121 likes, 82 bookmarks, 95575 views",
+        "replies": 31.0,
+        "reposts": 465.0,
+        "likes": 1121.0,
+        "bookmarks": 82.0,
+        "views": 95575.0
+      },
+      "has_media": true,
+      "source_account": "askrapidkl",
+      "source_url": "https://x.com/askrapidkl",
+      "id": 2
     },
     {
-        "id": 3,
-        "timestamp": "2021-05-24T13:05:18.000Z",
-        "url": "https://x.com/askrapidkl/status/1396814564151504898",
-        "is_reply": false,
-        "text": "Kelana Jaya Line Update: Ladies and gentlemen, we regret to inform that LRT Kelana Jaya line is experiencing an incident, specifically trains number 40 and 81. \n\nOur team is mobilising help and rescue assistance right now. Please stay calm and follow instructions.",
-        "has_media": false,
-        "engagement": "165 replies, 11990 reposts, 7057 likes, 100 bookmarks"
+      "url": "https://x.com/askrapidkl/status/1912322923005898946",
+      "post_id": "1912322923005898946",
+      "timestamp": "2025-04-16T01:51:28.000Z",
+      "author_handle": "askrapidkl",
+      "author_name": "Ask Rapid KL\n@askrapidkl\n·\nApr 16, 2025",
+      "text": "Saluran sokongan X kami kini fokus pada kemas kini mengenai perkhidmatan dan pengumuman.\n\nHubungi kami melalui saluran lain untuk bantuan! \n______\n\nOur X support channel is now focused on service updates and announcements.\n\nReach us through other channels for support!\n#RapidKL",
+      "engagement": {
+        "raw": "54 replies, 10 reposts, 47 likes, 13 bookmarks, 502768 views",
+        "replies": 54.0,
+        "reposts": 10.0,
+        "likes": 47.0,
+        "bookmarks": 13.0,
+        "views": 502768.0
+      },
+      "has_media": true,
+      "source_account": "askrapidkl",
+      "source_url": "https://x.com/askrapidkl",
+      "id": 3
     },
     {
-        "id": 4,
-        "timestamp": "2023-05-19T10:32:58.000Z",
-        "url": "https://x.com/askrapidkl/status/1659507432392118273",
-        "is_reply": false,
-        "text": "Hi bapok, We will share this matter with the bus operation team for further improvement. Apologies for the inconvenience caused. -Melati",
-        "has_media": false,
-        "engagement": "96 replies, 7205 reposts, 6853 likes, 280 bookmarks, 1586058 views"
+      "url": "https://x.com/askrapidkl/status/1882997310835302405",
+      "post_id": "1882997310835302405",
+      "timestamp": "2025-01-25T03:41:57.000Z",
+      "author_handle": "askrapidkl",
+      "author_name": "Ask Rapid KL\n@askrapidkl\n·\nJan 25, 2025",
+      "text": "The train control panel is not a seat. This dangerous act can compromise your safety, and other passengers. \n#RapidKL",
+      "engagement": {
+        "raw": "65 replies, 1635 reposts, 4030 likes, 88 bookmarks, 369311 views",
+        "replies": 65.0,
+        "reposts": 1635.0,
+        "likes": 4030.0,
+        "bookmarks": 88.0,
+        "views": 369311.0
+      },
+      "has_media": true,
+      "source_account": "askrapidkl",
+      "source_url": "https://x.com/askrapidkl",
+      "id": 4
     },
     {
-        "id": 5,
-        "timestamp": "2022-07-19T04:35:23.000Z",
-        "url": "https://x.com/askrapidkl/status/1549251533182623744",
-        "is_reply": false,
-        "text": "Tak pernah pula kami sediakan air panas untuk makan megi dalam tren kami. Dah makan, tak pakai pelitup muka pula. Untuk keselesaan anda, ada sebab kami melarang penumpang untuk makan dan minum di dalam tren.\n#rapidkl #tegursebabsayang",
-        "has_media": true,
-        "engagement": "667 replies, 4873 reposts, 6018 likes, 181 bookmarks"
+      "url": "https://x.com/askrapidkl/status/1873589660213227969",
+      "post_id": "1873589660213227969",
+      "timestamp": "2024-12-30T04:39:19.000Z",
+      "author_handle": "askrapidkl",
+      "author_name": "Ask Rapid KL\n@askrapidkl\n·\nDec 30, 2024",
+      "text": "Gentle reminder: Avoid illegal parking on the roadside as it obstructs traffic and delays buses.\n#RapidKL",
+      "engagement": {
+        "raw": "66 replies, 1114 reposts, 2418 likes, 31 bookmarks, 148746 views",
+        "replies": 66.0,
+        "reposts": 1114.0,
+        "likes": 2418.0,
+        "bookmarks": 31.0,
+        "views": 148746.0
+      },
+      "has_media": true,
+      "source_account": "askrapidkl",
+      "source_url": "https://x.com/askrapidkl",
+      "id": 5
+    },
+    {
+      "url": "https://x.com/askrapidkl/status/1871008927162442176",
+      "post_id": "1871008927162442176",
+      "timestamp": "2024-12-23T01:44:24.000Z",
+      "author_handle": "askrapidkl",
+      "author_name": "Ask Rapid KL\n@askrapidkl\n·\nDec 23, 2024",
+      "text": "Kenyataan Media\n\nPELAKSANAAN KOC WANITA DIPERLUASKAN KE LALUAN AMPANG/SRI PETALING BERMULA 31 DISEMBER 2024",
+      "engagement": {
+        "raw": "32 replies, 688 reposts, 765 likes, 32 bookmarks, 302938 views",
+        "replies": 32.0,
+        "reposts": 688.0,
+        "likes": 765.0,
+        "bookmarks": 32.0,
+        "views": 302938.0
+      },
+      "has_media": true,
+      "source_account": "askrapidkl",
+      "source_url": "https://x.com/askrapidkl",
+      "id": 6
+    },
+    {
+      "url": "https://x.com/askrapidkl/status/1868904127960695236",
+      "post_id": "1868904127960695236",
+      "timestamp": "2024-12-17T06:20:41.000Z",
+      "author_handle": "askrapidkl",
+      "author_name": "Ask Rapid KL\n@askrapidkl\n·\nDec 17, 2024",
+      "text": "Mulai 23 Disember 2024 hingga 31 Januari 2025, proses pembaharuan pas My50 ditangguh sementara untuk penambahbaikan sistem.\n\nPembelian pas My50 yang baharu masih boleh dilakukan seperti biasa di semua kaunter khidmat pelanggan rel, BRT dan hab bas Rapid KL.",
+      "engagement": {
+        "raw": "71 replies, 1354 reposts, 1634 likes, 446 bookmarks, 502611 views",
+        "replies": 71.0,
+        "reposts": 1354.0,
+        "likes": 1634.0,
+        "bookmarks": 446.0,
+        "views": 502611.0
+      },
+      "has_media": true,
+      "source_account": "askrapidkl",
+      "source_url": "https://x.com/askrapidkl",
+      "id": 7
+    },
+    {
+      "url": "https://x.com/askrapidkl/status/1858334462922375626",
+      "post_id": "1858334462922375626",
+      "timestamp": "2024-11-18T02:20:36.000Z",
+      "author_handle": "askrapidkl",
+      "author_name": "Ask Rapid KL\n@askrapidkl\n·\nNov 18, 2024",
+      "text": "Your bag must love the seat, but don’t forget —there might be someone around who needs it more. Let’s be considerate when using public transport okay? \n#RapidKL",
+      "engagement": {
+        "raw": "324 replies, 7736 reposts, 14911 likes, 356 bookmarks, 1087614 views",
+        "replies": 324.0,
+        "reposts": 7736.0,
+        "likes": 14911.0,
+        "bookmarks": 356.0,
+        "views": 1087614.0
+      },
+      "has_media": true,
+      "source_account": "askrapidkl",
+      "source_url": "https://x.com/askrapidkl",
+      "id": 8
+    },
+    {
+      "url": "https://x.com/askrapidkl/status/1844328853130576097",
+      "post_id": "1844328853130576097",
+      "timestamp": "2024-10-10T10:47:19.000Z",
+      "author_handle": "askrapidkl",
+      "author_name": "Ask Rapid KL\n@askrapidkl\n·\nOct 10, 2024",
+      "text": "Hi Very 𝒟𝑒𝓂𝓊𝓇𝑒, very 𝓟𝓸𝓷𝓭𝓪𝓷~, Thanks for the feedback. We will share this matter with the operation team for further investigation. Appropriate action will be taken against the bus captain involved. We apologize for the inconvenience you have encountered. -Aaron",
+      "engagement": {
+        "raw": "28 replies, 3251 reposts, 4722 likes, 228 bookmarks, 1475900 views",
+        "replies": 28.0,
+        "reposts": 3251.0,
+        "likes": 4722.0,
+        "bookmarks": 228.0,
+        "views": 1475900.0
+      },
+      "has_media": false,
+      "source_account": "askrapidkl",
+      "source_url": "https://x.com/askrapidkl",
+      "id": 9
+    },
+    {
+      "url": "https://x.com/askrapidkl/status/1793761334800380115",
+      "post_id": "1793761334800380115",
+      "timestamp": "2024-05-23T21:50:03.000Z",
+      "author_handle": "askrapidkl",
+      "author_name": "Ask Rapid KL\n@askrapidkl\n·\nMay 24, 2024",
+      "text": "Hi Iqbal. For your kind info, the service starts at 6:00AM. Therefore, the gates will be open 5-10 minutes before. The trains that are running before 6:00AM are going to designated stations to start the service and some are bringing the staff to the stations. - Sam",
+      "engagement": {
+        "raw": "11 replies, 284 reposts, 1905 likes, 33 bookmarks, 119286 views",
+        "replies": 11.0,
+        "reposts": 284.0,
+        "likes": 1905.0,
+        "bookmarks": 33.0,
+        "views": 119286.0
+      },
+      "has_media": false,
+      "source_account": "askrapidkl",
+      "source_url": "https://x.com/askrapidkl",
+      "id": 10
+    },
+    {
+      "url": "https://x.com/askrapidkl/status/1758322901734801477",
+      "post_id": "1758322901734801477",
+      "timestamp": "2024-02-16T02:50:22.000Z",
+      "author_handle": "askrapidkl",
+      "author_name": "Ask Rapid KL\n@askrapidkl\n·\nFeb 16, 2024",
+      "text": "Laluan di antara Stesen LRT Masjid Jamek dan Stesen LRT Bandaraya akan dibuka semula pada 17 Februari 2024 bermula jam 6 pagi.\n#RapidKL",
+      "engagement": {
+        "raw": "45 replies, 1740 reposts, 1298 likes, 50 bookmarks, 234921 views",
+        "replies": 45.0,
+        "reposts": 1740.0,
+        "likes": 1298.0,
+        "bookmarks": 50.0,
+        "views": 234921.0
+      },
+      "has_media": true,
+      "source_account": "askrapidkl",
+      "source_url": "https://x.com/askrapidkl",
+      "id": 11
+    },
+    {
+      "url": "https://x.com/askrapidkl/status/1733450921043189994",
+      "post_id": "1733450921043189994",
+      "timestamp": "2023-12-09T11:38:00.000Z",
+      "author_handle": "askrapidkl",
+      "author_name": "Ask Rapid KL\n@askrapidkl\n·\nDec 9, 2023",
+      "text": "Hi bij, Maaf atas kelewatan. Dari semakan next bas akan gerak jam  2040. Trip sebelum ni dah bergerak jam 1900. Pada masa ini hanya sebuah bas beroperasi. Maaf atas kesulitan. - Melati",
+      "engagement": {
+        "raw": "36 replies, 4648 reposts, 5503 likes, 252 bookmarks, 1528674 views",
+        "replies": 36.0,
+        "reposts": 4648.0,
+        "likes": 5503.0,
+        "bookmarks": 252.0,
+        "views": 1528674.0
+      },
+      "has_media": false,
+      "source_account": "askrapidkl",
+      "source_url": "https://x.com/askrapidkl",
+      "id": 12
+    },
+    {
+      "url": "https://x.com/askrapidkl/status/1699210670011740284",
+      "post_id": "1699210670011740284",
+      "timestamp": "2023-09-05T23:59:28.000Z",
+      "author_handle": "askrapidkl",
+      "author_name": "Ask Rapid KL\n@askrapidkl\n·\nSep 6, 2023",
+      "text": "Pelanggan yang dihormati, kerja-kerja pemasangan pelekat & pengujian operasi koc wanita di MRT Laluan Kajang sedang dijalankan secara berperingkat.\n\nSila rujuk poster untuk maklumat lanjut. #RapidKL \n@MRTMalaysia",
+      "engagement": {
+        "raw": "111 replies, 1486 reposts, 1462 likes, 38 bookmarks, 1198641 views",
+        "replies": 111.0,
+        "reposts": 1486.0,
+        "likes": 1462.0,
+        "bookmarks": 38.0,
+        "views": 1198641.0
+      },
+      "has_media": true,
+      "source_account": "askrapidkl",
+      "source_url": "https://x.com/askrapidkl",
+      "id": 13
+    },
+    {
+      "url": "https://x.com/askrapidkl/status/1675836964514459648",
+      "post_id": "1675836964514459648",
+      "timestamp": "2023-07-03T12:00:42.000Z",
+      "author_handle": "askrapidkl",
+      "author_name": "Ask Rapid KL\n@askrapidkl\n·\nJul 3, 2023",
+      "text": "#JomXpress mulai 3 Julai 2023 dengan bas laluan 300 & 303 dari Ampang ke pusat bandar. \n\n#JomNaikBas \n@DBKL2u",
+      "engagement": {
+        "raw": "64 replies, 1385 reposts, 1751 likes, 38 bookmarks, 1019305 views",
+        "replies": 64.0,
+        "reposts": 1385.0,
+        "likes": 1751.0,
+        "bookmarks": 38.0,
+        "views": 1019305.0
+      },
+      "has_media": true,
+      "source_account": "askrapidkl",
+      "source_url": "https://x.com/askrapidkl",
+      "id": 14
+    },
+    {
+      "url": "https://x.com/askrapidkl/status/1659507432392118273",
+      "post_id": "1659507432392118273",
+      "timestamp": "2023-05-19T10:32:58.000Z",
+      "author_handle": "askrapidkl",
+      "author_name": "Ask Rapid KL\n@askrapidkl\n·\nMay 19, 2023",
+      "text": "Hi bapok, We will share this matter with the bus operation team for further improvement. Apologies for the inconvenience caused. -Melati",
+      "engagement": {
+        "raw": "96 replies, 7204 reposts, 6853 likes, 280 bookmarks, 1586061 views",
+        "replies": 96.0,
+        "reposts": 7204.0,
+        "likes": 6853.0,
+        "bookmarks": 280.0,
+        "views": 1586061.0
+      },
+      "has_media": false,
+      "source_account": "askrapidkl",
+      "source_url": "https://x.com/askrapidkl",
+      "id": 15
+    },
+    {
+      "url": "https://x.com/askrapidkl/status/1634495111966134272",
+      "post_id": "1634495111966134272",
+      "timestamp": "2023-03-11T10:02:56.000Z",
+      "author_handle": "askrapidkl",
+      "author_name": "Ask Rapid KL\n@askrapidkl\n·\nMar 11, 2023",
+      "text": "Ini merupakan senarai stesen-stesen untuk MRT Laluan Putrajaya.\n\nPerjalanan anda akan menjadi lebih mudah selepas pembukaan sepenuhnya MRT Laluan Putrajaya pada 16 Mac 2023, jam 3 petang!\n\n#JomNaikMRT #PYLine #RapidKL #KamiBawaAnda \n@MRTMalaysia",
+      "engagement": {
+        "raw": "23 replies, 1033 reposts, 1035 likes, 120 bookmarks, 166818 views",
+        "replies": 23.0,
+        "reposts": 1033.0,
+        "likes": 1035.0,
+        "bookmarks": 120.0,
+        "views": 166818.0
+      },
+      "has_media": true,
+      "source_account": "askrapidkl",
+      "source_url": "https://x.com/askrapidkl",
+      "id": 16
+    },
+    {
+      "url": "https://x.com/askrapidkl/status/1631641459614154754",
+      "post_id": "1631641459614154754",
+      "timestamp": "2023-03-03T13:03:33.000Z",
+      "author_handle": "askrapidkl",
+      "author_name": "Ask Rapid KL\n@askrapidkl\n·\nMar 3, 2023",
+      "text": "Reposting  \n@MRTMalaysia\n \n\nSaat yang dinanti-nantikan akhirnya tiba. Keseluruhan Laluan Putrajaya (PYL) dari Kwasa Damansara sehingga Putrajaya Sentral akan beroperasi dari  jam 3 petang, 16 Mac 2023.",
+      "engagement": {
+        "raw": "19 replies, 858 reposts, 880 likes, 16 bookmarks, 157553 views",
+        "replies": 19.0,
+        "reposts": 858.0,
+        "likes": 880.0,
+        "bookmarks": 16.0,
+        "views": 157553.0
+      },
+      "has_media": true,
+      "source_account": "askrapidkl",
+      "source_url": "https://x.com/askrapidkl",
+      "id": 17
+    },
+    {
+      "url": "https://x.com/askrapidkl/status/1618787761322070016",
+      "post_id": "1618787761322070016",
+      "timestamp": "2023-01-27T01:47:32.000Z",
+      "author_handle": "askrapidkl",
+      "author_name": "Ask Rapid KL\n@askrapidkl\n·\nJan 27, 2023",
+      "text": "Ini merupakan sedikit gambaran tentang kerosakan struktur jejambat di Stesen LRT Bandaraya yang menyebabkan gangguan jadual perkhidmatan LRT Laluan Ampang/Sri Petaling buat masa ini.",
+      "engagement": {
+        "raw": "78 replies, 2337 reposts, 1725 likes, 56 bookmarks, 880725 views",
+        "replies": 78.0,
+        "reposts": 2337.0,
+        "likes": 1725.0,
+        "bookmarks": 56.0,
+        "views": 880725.0
+      },
+      "has_media": true,
+      "source_account": "askrapidkl",
+      "source_url": "https://x.com/askrapidkl",
+      "id": 18
+    },
+    {
+      "url": "https://x.com/askrapidkl/status/1608020611573633026",
+      "post_id": "1608020611573633026",
+      "timestamp": "2022-12-28T08:42:44.000Z",
+      "author_handle": "askrapidkl",
+      "author_name": "Ask Rapid KL\n@askrapidkl\n·\nDec 28, 2022",
+      "text": "Demok selalu curi wetpud je. Jarang dia curi tulang. \nhttps://\nx.com/sabrinadarwis/\n/sabrinadarwis/status/1607915795442724864\n…",
+      "engagement": {
+        "raw": "7 replies, 426 reposts, 1287 likes, 6 bookmarks, 211847 views",
+        "replies": 7.0,
+        "reposts": 426.0,
+        "likes": 1287.0,
+        "bookmarks": 6.0,
+        "views": 211847.0
+      },
+      "has_media": false,
+      "source_account": "askrapidkl",
+      "source_url": "https://x.com/askrapidkl",
+      "id": 19
+    },
+    {
+      "url": "https://x.com/askrapidkl/status/1605065757653716992",
+      "post_id": "1605065757653716992",
+      "timestamp": "2022-12-20T05:01:11.000Z",
+      "author_handle": "askrapidkl",
+      "author_name": "Ask Rapid KL\n@askrapidkl\n·\nDec 20, 2022",
+      "text": "Kenyataan Tender\n\n“REPLACEMENT OF THE EXISTING LIGHTINGS AND ASSOCIATED WORKS AT BANGSAR, WANGSA MAJU AND GOMBAK LRT STATIONS, KELANA JAYA LINE” \n\nUntuk maklumat lanjut, sila layari laman web di \nhttps://\nbit.ly/3MBL0ot",
+      "engagement": {
+        "raw": "35 replies, 821 reposts, 899 likes, 22 bookmarks, 1064169 views",
+        "replies": 35.0,
+        "reposts": 821.0,
+        "likes": 899.0,
+        "bookmarks": 22.0,
+        "views": 1064169.0
+      },
+      "has_media": true,
+      "source_account": "askrapidkl",
+      "source_url": "https://x.com/askrapidkl",
+      "id": 20
+    },
+    {
+      "url": "https://x.com/askrapidkl/status/1591794670866427904",
+      "post_id": "1591794670866427904",
+      "timestamp": "2022-11-13T14:06:38.000Z",
+      "author_handle": "askrapidkl",
+      "author_name": "Ask Rapid KL\n@askrapidkl\n·\nNov 13, 2022",
+      "text": "Para pelanggan yg dihormati, rentetan dari pengumuman Rapid Rail Sdn Bhd tentang pembukaan semula operasi LRT Laluan Kelana Jaya yg bermula esok, Isnin 14 November, kami sertakan visual rumusan pampasan yg akan diberikan kpd pengguna laluan yg terjejas sepanjang tempoh penutupan.",
+      "engagement": {
+        "raw": "45 replies, 2265 reposts, 1637 likes, 117 bookmarks",
+        "replies": 45.0,
+        "reposts": 2265.0,
+        "likes": 1637.0,
+        "bookmarks": 117.0,
+        "views": null
+      },
+      "has_media": true,
+      "source_account": "askrapidkl",
+      "source_url": "https://x.com/askrapidkl",
+      "id": 21
+    },
+    {
+      "url": "https://x.com/askrapidkl/status/1591718809798578177",
+      "post_id": "1591718809798578177",
+      "timestamp": "2022-11-13T09:05:11.000Z",
+      "author_handle": "askrapidkl",
+      "author_name": "Ask Rapid KL\n@askrapidkl\n·\nNov 13, 2022",
+      "text": "LRT LALUAN KELANA JAYA AKAN DIBUKA SEPENUHNYA PADA 14 NOVEMBER 2022\n\nRapid Rail Sdn Bhd (Rapid Rail), operator perkhidmatan LRT, MRT dan Monorel di Lembah Klang, akan membuka keseluruhan jajaran LRT Laluan Kelana Jaya bermula jam 6 pagi Isnin 14 November 2022,",
+      "engagement": {
+        "raw": "110 replies, 4641 reposts, 2775 likes, 39 bookmarks",
+        "replies": 110.0,
+        "reposts": 4641.0,
+        "likes": 2775.0,
+        "bookmarks": 39.0,
+        "views": null
+      },
+      "has_media": true,
+      "source_account": "askrapidkl",
+      "source_url": "https://x.com/askrapidkl",
+      "id": 22
+    },
+    {
+      "url": "https://x.com/askrapidkl/status/1591708129510969344",
+      "post_id": "1591708129510969344",
+      "timestamp": "2022-11-13T08:22:45.000Z",
+      "author_handle": "askrapidkl",
+      "author_name": "Ask Rapid KL\n@askrapidkl\n·\nNov 13, 2022",
+      "text": "Pakar-pakar teknikal serta kejuruteraan Rapid Rail bertungkus-lumus menjalankan ujian menyeluruh bagi memastikan sistem-sistem kritikal keselamatan adalah stabil dan selamat untuk beroperasi.",
+      "engagement": {
+        "raw": "40 replies, 391 reposts, 1100 likes, 4 bookmarks",
+        "replies": 40.0,
+        "reposts": 391.0,
+        "likes": 1100.0,
+        "bookmarks": 4.0,
+        "views": null
+      },
+      "has_media": true,
+      "source_account": "askrapidkl",
+      "source_url": "https://x.com/askrapidkl",
+      "id": 23
+    },
+    {
+      "url": "https://x.com/askrapidkl/status/1590085651969736705",
+      "post_id": "1590085651969736705",
+      "timestamp": "2022-11-08T20:55:36.000Z",
+      "author_handle": "askrapidkl",
+      "author_name": "Ask Rapid KL\n@askrapidkl\n·\nNov 9, 2022",
+      "text": "1/2 Kemaskini Gangguan Perkhidmatan LRT Laluan Kelana Jaya:\n\n16 stesen LRT dari Stesen Kelana Jaya hingga Stesen Ampang Park digantung operasi selama 7 hari bermula hari ini.",
+      "engagement": {
+        "raw": "247 replies, 6075 reposts, 1806 likes, 53 bookmarks",
+        "replies": 247.0,
+        "reposts": 6075.0,
+        "likes": 1806.0,
+        "bookmarks": 53.0,
+        "views": null
+      },
+      "has_media": false,
+      "source_account": "askrapidkl",
+      "source_url": "https://x.com/askrapidkl",
+      "id": 24
+    },
+    {
+      "url": "https://x.com/askrapidkl/status/1589902966647312384",
+      "post_id": "1589902966647312384",
+      "timestamp": "2022-11-08T08:49:40.000Z",
+      "author_handle": "askrapidkl",
+      "author_name": "Ask Rapid KL\n@askrapidkl\n·\nNov 8, 2022",
+      "text": "Kemaskini Laluan LRT Kelana Jaya: Stesen LRT Kelana Jaya sehingga Stesen LRT Ampang Park kini telah DITUTUP kepada pengguna. Penumpang diminta menggunakan perkhidmatan bas perantara percuma atau mengambil mod pengangkutan alternatif lain. Mohon maaf atas kesulitan.",
+      "engagement": {
+        "raw": "332 replies, 4326 reposts, 1897 likes, 62 bookmarks",
+        "replies": 332.0,
+        "reposts": 4326.0,
+        "likes": 1897.0,
+        "bookmarks": 62.0,
+        "views": null
+      },
+      "has_media": false,
+      "source_account": "askrapidkl",
+      "source_url": "https://x.com/askrapidkl",
+      "id": 25
+    },
+    {
+      "url": "https://x.com/askrapidkl/status/1589888703467749376",
+      "post_id": "1589888703467749376",
+      "timestamp": "2022-11-08T07:53:00.000Z",
+      "author_handle": "askrapidkl",
+      "author_name": "Ask Rapid KL\n@askrapidkl\n·\nNov 8, 2022",
+      "text": "Kemaskini Laluan LRT Kelana Jaya: Tiada perkhidmatan tren di antara Stesen KLCC hingga ke Stesen Kelana Jaya. Penumpang dinasihatkan untuk mengambil mod  pengangkutan alternatif. Info bas perantara percuma akan dimaklumkan sebentar lagi.",
+      "engagement": {
+        "raw": "148 replies, 1925 reposts, 883 likes, 19 bookmarks",
+        "replies": 148.0,
+        "reposts": 1925.0,
+        "likes": 883.0,
+        "bookmarks": 19.0,
+        "views": null
+      },
+      "has_media": false,
+      "source_account": "askrapidkl",
+      "source_url": "https://x.com/askrapidkl",
+      "id": 26
+    },
+    {
+      "url": "https://x.com/askrapidkl/status/1549251533182623744",
+      "post_id": "1549251533182623744",
+      "timestamp": "2022-07-19T04:35:23.000Z",
+      "author_handle": "askrapidkl",
+      "author_name": "Ask Rapid KL\n@askrapidkl\n·\nJul 19, 2022",
+      "text": "Tak pernah pula kami sediakan air panas untuk makan megi dalam tren kami. Dah makan, tak pakai pelitup muka pula. Untuk keselesaan anda, ada sebab kami melarang penumpang untuk makan dan minum di dalam tren.\n#rapidkl #tegursebabsayang",
+      "engagement": {
+        "raw": "667 replies, 4871 reposts, 6018 likes, 181 bookmarks",
+        "replies": 667.0,
+        "reposts": 4871.0,
+        "likes": 6018.0,
+        "bookmarks": 181.0,
+        "views": null
+      },
+      "has_media": true,
+      "source_account": "askrapidkl",
+      "source_url": "https://x.com/askrapidkl",
+      "id": 27
+    },
+    {
+      "url": "https://x.com/askrapidkl/status/1527578705584865281",
+      "post_id": "1527578705584865281",
+      "timestamp": "2022-05-20T09:15:19.000Z",
+      "author_handle": "askrapidkl",
+      "author_name": "Ask Rapid KL\n@askrapidkl\n·\nMay 20, 2022",
+      "text": "Kelana Jaya Line Update: We have a failed train at KL Sentral Station. Shuttle trains have been activated between Bangsar to Pasar Seni Station. Trains from Putra Heights will turn back at Bangsar Station and trains from Gombak will turn back at Pasar Seni Station. Bus shuttl ...",
+      "engagement": {
+        "raw": "101 replies, 1797 reposts, 1012 likes, 50 bookmarks",
+        "replies": 101.0,
+        "reposts": 1797.0,
+        "likes": 1012.0,
+        "bookmarks": 50.0,
+        "views": null
+      },
+      "has_media": false,
+      "source_account": "askrapidkl",
+      "source_url": "https://x.com/askrapidkl",
+      "id": 28
+    },
+    {
+      "url": "https://x.com/askrapidkl/status/1512701263850655745",
+      "post_id": "1512701263850655745",
+      "timestamp": "2022-04-09T07:57:40.000Z",
+      "author_handle": "askrapidkl",
+      "author_name": "Ask Rapid KL\n@askrapidkl\n·\nApr 9, 2022",
+      "text": "Hi, maaf ye. Kejadian berlaku jam berapa? Berlaku di mana dan menghala ke mana? Boleh dapatkan nombor laluan bas?",
+      "engagement": {
+        "raw": "113 replies, 167 reposts, 639 likes, 5 bookmarks",
+        "replies": 113.0,
+        "reposts": 167.0,
+        "likes": 639.0,
+        "bookmarks": 5.0,
+        "views": null
+      },
+      "has_media": false,
+      "source_account": "askrapidkl",
+      "source_url": "https://x.com/askrapidkl",
+      "id": 29
+    },
+    {
+      "url": "https://x.com/askrapidkl/status/1472224365714427911",
+      "post_id": "1472224365714427911",
+      "timestamp": "2021-12-18T15:16:56.000Z",
+      "author_handle": "askrapidkl",
+      "author_name": "Ask Rapid KL\n@askrapidkl\n·\nDec 18, 2021",
+      "text": "Kelana Jaya Line Update: Due to worsen flood situation, Masjid Jamek Station is closed until further notice. All trains will not stop at Masjid Jamek Station. Passengers are advised to take alternative transport. We apologise for the inconvenience caused.",
+      "engagement": {
+        "raw": "10 replies, 1443 reposts, 756 likes, 10 bookmarks",
+        "replies": 10.0,
+        "reposts": 1443.0,
+        "likes": 756.0,
+        "bookmarks": 10.0,
+        "views": null
+      },
+      "has_media": false,
+      "source_account": "askrapidkl",
+      "source_url": "https://x.com/askrapidkl",
+      "id": 30
+    },
+    {
+      "url": "https://x.com/askrapidkl/status/1466033754317541384",
+      "post_id": "1466033754317541384",
+      "timestamp": "2021-12-01T13:17:39.000Z",
+      "author_handle": "askrapidkl",
+      "author_name": "Ask Rapid KL\n@askrapidkl\n·\nDec 1, 2021",
+      "text": "Kami tidak pernah upgrade tren kami untuk dijadikan tempat membasuh tangan. Harapan kami, jangan tiru aksi/perbuatan ini dan semoga semua penumpang lebih bertanggungjawab dan beretika ketika menaiki tren.",
+      "engagement": {
+        "raw": "174 replies, 5509 reposts, 4004 likes, 40 bookmarks",
+        "replies": 174.0,
+        "reposts": 5509.0,
+        "likes": 4004.0,
+        "bookmarks": 40.0,
+        "views": null
+      },
+      "has_media": true,
+      "source_account": "askrapidkl",
+      "source_url": "https://x.com/askrapidkl",
+      "id": 31
+    },
+    {
+      "url": "https://x.com/askrapidkl/status/1436273168004485121",
+      "post_id": "1436273168004485121",
+      "timestamp": "2021-09-10T10:19:42.000Z",
+      "author_handle": "askrapidkl",
+      "author_name": "Ask Rapid KL\n@askrapidkl\n·\nSep 10, 2021",
+      "text": "Tell us you are Malaysian, without telling us you are Malaysian. \n\nHilang kawan tak mengapa, tapi jangan sampai hilangkan tupperware mak.\n#rapidkl #ytjt",
+      "engagement": {
+        "raw": "49 replies, 2602 reposts, 3329 likes, 38 bookmarks",
+        "replies": 49.0,
+        "reposts": 2602.0,
+        "likes": 3329.0,
+        "bookmarks": 38.0,
+        "views": null
+      },
+      "has_media": true,
+      "source_account": "askrapidkl",
+      "source_url": "https://x.com/askrapidkl",
+      "id": 32
+    },
+    {
+      "url": "https://x.com/askrapidkl/status/1412662277069701121",
+      "post_id": "1412662277069701121",
+      "timestamp": "2021-07-07T06:38:27.000Z",
+      "author_handle": "askrapidkl",
+      "author_name": "Ask Rapid KL\n@askrapidkl\n·\nJul 7, 2021",
+      "text": "Kepada yang tertinggal gigi palsu ketika menaiki tren 151 laluan Kelana Jaya sebentar tadi, sila hubungi kami untuk mendapatkan kembali barang anda. Terima kasih.\n\nKredit gambar :  Kazer Ibrahim\n#lostandfound #rapidkl",
+      "engagement": {
+        "raw": "36 replies, 2423 reposts, 1106 likes, 16 bookmarks",
+        "replies": 36.0,
+        "reposts": 2423.0,
+        "likes": 1106.0,
+        "bookmarks": 16.0,
+        "views": null
+      },
+      "has_media": true,
+      "source_account": "askrapidkl",
+      "source_url": "https://x.com/askrapidkl",
+      "id": 33
+    },
+    {
+      "url": "https://x.com/askrapidkl/status/1396824102908878850",
+      "post_id": "1396824102908878850",
+      "timestamp": "2021-05-24T13:43:12.000Z",
+      "author_handle": "askrapidkl",
+      "author_name": "Ask Rapid KL\n@askrapidkl\n·\nMay 24, 2021",
+      "text": "Kelana Jaya Line Update: Ladies and gentlemen, we regret to inform that LRT Kelana Jaya line is experiencing an incident, specifically trains number 40 and 81.\n\nAll injured passengers have been evacuated to platform. Emergency aid and rescue is ongoing.",
+      "engagement": {
+        "raw": "66 replies, 2361 reposts, 1339 likes, 8 bookmarks",
+        "replies": 66.0,
+        "reposts": 2361.0,
+        "likes": 1339.0,
+        "bookmarks": 8.0,
+        "views": null
+      },
+      "has_media": false,
+      "source_account": "askrapidkl",
+      "source_url": "https://x.com/askrapidkl",
+      "id": 34
+    },
+    {
+      "url": "https://x.com/askrapidkl/status/1396814564151504898",
+      "post_id": "1396814564151504898",
+      "timestamp": "2021-05-24T13:05:18.000Z",
+      "author_handle": "askrapidkl",
+      "author_name": "Ask Rapid KL\n@askrapidkl\n·\nMay 24, 2021",
+      "text": "Kelana Jaya Line Update: Ladies and gentlemen, we regret to inform that LRT Kelana Jaya line is experiencing an incident, specifically trains number 40 and 81. \n\nOur team is mobilising help and rescue assistance right now. Please stay calm and follow instructions.",
+      "engagement": {
+        "raw": "165 replies, 11989 reposts, 7056 likes, 100 bookmarks",
+        "replies": 165.0,
+        "reposts": 11989.0,
+        "likes": 7056.0,
+        "bookmarks": 100.0,
+        "views": null
+      },
+      "has_media": false,
+      "source_account": "askrapidkl",
+      "source_url": "https://x.com/askrapidkl",
+      "id": 35
+    },
+    {
+      "url": "https://x.com/askrapidkl/status/1361259411390431233",
+      "post_id": "1361259411390431233",
+      "timestamp": "2021-02-15T10:21:49.000Z",
+      "author_handle": "askrapidkl",
+      "author_name": "Ask Rapid KL\n@askrapidkl\n·\nFeb 15, 2021",
+      "text": "Jangan bersedih wahai Oyen. Kalau abang kapten bas ni tak nak bawak Oyen naik bas pergi KLCC, kita pergi naik LRT ok? \n\nKredit video : Apai Wanakashie",
+      "engagement": {
+        "raw": "70 replies, 4377 reposts, 5446 likes, 81 bookmarks",
+        "replies": 70.0,
+        "reposts": 4377.0,
+        "likes": 5446.0,
+        "bookmarks": 81.0,
+        "views": null
+      },
+      "has_media": true,
+      "source_account": "askrapidkl",
+      "source_url": "https://x.com/askrapidkl",
+      "id": 36
+    },
+    {
+      "url": "https://x.com/askrapidkl/status/1320190988455866368",
+      "post_id": "1320190988455866368",
+      "timestamp": "2020-10-25T02:30:34.000Z",
+      "author_handle": "askrapidkl",
+      "author_name": "Ask Rapid KL\n@askrapidkl\n·\nOct 25, 2020",
+      "text": "1 STAF OPERASI MRT POSITIF COVID-19\n\n25 Oktober – Seorang staf operasi MRT Laluan Kajang telah disahkan positif COVID-19 & dikuarantin di Hospital Sungai Buloh. Staf berkenaan, yang bertugas sebagai pengendali tren/‘transit officer’ bertugas buat kali terakhir pada 21 Oktober.",
+      "engagement": {
+        "raw": "19 replies, 1956 reposts, 714 likes, 6 bookmarks",
+        "replies": 19.0,
+        "reposts": 1956.0,
+        "likes": 714.0,
+        "bookmarks": 6.0,
+        "views": null
+      },
+      "has_media": true,
+      "source_account": "askrapidkl",
+      "source_url": "https://x.com/askrapidkl",
+      "id": 37
+    },
+    {
+      "url": "https://x.com/askrapidkl/status/1279961934058663943",
+      "post_id": "1279961934058663943",
+      "timestamp": "2020-07-06T02:14:40.000Z",
+      "author_handle": "askrapidkl",
+      "author_name": "Ask Rapid KL\n@askrapidkl\n·\nJul 6, 2020",
+      "text": "Nak kena staff yg ni sorang... min dah pesan byk kali kat beliau kalau org ambik gambar terus pose elok2 ini tak... adoi laa... maaf kan kami ye.",
+      "engagement": {
+        "raw": "3 replies, 341 reposts, 2053 likes, 3 bookmarks",
+        "replies": 3.0,
+        "reposts": 341.0,
+        "likes": 2053.0,
+        "bookmarks": 3.0,
+        "views": null
+      },
+      "has_media": false,
+      "source_account": "askrapidkl",
+      "source_url": "https://x.com/askrapidkl",
+      "id": 38
+    },
+    {
+      "url": "https://x.com/askrapidkl/status/1278179799081660418",
+      "post_id": "1278179799081660418",
+      "timestamp": "2020-07-01T04:13:06.000Z",
+      "author_handle": "askrapidkl",
+      "author_name": "Ask Rapid KL\n@askrapidkl\n·\nJul 1, 2020",
+      "text": "Peringatan mesra akan di berikan kpd Meow supaya lebih berhati2 & tidur di tempat yang lebih tersorok. Terima kasih.",
+      "engagement": {
+        "raw": "3 replies, 307 reposts, 1071 likes, 1 bookmark",
+        "replies": 3.0,
+        "reposts": 307.0,
+        "likes": 1071.0,
+        "bookmarks": 1.0,
+        "views": null
+      },
+      "has_media": false,
+      "source_account": "askrapidkl",
+      "source_url": "https://x.com/askrapidkl",
+      "id": 39
+    },
+    {
+      "url": "https://x.com/askrapidkl/status/1260086634424537088",
+      "post_id": "1260086634424537088",
+      "timestamp": "2020-05-12T05:57:19.000Z",
+      "author_handle": "askrapidkl",
+      "author_name": "Ask Rapid KL\n@askrapidkl\n·\nMay 12, 2020",
+      "text": "Kan min letak PB tua, tak ceria pulak...so, letak lah yg hensem2 sikit...make your day...:)",
+      "engagement": {
+        "raw": "5 replies, 360 reposts, 2009 likes",
+        "replies": 5.0,
+        "reposts": 360.0,
+        "likes": 2009.0,
+        "bookmarks": null,
+        "views": null
+      },
+      "has_media": false,
+      "source_account": "askrapidkl",
+      "source_url": "https://x.com/askrapidkl",
+      "id": 40
     }
-]
+  ]
+}
