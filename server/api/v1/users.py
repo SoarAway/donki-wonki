@@ -3,13 +3,8 @@ from typing import Any
 from fastapi import APIRouter, HTTPException
 
 from api.schemas.error import ErrorResponse
-from api.schemas.user import (
-    RegisterUserRequest,
-    RegisterUserResponse,
-    SendTokenRequest,
-    SendTokenResponse,
-)
-from services.alert_service import send_token_received_notification_with_debug
+from api.schemas.user import RegisterUserRequest, RegisterUserResponse, SendTokenRequest, SendTokenResponse
+from services.alert_service import send_alert_to_device
 from services.user_service import register_user
 
 router = APIRouter()
@@ -26,19 +21,21 @@ ERROR_RESPONSES: dict[int | str, dict[str, Any]] = {
     response_model=SendTokenResponse,
     responses=ERROR_RESPONSES,
 )
-def send_token(send_token: SendTokenRequest) -> SendTokenResponse:
-    notification_id, error_detail = send_token_received_notification_with_debug(send_token.token)
+def send_token(payload: SendTokenRequest) -> SendTokenResponse:
+    notification_id = send_alert_to_device(
+        token=payload.token,
+        title="Donki-Wonki Campaign",
+        body="New disruption alert campaign is active.",
+        data={"type": "campaign", "source": "send-token"},
+    )
 
     if not notification_id:
-        detail = "Failed to send test notification"
-        if error_detail:
-            detail = f"{detail}: {error_detail}"
-        raise HTTPException(status_code=500, detail=detail)
+        raise HTTPException(status_code=500, detail="Failed to send campaign notification")
 
     return SendTokenResponse(
         status="success",
-        message="Token received and notification sent",
-        token=send_token.token,
+        message="Campaign notification sent to token",
+        token=payload.token,
         notification_id=notification_id,
     )
 

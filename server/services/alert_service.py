@@ -6,13 +6,6 @@ from firebase_admin import messaging
 logger = logging.getLogger("services.alerts")
 
 
-def _format_fcm_exception(exc: Exception) -> str:
-    error_code = getattr(exc, "code", None)
-    if error_code:
-        return f"{error_code}: {exc}"
-    return str(exc)
-
-
 def _build_fcm_message(
     token: str,
     title: str,
@@ -51,34 +44,6 @@ def send_alert_to_device(
     except Exception as exc:
         logger.exception("Error sending message to device: %s", exc)
         return None
-
-
-def send_token_received_notification(token: str) -> str | None:
-    return send_alert_to_device(
-        token=token,
-        title="Donki-Wonki",
-        body="Notification setup successful.",
-        data={"type": "token_registered"},
-    )
-
-
-def send_token_received_notification_with_debug(token: str) -> tuple[str | None, str | None]:
-    try:
-        message = _build_fcm_message(
-            token=token,
-            title="Donki-Wonki",
-            body="Notification setup successful.",
-            data={"type": "token_registered"},
-        )
-        response = messaging.send(message)
-        logger.info("Successfully sent message to device: %s", response)
-        return response, None
-    except Exception as exc:
-        error_detail = _format_fcm_exception(exc)
-        logger.exception("Error sending message to device: %s", error_detail)
-        return None, error_detail
-
-
 def predict_incident(text: str, source: str) -> dict[str, Any]:
     keywords = ["delay", "fault", "stuck", "breakdown", "disruption"]
     is_incident = any(keyword in text.lower() for keyword in keywords)
