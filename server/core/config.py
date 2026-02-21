@@ -1,6 +1,11 @@
+import os
 from functools import lru_cache
 
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+# Get the directory of the current file (core/)
+# Its parent is the server root
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 class Settings(BaseSettings):
@@ -9,7 +14,7 @@ class Settings(BaseSettings):
     ENVIRONMENT: str = "development"
     FRONTEND_URL: str = "http://localhost:3000"
     FIREBASE_CREDENTIALS_JSON: str | None = None
-    FIREBASE_CREDENTIALS_PATH: str = "firebaseServiceAccountKey.json"
+    FIREBASE_CREDENTIALS_PATH: str = os.path.join(BASE_DIR, "firebaseServiceAccountKey.json")
 
     GEMINI_API_KEY: str | None = None
     GEMINI_MODEL: str = "gemini-1.5-flash"
