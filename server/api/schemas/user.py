@@ -16,3 +16,15 @@ class SendTokenResponse(BaseModel):
     message: str
     token: str
     notification_id: str | None = None
+
+
+class RegisterUserRequest(BaseModel):
+    email: EmailStr
+    username: str
+    password: str
+
+
+class RegisterUserResponse(BaseModel):
+    status: str
+    message: str
+    user: UserResponse
