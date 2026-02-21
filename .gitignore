@@ -15,6 +15,9 @@ __pycache__/
 *.pyc
 *.pyo
 *.pyd
+_tmp_playwright_profile/
+playwright_profile/
+temp_data/
 
 # Python distribution / packaging
 .Python
