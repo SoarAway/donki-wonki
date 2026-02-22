@@ -7,13 +7,16 @@ import {
   onForegroundFcmMessage,
   requestNotificationPermission,
 } from './src/services/firebase';
-import { checkHealth, fetchIncidents, sendToken } from './src/services/api/incidentsApi';
+import { checkHealth, sendToken } from './src/services/api/apiEndpoints';
 import { setErrorCallback, setLoadingCallback, wakeServer } from './src/services/api/apiClient';
-import { Incident } from './src/services/api/types';
 import { Text } from './src/components/atoms/Text';
 import { Button } from './src/components/atoms/Button';
+import { Banner } from './src/components/atoms/Banner';
 import { LoadingOverlay } from './src/components/molecules/LoadingOverlay';
 import { colors, spacing, radius } from './src/components/config';
+import { LoginScreen } from './src/screens/LoginScreen';
+
+type AppScreen = 'home' | 'login';
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
@@ -23,9 +26,12 @@ function App() {
     'No message yet.',
   );
   const [apiStatus, setApiStatus] = React.useState('Waking server...');
-  const [incidents, setIncidents] = React.useState<Incident[]>([]);
   const [loading, setLoading] = React.useState(false);
   const [globalLoading, setGlobalLoading] = React.useState(false);
+  const [bannerVisible, setBannerVisible] = React.useState(false);
+  const [bannerTitle, setBannerTitle] = React.useState('');
+  const [bannerMessage, setBannerMessage] = React.useState('');
+  const [currentScreen, setCurrentScreen] = React.useState<AppScreen>('home');
 
   React.useEffect(() => {
     setLoadingCallback(setGlobalLoading);
@@ -53,7 +59,7 @@ function App() {
 
         const healthResponse = await checkHealth();
         if (isMounted) {
-          setApiStatus(`Connected: ${healthResponse.status}`);
+          setApiStatus(`Connected: ${JSON.stringify(healthResponse)}`);
         }
       } catch (err) {
         if (isMounted) {
@@ -65,11 +71,13 @@ function App() {
     initializeApp();
 
     const setupFcm = async () => {
+      console.log('[FCM Setup] Requesting notification permission...');
       const granted = await requestNotificationPermission();
       if (!isMounted) {
         return;
       }
 
+      console.log(`[FCM Setup] Permission ${granted ? 'GRANTED' : 'DENIED'}`);
       setPermissionStatus(granted ? 'Granted' : 'Denied');
 
       if (!granted) {
@@ -77,21 +85,27 @@ function App() {
         return;
       }
 
+      console.log('[FCM Setup] Fetching FCM token...');
       const token = await getFcmToken();
       if (!isMounted) {
         return;
       }
 
       if (!token) {
+        console.error('[FCM Setup] Failed to fetch token');
         setTokenPreview('Unavailable (failed to fetch token)');
         return;
       }
 
+      console.log(`[FCM Setup] Token received: ${token.slice(0, 20)}...`);
       const preview = `${token.slice(0, 14)}...${token.slice(-8)}`;
 
       try {
+        console.log('[FCM Setup] Sending token to server...');
         await sendToken(token);
-      } catch {
+        console.log('[FCM Setup] Token sent successfully');
+      } catch (error) {
+        console.error('[FCM Setup] Failed to send token:', error);
         if (isMounted) {
           setApiStatus('FCM token could not be sent to server.');
         }
@@ -103,9 +117,15 @@ function App() {
     setupFcm();
 
     const unsubscribeForeground = onForegroundFcmMessage(payload => {
-      const title = payload.title ?? 'Untitled message';
-      const body = payload.body ?? 'No body';
+      console.log('[App] Foreground FCM message received:', payload);
+      const title = payload.title ?? 'Notification';
+      const body = payload.body ?? 'You have a new message';
       setLastForegroundMessage(`${title}: ${body}`);
+      
+      setBannerTitle(title);
+      setBannerMessage(body);
+      setBannerVisible(true);
+      console.log('[App] Banner displayed for foreground notification');
     });
 
     return () => {
@@ -117,9 +137,7 @@ function App() {
   const handleFetchIncidents = async () => {
     setLoading(true);
     try {
-      const data = await fetchIncidents();
-      setIncidents(data);
-      setApiStatus(`Fetched ${data.length} incident(s)`);
+      setApiStatus('Fetch incidents feature not yet implemented');
     } catch (err) {
       setApiStatus(`Fetch error: ${(err as Error).message}`);
     } finally {
@@ -131,48 +149,55 @@ function App() {
     <SafeAreaProvider>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
       <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
-        <View style={styles.content}>
-          <Text variant="2xl" weight="bold" color="text.primary" align="center">
-            Donki-Wonki App Base
-          </Text>
-          <Text variant="sm" color="text.secondary" align="center">
-            API Status: {apiStatus}
-          </Text>
+        <Banner
+          visible={bannerVisible}
+          title={bannerTitle}
+          message={bannerMessage}
+          variant="info"
+          onDismiss={() => setBannerVisible(false)}
+          autoDismiss={true}
+          autoDismissDelay={5000}
+        />
+        {currentScreen === 'login' ? (
+          <LoginScreen onBack={() => setCurrentScreen('home')} />
+        ) : (
+          <View style={styles.content}>
+            <Text variant="2xl" weight="bold" color="text.primary" align="center">
+              Donki-Wonki App Base
+            </Text>
+            <Text variant="sm" color="text.secondary" align="center">
+              API Status: {apiStatus}
+            </Text>
 
-          <Button
-            label="Fetch Incidents"
-            onPress={handleFetchIncidents}
-            loading={loading}
-            style={styles.buttonSpacing}
-          />
+            <Button
+              label="Go To Login"
+              onPress={() => setCurrentScreen('login')}
+              variant="secondary"
+              style={styles.buttonSpacing}
+            />
 
-          {incidents.length > 0 && (
-            <View style={styles.listContainer}>
-              <Text variant="base" weight="bold" style={styles.listTitle}>
-                Incidents:
-              </Text>
-              {incidents.map(inc => (
-                <Text key={inc.id} variant="sm" style={styles.itemText}>
-                  • {inc.line} ({inc.station}): {inc.description}
-                </Text>
-              ))}
-            </View>
-          )}
+            <Button
+              label="Fetch Incidents"
+              onPress={handleFetchIncidents}
+              loading={loading}
+              style={styles.buttonSpacing}
+            />
 
-          <Text variant="sm" color="text.secondary" align="center">
-            FCM permission: {permissionStatus}
-          </Text>
+            <Text variant="sm" color="text.secondary" align="center">
+              FCM permission: {permissionStatus}
+            </Text>
 
-          <Text variant="sm" color="text.secondary" align="center">
-            FCM token: {tokenPreview}
-          </Text>
-          <Text variant="sm" color="text.secondary" align="center">
-            Last foreground message:
-          </Text>
-          <Text variant="xs" color="text.primary" align="center">
-            {lastForegroundMessage}
-          </Text>
-        </View>
+            <Text variant="sm" color="text.secondary" align="center">
+              FCM token: {tokenPreview}
+            </Text>
+            <Text variant="sm" color="text.secondary" align="center">
+              Last foreground message:
+            </Text>
+            <Text variant="xs" color="text.primary" align="center">
+              {lastForegroundMessage}
+            </Text>
+          </View>
+        )}
       </SafeAreaView>
       <LoadingOverlay visible={globalLoading} message="Loading..." />
     </SafeAreaProvider>
