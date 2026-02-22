@@ -4,6 +4,7 @@ from uuid import uuid4
 
 from api.schemas.user import RegisterUserRequest, UserResponse
 from core.firebase import get_firestore_client, initialize_firebase
+from utils.hashing_utils import hash_password, verify_password
 
 
 def _get_users_collection() -> Any:
@@ -39,7 +40,12 @@ def validate_login(email: str, password: str) -> bool:
     user = get_user_by_email(email)
     if user is None:
         return False
-    return user.get("password_enc") == password
+    stored_password = user.get("password_enc", "")
+    try:
+        return verify_password(password, stored_password)
+    except ValueError:
+        # Backward compatibility for legacy plaintext records.
+        return stored_password == password
 
 
 def register_user(user_in: RegisterUserRequest) -> UserResponse:
@@ -51,7 +57,7 @@ def register_user(user_in: RegisterUserRequest) -> UserResponse:
     now = datetime.datetime.now(datetime.timezone.utc)
     record = {
         "user_name": user_in.username,
-        "password_enc": user_in.password,
+        "password_enc": hash_password(user_in.password),
         "email": email,
         "created_at": now,
         "last_modified": now,

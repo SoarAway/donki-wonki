@@ -13,6 +13,7 @@ if project_root not in sys.path:
     sys.path.append(project_root)
 
 from core.firebase import initialize_firebase, get_firestore_client
+from utils.hashing_utils import hash_password, verify_password
 
 def register_user(user_name, user_password, user_email, dob):
     """
@@ -36,7 +37,7 @@ def register_user(user_name, user_password, user_email, dob):
     # Transform/Normalize
     record = {
         "user_name": user_name,
-        "password_enc": user_password,
+        "password_enc": hash_password(user_password),
         "email": user_email.lower(),
         "date_of_birth": dob_dt,
         "created_at": datetime.datetime.now(datetime.timezone.utc),
@@ -116,7 +117,14 @@ def login_user():
 
     for doc in results:
         data = doc.to_dict()
-        if data.get("password_enc") == password:
+        stored_password = data.get("password_enc", "")
+        try:
+            is_valid_password = verify_password(password, stored_password)
+        except ValueError:
+            # Backward compatibility for older plaintext passwords.
+            is_valid_password = stored_password == password
+
+        if is_valid_password:
             print("Login success!")
             return True
         else:
