@@ -31,6 +31,9 @@ const resolveColor = (path?: string): string => {
   return colors.text.primary;
 };
 
+/**
+ * Typography primitive that maps semantic variants and token color paths.
+ */
 export const Text: React.FC<TextProps> = ({
   variant = 'base',
   weight = 'regular',

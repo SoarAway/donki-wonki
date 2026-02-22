@@ -10,6 +10,9 @@ export interface InputProps extends TextInputProps {
   fullWidth?: boolean;
 }
 
+/**
+ * Form input with optional label and validation error presentation.
+ */
 export const Input: React.FC<InputProps> = ({
   label,
   error,

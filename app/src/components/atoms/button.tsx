@@ -15,6 +15,9 @@ export interface ButtonProps {
   style?: ViewStyle;
 }
 
+/**
+ * Reusable pressable button with variants and built-in async loading handling.
+ */
 export const Button: React.FC<ButtonProps> = ({
   label,
   onPress,

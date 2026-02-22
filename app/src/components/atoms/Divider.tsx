@@ -9,6 +9,9 @@ export interface DividerProps {
   margin?: keyof typeof spacing;
 }
 
+/**
+ * Thin horizontal or vertical separator with token-based spacing.
+ */
 export const Divider: React.FC<DividerProps> = ({
   color = colors.neutral[200],
   vertical = false,

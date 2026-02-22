@@ -11,6 +11,9 @@ export interface AlertDialogProps {
   onClose: () => void;
 }
 
+/**
+ * Modal dialog for presenting blocking error or status messages.
+ */
 export const AlertDialog: React.FC<AlertDialogProps> = ({
   visible,
   title,

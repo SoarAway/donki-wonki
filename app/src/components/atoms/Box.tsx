@@ -21,6 +21,9 @@ export interface BoxProps extends ViewProps {
   height?: number | string;
 }
 
+/**
+ * Layout primitive that maps spacing, radius, and flex helpers to a native `View`.
+ */
 export const Box: React.FC<BoxProps> = ({
   padding,
   paddingX,

@@ -9,6 +9,9 @@ export interface LinkProps {
   style?: TextStyle;
 }
 
+/**
+ * Text-based navigation/action control with underline styling.
+ */
 export const Link: React.FC<LinkProps> = ({ text, onPress, color = 'primary.500', style }) => {
   return (
     <TouchableOpacity onPress={onPress} activeOpacity={0.7}>

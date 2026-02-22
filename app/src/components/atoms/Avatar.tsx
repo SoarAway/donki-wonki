@@ -9,6 +9,9 @@ export interface AvatarProps {
   size?: number;
 }
 
+/**
+ * User avatar that renders an image when provided, otherwise fallback initials.
+ */
 export const Avatar: React.FC<AvatarProps> = ({ source, name, size = 40 }) => {
   const borderRadius = size / 2;
 

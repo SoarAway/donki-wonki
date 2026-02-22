@@ -9,6 +9,9 @@ export interface BadgeProps {
   size?: 'sm' | 'md';
 }
 
+/**
+ * Compact status label with semantic color variants.
+ */
 export const Badge: React.FC<BadgeProps> = ({ label, variant = 'neutral', size = 'md' }) => {
   const getColors = () => {
     switch (variant) {

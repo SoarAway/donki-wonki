@@ -10,6 +10,9 @@ export interface LoadingOverlayProps {
   message?: string;
 }
 
+/**
+ * Full-screen loading overlay used during API and startup operations.
+ */
 export const LoadingOverlay: React.FC<LoadingOverlayProps> = ({
   visible,
   message = 'Loading...',
