@@ -17,6 +17,7 @@ settings = get_settings()
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger("api.interceptor")
+logger.setLevel(logging.INFO)
 
 
 @asynccontextmanager
@@ -45,7 +46,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-
+# Logging interceptor to show all request and response content
 @app.middleware("http")
 async def log_requests_and_responses(request: Request, call_next) -> Response:
     request_body = await request.body()
@@ -61,18 +62,19 @@ async def log_requests_and_responses(request: Request, call_next) -> Response:
 
     response_body_text = response_body_bytes.decode("utf-8", errors="replace")
 
-    logger.debug(
+    logger.info(
         "REQUEST method=%s path=%s query=%s body=%s",
         request.method,
         request.url.path,
         request.url.query,
         request_body_text,
     )
-    logger.debug(
-        "RESPONSE method=%s path=%s status=%s body=%s",
+    logger.info(
+        "RESPONSE method=%s path=%s status=%s duration_ms=%.2f body=%s",
         request.method,
         request.url.path,
         response.status_code,
+        duration_ms,
         response_body_text,
     )
 
