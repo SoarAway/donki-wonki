@@ -28,3 +28,19 @@ class RegisterUserResponse(BaseModel):
     status: str
     message: str
     user: UserResponse
+
+
+class GetUserByEmailResponse(BaseModel):
+    status: str
+    message: str
+    user: UserResponse
+
+
+class LoginUserRequest(BaseModel):
+    email: EmailStr
+    password: str
+
+
+class LoginUserResponse(BaseModel):
+    status: str
+    message: str
