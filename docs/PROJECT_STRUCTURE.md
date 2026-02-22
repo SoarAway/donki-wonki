@@ -1,57 +1,65 @@
-# 🏗️ Project Structure
+# Project Structure
 
-The repository is a monorepo containing both the React Native mobile app and the Python FastAPI backend.
+This repository is a monorepo with a React Native app and a FastAPI backend.
 
 ```
 donki-wonki/
-│
-├── app/                          # React Native Mobile App
-│   ├── android/                  # Native Android Code
-│   │   └── app/src/main/java/com/donkiwonki/ontheway/  # Main Kotlin Sources
-│   ├── src/                      # TypeScript Source Code
-│   │   ├── components/           # Reusable UI Components
-│   │   │   └── atoms/            # Basic building blocks (Buttons, Inputs)
-│   │   ├── models/               # Data Models (Shared Contract)
-│   │   ├── navigation/           # Navigation Configuration (Stack/Tabs)
-│   │   ├── screens/              # Full Screen Components
-│   │   ├── services/             # API & External Services
-│   │   │   └── firebase.ts       # Firebase Integration
-│   │   ├── state/                # Global State Management
-│   │   └── utils/                # Helper Functions
-│   ├── App.tsx                   # Main Application Component
-│   ├── index.js                  # App Registry Entry
-│   └── package.json              # NPM Dependencies
-│
-├── server/                       # Python FastAPI Backend
-│   ├── config/                   # Configuration & Settings
-│   ├── jobs/                     # Scheduled Background Jobs
-│   ├── models/                   # Pydantic Data Models
-│   ├── services/                 # Business Logic Services
-│   ├── utils/                    # Utility Functions
-│   ├── requirements.txt          # Python Dependencies
-│   └── .env                      # Environment Variables
-│
-└── docs/                         # Documentation
-    ├── APP_GUIDE.md              # Mobile App Guide (Run & Troubleshoot)
-    └── PROJECT_STRUCTURE.md      # This File
+|
+|-- app/                                 # React Native mobile app
+|   |-- android/                         # Native Android project
+|   |-- src/
+|   |   |-- components/                  # Reusable UI building blocks
+|   |   |-- config/                      # App configuration constants
+|   |   |-- models/                      # Shared client-side models
+|   |   |-- navigation/                  # Navigator and route definitions
+|   |   |-- screens/                     # Feature screens
+|   |   |-- services/                    # API and Firebase service clients
+|   |   |-- state/                       # State management
+|   |   |-- utils/                       # Utility helpers
+|   |-- App.tsx                          # App root component
+|   |-- index.js                         # React Native entrypoint
+|   |-- package.json
+|   `-- tsconfig.json
+|
+|-- server/                              # FastAPI backend
+|   |-- api/
+|   |   |-- schemas/                     # Pydantic request/response schemas (for api endpoints)
+|   |   `-- v1/                          # Versioned route modules consisting of current api endpoints
+|   |-- core/                            # Core infra and app wiring (settings with external services)
+|   |-- jobs/                            # Scheduled/background jobs
+|   |-- scripts/                         # Helper scripts (currently consisting of social media scraping scripts)
+|   |-- services/                        # Business logic layer / ETL layer (layer to process data)
+|   |-- utils/                           # Shared backend utilities
+|   |-- main.py                          # FastAPI application entrypoint
+|   |-- requirements.txt
+|   `-- .env.example
+|
+|-- docs/                                # Documentation
+|   |-- APP_GUIDE.md
+|   |-- CICD_PIPELINE.md
+|   `-- PROJECT_STRUCTURE.md             # This file
+|
+|-- README.md
+|-- package.json
+`-- AGENTS.md
 ```
 
-## � Service Responsibilities
+## Layer Responsibilities
 
-### Mobile (`app/`)
-- **Frontend Logic**: React Native with TypeScript.
-- **State Management**: React Context or local state.
-- **Firebase**: Handles user authentication and FCM notifications directly on part of the client.
-- **API Communication**: Calls the `server/` endpoints for business logic.
+### App (`app/`)
+- Frontend implementation in React Native + TypeScript.
+- Firebase client SDK integration lives in app services.
+- UI/navigation/state live under `app/src/*`.
 
-### Backend (`server/`)
-- **API Framework**: FastAPI (Python).
-- **Database**: Connects to database (TBD).
-- **Integrations**: Reddit API, Gemini AI.
-- **Notifications**: Triggers FCM notifications to mobile devices via Firebase Admin SDK.
+### Server (`server/`)
+- HTTP routing lives in `server/api/v1/*`.
+- API contracts live in `server/api/schemas/*`.
+- Business logic stays in `server/services/*`.
+- Infra/bootstrap belongs in `server/core/*` and `server/main.py`.
 
-## 🔐 Key Configuration Files
+## Key Configuration Files
 
-- **Mobile**: `app/android/app/google-services.json` (Firebase Config for Android)
-- **Backend**: `server/firebaseServiceAccountKey.json` (Firebase Admin Config)
-- **Environment**: `server/.env` (API Keys & Secrets)
+- App Firebase config: `app/android/app/google-services.json`
+- Server Firebase admin credentials: `server/firebaseServiceAccountKey.json`
+- Server environment template: `server/.env.example`
+- Local server secrets: `server/.env` (do not commit)
