@@ -15,9 +15,6 @@ export interface ButtonProps {
   style?: ViewStyle;
 }
 
-/**
- * Reusable pressable button with variants and built-in async loading handling.
- */
 export const Button: React.FC<ButtonProps> = ({
   label,
   onPress,
@@ -118,3 +115,23 @@ export const Button: React.FC<ButtonProps> = ({
     </TouchableOpacity>
   );
 };
+
+const styles = StyleSheet.create({
+    button: {
+        backgroundColor: '#1256A7',
+        paddingVertical: 15,
+        borderRadius: 12,
+        alignItems: 'center',
+        justifyContent: 'center',
+        elevation: 3,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+    },
+    text: {
+        color: '#FFFFFF',
+        fontSize: 15,
+        fontWeight: '600',
+    },
+});

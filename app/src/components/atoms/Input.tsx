@@ -1,60 +1,44 @@
 import React from 'react';
-import { TextInput, StyleSheet, TextInputProps } from 'react-native';
-import { colors, radius, spacing, typography } from '../config';
-import { Box } from './Box';
-import { Text } from './Text';
+import { View, Text, TextInput, StyleSheet, TextInputProps } from 'react-native';
 
-export interface InputProps extends TextInputProps {
-  label?: string;
-  error?: string;
-  fullWidth?: boolean;
+interface InputProps extends TextInputProps {
+    label: string;
 }
 
-/**
- * Form input with optional label and validation error presentation.
- */
-export const Input: React.FC<InputProps> = ({
-  label,
-  error,
-  fullWidth = true,
-  style,
-  ...props
-}) => {
-  const borderColor = error ? colors.error.main : colors.neutral[300];
-
-  return (
-    <Box width={fullWidth ? '100%' : undefined} marginY={2}>
-      {label && (
-        <Text variant="sm" weight="medium" color="neutral.700" style={{ marginBottom: spacing[1] }}>
-          {label}
-        </Text>
-      )}
-      <TextInput
-        style={[
-          styles.input,
-          { borderColor },
-          style,
-        ]}
-        placeholderTextColor={colors.neutral[400]}
-        {...props}
-      />
-      {error && (
-        <Text variant="xs" color="error.main" style={{ marginTop: spacing[1] }}>
-          {error}
-        </Text>
-      )}
-    </Box>
-  );
+export const Input: React.FC<InputProps> = ({ label, style, ...props }) => {
+    return (
+        <View style={styles.inputContainer}>
+            <Text style={styles.label}>{label}</Text>
+            <TextInput
+                style={[styles.input, style]}
+                placeholderTextColor="#999"
+                {...props}
+            />
+        </View>
+    );
 };
 
+
 const styles = StyleSheet.create({
-  input: {
-    height: 48,
-    borderWidth: 1,
-    borderRadius: radius.md,
-    paddingHorizontal: spacing[3],
-    fontSize: typography.sizes.base,
-    color: colors.text.primary,
-    backgroundColor: colors.neutral[0],
-  },
+    inputContainer: {
+        marginBottom: 20,
+        width: '100%',
+    },
+    label: {
+        fontSize: 16,
+        fontWeight: '600',
+        marginBottom: 8,
+        color: '#000000',
+    },
+    input: {
+        borderRadius: 12,
+        padding: 12,
+        fontSize: 14,
+        backgroundColor: '#FFFFFF',
+        elevation: 8,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+    },
 });
