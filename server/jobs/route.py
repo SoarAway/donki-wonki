@@ -143,6 +143,89 @@ def get_user_routes_with_schedules(user_id: str) -> List[Dict[str, Any]]:
         
     return full_routes
 
+def save_or_update_route(
+    email: str,
+    route_id: str,
+    departing_location: str,
+    destination_location: str,
+    day_of_week: str,
+    time: str,
+    departing_station: str,
+    destination_station: str,
+) -> str:
+    """
+    Identifies user by email, checks if route exists, and either updates or creates it.
+    """
+    initialize_firebase()
+    db = get_firestore_client()
+    if db is None:
+        return None
+
+    user_id = get_user_id_by_email(email)
+    if not user_id:
+        print(f"Error: No user found with email {email}")
+        return None
+
+    route_ref = db.collection("users").document(user_id).collection("routes").document(route_id)
+    route_doc = route_ref.get()
+
+    route_data = {
+        "departingLocation": departing_location,
+        "destinationLocation": destination_location,
+        "dayOfWeek": day_of_week,
+        "time": time,
+        "departingStation": departing_station,
+        "destinationStation": destination_station,
+        "updatedAt": datetime.datetime.now(datetime.timezone.utc),
+    }
+
+    if route_doc.exists:
+        print(f"Route {route_id} exists. Updating...")
+        route_ref.update(route_data)
+    else:
+        print(f"Route {route_id} does not exist. Creating new route...")
+        route_data["createdAt"] = datetime.datetime.now(datetime.timezone.utc)
+        route_ref.set(route_data)
+
+    return route_id
+
+def get_all_routes_by_email(email: str) -> List[Dict[str, Any]]:
+    """
+    Retrieves all routes for a user identified by email.
+    """
+    user_id = get_user_id_by_email(email)
+    if not user_id:
+        return []
+    
+    return get_user_routes_with_schedules(user_id)
+
+def get_next_upcoming_route(email: str, timestamp: float) -> Dict[str, Any]:
+    """
+    Expects a timestamp, interprets the day of week, and finds the next upcoming route for the user.
+    """
+    dt = datetime.datetime.fromtimestamp(timestamp, tz=datetime.timezone.utc)
+    day_name = dt.strftime("%A") # e.g., "Monday"
+    current_time_str = dt.strftime("%H:%M")
+
+    routes = get_all_routes_by_email(email)
+    if not routes:
+        return None
+
+    upcoming_routes = []
+    for route in routes:
+        if route.get("dayOfWeek") == day_name:
+            # Check if route time is after current_time_str
+            route_time = route.get("time")
+            if route_time and route_time > current_time_str:
+                upcoming_routes.append(route)
+
+    if not upcoming_routes:
+        return None
+
+    # Sort by time and return the earliest upcoming one
+    upcoming_routes.sort(key=lambda x: x.get("time"))
+    return upcoming_routes[0]
+
 def get_user_id_by_email(email: str) -> str:
     """
     Looks up a user document by email and returns the document ID.
