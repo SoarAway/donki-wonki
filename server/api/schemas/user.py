@@ -1,19 +1,19 @@
 from pydantic import BaseModel, EmailStr
 
-# all of these are test only, can change
+from api.schemas.base import BaseResponse
+
+
 class UserResponse(BaseModel):
     id: str
     email: EmailStr
     username: str
     is_active: bool = True
 
+
 class SendTokenRequest(BaseModel):
     token: str
 
-
-class SendTokenResponse(BaseModel):
-    status: str
-    message: str
+class SendTokenResponse(BaseResponse):
     token: str
     notification_id: str | None = None
 
@@ -22,17 +22,15 @@ class RegisterUserRequest(BaseModel):
     email: EmailStr
     username: str
     password: str
+    date_of_birth: str | None = None
+    device_token: int | None = None
 
 
-class RegisterUserResponse(BaseModel):
-    status: str
-    message: str
+class RegisterUserResponse(BaseResponse):
     user: UserResponse
 
 
-class GetUserByEmailResponse(BaseModel):
-    status: str
-    message: str
+class GetUserByEmailResponse(BaseResponse):
     user: UserResponse
 
 
@@ -41,6 +39,5 @@ class LoginUserRequest(BaseModel):
     password: str
 
 
-class LoginUserResponse(BaseModel):
-    status: str
-    message: str
+class LoginUserResponse(BaseResponse):
+    email: str
