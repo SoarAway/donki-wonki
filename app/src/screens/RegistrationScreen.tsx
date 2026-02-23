@@ -3,36 +3,50 @@ import {Alert, StyleSheet, View} from 'react-native';
 
 import {Button, Input, Text} from '../components/atoms';
 import {colors, radius, spacing} from '../components/config';
+import {registerUser} from '../services/api/apiEndpoints';
 import {
   firstValidationError,
   hasValidationErrors,
+  matchValue,
   minLength,
+  requireValue,
   validateEmail,
 } from '../utils/authValidation';
 
-export interface LoginScreenProps {
-  onBack: () => void;
-  onGoToRegister: () => void;
+export interface RegistrationScreenProps {
+  onBackToLogin: () => void;
 }
 
-export const LoginScreen: React.FC<LoginScreenProps> = ({onBack, onGoToRegister}) => {
+export const RegistrationScreen: React.FC<RegistrationScreenProps> = ({onBackToLogin}) => {
   const [email, setEmail] = React.useState('');
+  const [username, setUsername] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const [confirmPassword, setConfirmPassword] = React.useState('');
   const [submitting, setSubmitting] = React.useState(false);
 
   const [emailError, setEmailError] = React.useState('');
+  const [usernameError, setUsernameError] = React.useState('');
   const [passwordError, setPasswordError] = React.useState('');
+  const [confirmPasswordError, setConfirmPasswordError] = React.useState('');
 
-  const handleSubmit = async () => {
+  const handleRegister = async () => {
     const errors = {
       email: validateEmail(email, 'Enter a valid email address.'),
+      username: requireValue(username, 'Username is required.'),
       password: firstValidationError(
         minLength(password, 8, 'Password must be at least 8 characters.'),
+      ),
+      confirmPassword: matchValue(
+        confirmPassword,
+        password,
+        'Passwords do not match.',
       ),
     };
 
     setEmailError(errors.email);
+    setUsernameError(errors.username);
     setPasswordError(errors.password);
+    setConfirmPasswordError(errors.confirmPassword);
 
     if (hasValidationErrors(errors)) {
       return;
@@ -40,9 +54,16 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({onBack, onGoToRegister}
 
     setSubmitting(true);
     try {
-      Alert.alert('Login', 'Login endpoint is not available yet. Use Register for now.');
-    } catch {
-      Alert.alert('Login', 'Unable to process login right now.');
+      const response = await registerUser({
+        email: email.trim(),
+        username: username.trim(),
+        password,
+      });
+      Alert.alert('Registration Success', response.message);
+      onBackToLogin();
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Unable to register now.';
+      Alert.alert('Registration Failed', message);
     } finally {
       setSubmitting(false);
     }
@@ -52,10 +73,10 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({onBack, onGoToRegister}
     <View style={styles.container}>
       <View style={styles.card}>
         <Text variant="2xl" weight="bold" color="text.primary" align="center">
-          Login
+          Register
         </Text>
         <Text variant="sm" color="text.secondary" align="center" style={styles.subtitle}>
-          Sign in with your email and password
+          Create a new account
         </Text>
 
         <Input
@@ -70,6 +91,16 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({onBack, onGoToRegister}
         />
 
         <Input
+          label="Username"
+          value={username}
+          onChangeText={setUsername}
+          autoCapitalize="none"
+          autoCorrect={false}
+          placeholder="your_username"
+          error={usernameError}
+        />
+
+        <Input
           label="Password"
           value={password}
           onChangeText={setPassword}
@@ -79,23 +110,27 @@ export const LoginScreen: React.FC<LoginScreenProps> = ({onBack, onGoToRegister}
           error={passwordError}
         />
 
+        <Input
+          label="Confirm Password"
+          value={confirmPassword}
+          onChangeText={setConfirmPassword}
+          secureTextEntry
+          autoCapitalize="none"
+          placeholder="Re-enter password"
+          error={confirmPasswordError}
+        />
+
         <View style={styles.actions}>
           <Button
-            label="Login"
-            onPress={handleSubmit}
+            label="Register"
+            onPress={handleRegister}
             loading={submitting}
             fullWidth
           />
           <Button
-            label="Create Account"
-            onPress={onGoToRegister}
+            label="Back to Login"
+            onPress={onBackToLogin}
             variant="outline"
-            fullWidth
-          />
-          <Button
-            label="Back"
-            onPress={onBack}
-            variant="ghost"
             fullWidth
           />
         </View>
