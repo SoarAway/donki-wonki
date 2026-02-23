@@ -15,8 +15,9 @@ import { Banner } from './src/components/atoms/Banner';
 import { LoadingOverlay } from './src/components/molecules/LoadingOverlay';
 import { colors, spacing, radius } from './src/components/config';
 import { LoginScreen } from './src/screens/LoginScreen';
+import { RegistrationScreen } from './src/screens/RegistrationScreen';
 
-type AppScreen = 'home' | 'login';
+type AppScreen = 'home' | 'login' | 'register';
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
@@ -159,7 +160,12 @@ function App() {
           autoDismissDelay={5000}
         />
         {currentScreen === 'login' ? (
-          <LoginScreen onBack={() => setCurrentScreen('home')} />
+          <LoginScreen
+            onBack={() => setCurrentScreen('home')}
+            onGoToRegister={() => setCurrentScreen('register')}
+          />
+        ) : currentScreen === 'register' ? (
+          <RegistrationScreen onBackToLogin={() => setCurrentScreen('login')} />
         ) : (
           <View style={styles.content}>
             <Text variant="2xl" weight="bold" color="text.primary" align="center">
