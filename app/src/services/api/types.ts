@@ -35,63 +35,6 @@ export interface RegisterUserResponse {
   user: UserResponse;
 }
 
-// /api/v1/incidents types
-export interface IncidentDetails {
-  line: string | null;
-  station: string | null;
-  incident_type: 'delay' | 'breakdown' | 'overcrowding' | 'signal_fault' | 'maintenance' | 'other' | 'none';
-  severity: 'low' | 'medium' | 'high' | 'critical';
-  description: string | null;
-  estimated_duration_minutes: number | null;
-  confidence_score: number;
-}
-
-export interface IncidentExtractionRequest {
-  text: string;
-  source?: 'reddit' | 'twitter' | 'user_report';
-}
-
-export interface IncidentExtractionResponse {
-  is_incident: boolean;
-  incident: IncidentDetails | null;
-  raw_explanation: string | null;
-}
-
-export interface BatchIncidentExtractionRequest {
-  texts: IncidentExtractionRequest[];
-}
-
-export interface BatchIncidentExtractionResponse {
-  results: IncidentExtractionResponse[];
-  processed_count: number;
-  failed_count: number;
-}
-
-// /api/v1/alerts types
-export interface AlertRequest {
-  token: string;
-  title: string;
-  body: string;
-  data?: Record<string, string>;
-}
-
-export interface AlertResponse {
-  status: string;
-  message: string;
-  fcm_response: Record<string, any> | null;
-}
-
-export interface PredictRequest {
-  social_text: string;
-  source?: string;
-}
-
-export interface PredictResponse {
-  is_incident: boolean;
-  confidence: number;
-  details: Record<string, any> | null;
-}
-
 // Error response
 export interface ErrorResponse {
   error: string;
