@@ -1,32 +1,33 @@
 from fastapi import APIRouter, HTTPException
 
-from api.schemas.alert import AlertRequest, AlertResponse, PredictRequest, PredictResponse
+from api.schemas.base import ERROR_RESPONSES
+from api.schemas.user import SendTokenRequest, SendTokenResponse
 from services import alert_service
+from services.alert_service import send_alert_to_device
 
 router = APIRouter()
 
 # endpoint = api/v1/alerts/
 
-@router.post("/send", response_model=AlertResponse)
-def send_alert(alert_in: AlertRequest) -> AlertResponse:
-    response = alert_service.send_alert_to_device(
-        token=alert_in.token,
-        title=alert_in.title,
-        body=alert_in.body,
-        data=alert_in.data,
+
+@router.post("/send-token",
+    response_model=SendTokenResponse,
+    responses=ERROR_RESPONSES,
+)
+def send_token(payload: SendTokenRequest) -> SendTokenResponse:
+    notification_id = send_alert_to_device(
+        token=payload.token,
+        title="Donki-Wonki Campaign",
+        body="New disruption alert campaign is active.",
+        data={"type": "campaign", "source": "send-token"},
     )
 
-    if not response:
-        raise HTTPException(status_code=500, detail="Failed to send alert via FCM")
+    if not notification_id:
+        raise HTTPException(status_code=500, detail="Failed to send campaign notification")
 
-    return AlertResponse(
+    return SendTokenResponse(
         status="success",
-        message="Alert sent successfully",
-        fcm_response={"message_id": response},
+        message="Campaign notification sent to token",
+        token=payload.token,
+        notification_id=notification_id,
     )
-
-
-@router.post("/predict", response_model=PredictResponse)
-def predict_incident(payload: PredictRequest) -> PredictResponse:
-    result = alert_service.predict_incident(payload.social_text, payload.source)
-    return PredictResponse(**result)
