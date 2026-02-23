@@ -20,5 +20,8 @@
     "klang-valley"
   ],
   "author": "",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "@react-native-community/cli": "^20.1.1"
+  }
 }
