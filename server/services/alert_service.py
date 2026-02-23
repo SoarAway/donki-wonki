@@ -44,6 +44,8 @@ def send_alert_to_device(
     except Exception as exc:
         logger.exception("Error sending message to device: %s", exc)
         return None
+
+        
 def predict_incident(text: str, source: str) -> dict[str, Any]:
     keywords = ["delay", "fault", "stuck", "breakdown", "disruption"]
     is_incident = any(keyword in text.lower() for keyword in keywords)

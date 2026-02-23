@@ -8,7 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, Response
 from starlette.exceptions import HTTPException as StarletteHTTPException
 
-from api.schemas.error import ErrorResponse
+from api.schemas.base import ErrorResponse
 from api.v1.api import api_router
 from core.config import get_settings
 from core.firebase import get_firestore_client, initialize_firebase
