@@ -1,183 +1,131 @@
 # Donki-Wonki
 
-**Hyperlocal Predictive Rail Alerts for Klang Valley** | Hackathon MVP
+Predictive rail disruption alerts for Klang Valley commuters.
 
-> Empowering daily train commuters to reclaim control of their time by predicting and alerting them about rail network disruptions **before they happen**.
+Donki-Wonki helps people decide **before leaving home** whether their usual route is likely to be disrupted, delayed, or crowded.
 
----
+## Why this exists
 
-## 🚆 What is Donki-Wonki?
+Most transit apps are reactive: they tell you about problems after they happen and often after you are already on your way.
 
-Unlike reactive apps that tell you "the train is delayed" when you're already at the platform, **Donki-Wonki tells you BEFORE you leave home**:
+Donki-Wonki is built to be proactive:
+- detect incident signals early,
+- interpret impact on commuter routes,
+- notify affected users with clear actions.
 
-- 🔔 **"Leave 15 minutes early - KJ Line signal fault at Bangsar"**
-- 🔔 **"Take MRT instead of LRT today - Ampang Line overcrowded"**
-- 🔔 **"All clear on your route - normal commute time"**
+## What users get
 
-By monitoring social media (Reddit, Twitter) and using AI to extract incident details, we provide **proactive, personalized alerts** tailored to your specific route and schedule.
+- Early warning notifications for potential rail incidents
+- Route-aware alerts (not generic city-wide noise)
+- Quick visibility of app/backend health during startup
+- Foreground and background push notification handling on Android
 
----
+## How it works (high-level)
 
-## 🏗️ Architecture
+1. Incident signals are collected (MVP focus: Reddit).
+2. AI extraction converts posts/comments into structured incident details.
+3. Route impact logic checks which commuters are likely affected.
+4. Alerts are sent via Firebase Cloud Messaging (FCM).
+5. The React Native app receives and displays notifications.
 
-**Backend:** FastAPI (Python) - Scraping, AI processing, alert logic  
-**Services:** Firebase (Auth, Firestore, FCM) - User management, database, notifications  
-**Mobile:** React Native - Direct Firebase SDK integration
+## Current implementation snapshot
 
-```
+This repository is a monorepo with active app work and partially implemented backend runtime.
+
+- **Mobile app (`app/`)**: actively implemented.
+  - React Native 0.83 + TypeScript
+  - Firebase messaging integration (foreground + background)
+  - API client with server wake-up handling for cold starts
+  - UI component system (atoms/molecules + design tokens)
+  - Login/registration screens in progress
+
+- **Backend (`server/`)**: scaffolded in this current checkout.
+  - Package boundaries and dependency/env contracts are present
+  - Full target architecture is documented
+  - Dedicated backend branch (`server`) includes partial FastAPI runtime (`/`, `/health`, `/test-alert`) and Firebase alert sending utilities
+
+In short: the product direction is clear and app-side execution is active; backend runtime exists partially on the server branch and is still being expanded.
+
+## Architecture overview
+
+```text
 Mobile App (React Native)
-    ↓
-    ├─→ Firebase Auth (login/signup)
-    ├─→ Firestore (real-time incidents)
-    └─→ FCM (push notifications)
+  -> Firebase Auth / Firestore / FCM client integration
+  -> Calls backend health + token APIs
+  -> Displays banner + system notifications
 
-FastAPI Server (Python)
-    ├─ Background Scheduler (every 30 mins)
-    ├─ Reddit Scraper (PRAW)
-    ├─ Gemini AI (extract incidents)
-    └─ Alert Processor
+Backend (FastAPI target)
+  -> Ingestion (Reddit)
+  -> AI incident extraction
+  -> Route impact matching
+  -> Alert dispatch (FCM)
 ```
 
----
+## Repository structure
 
-## 📁 Project Structure
-
-```
+```text
 donki-wonki/
-├── app/             # 📱 React Native mobile app (Android)
-├── server/          # 🐍 FastAPI backend (Python)
-├── data/            # 📊 Static station data
-├── docs/            # 📚 Documentation
-└── README.md
+|- app/                      # React Native Android app
+|  |- App.tsx                # Root startup flow (health, wake-up, FCM)
+|  |- index.js               # AppRegistry + background FCM handler
+|  `- src/
+|     |- services/           # firebase + api client/endpoints/types
+|     |- components/         # atoms, molecules, design tokens
+|     |- screens/            # app screens (including auth)
+|     `- navigation/state/models/utils/
+|- server/                   # Python backend scaffold in this checkout
+|  |- requirements.txt
+|  |- .env.example
+|  |- config/models/services/jobs/utils/  # package boundaries
+|  `- README.md              # target backend architecture
+|- docs/                     # PRD, implementation guide, structure, run docs
+|- package.json              # npm workspace root
+`- AGENTS.md                 # engineering conventions for contributors/agents
 ```
 
----
+## Tech stack
 
-## 🗺️ Supported Rail Lines
+- **Mobile**: React Native 0.83, TypeScript, `@react-native-firebase/*`, Notifee
+- **Backend target**: FastAPI, Firebase Admin SDK, PRAW, Gemini API, APScheduler
+- **Infra**: Firebase (Auth, Firestore, FCM), Render-style cold-start aware client behavior
 
-All **8 major Klang Valley rail lines** (~100 stations):
+## Quick start
 
-- LRT Kelana Jaya Line (37 stations)
-- LRT Ampang/Sri Petaling Line (36 stations)
-- MRT Kajang Line (31 stations)
-- MRT Putrajaya Line (36 stations)
-- KL Monorail (11 stations)
-- KTM Komuter (Port Klang/Tanjung Malim lines)
-
----
-
-## 🚀 Quick Start
-
-### Prerequisites
-
-- **Python 3.9+** and pip
-- **Node.js 18+** and npm
-- **Android Studio** with Android SDK
-- **Firebase account**
-
-### Installation
+### Root workspace
 
 ```bash
-# Clone repository
-git clone https://github.com/soaraway/donki-wonki.git
-cd donki-wonki
-
-# Install all dependencies
 npm run install:all
+npm run app
+npm run server
 ```
 
-### Running the Backend
-
-```bash
-cd server
-
-# Create virtual environment
-python -m venv venv
-venv\Scripts\activate  # Windows
-# source venv/bin/activate  # Mac/Linux
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Configure environment
-copy .env.example .env
-# Edit .env with your API keys
-
-# Run server
-uvicorn main:app --reload
-```
-
-### Running the Mobile App
+### App (Android)
 
 ```bash
 cd app
-
-# Start Metro
 npm start
-
-# Run on Android (in another terminal)
-npx react-native run-android
+npm run android
 ```
 
----
+### Server
 
-## 🛠️ Tech Stack
+```bash
+cd server
+python -m venv venv
+venv\Scripts\activate
+pip install -r requirements.txt
+uvicorn main:app --reload
+```
 
-**Backend:**
-- FastAPI (Python web framework)
-- PRAW (Reddit API)
-- Google Gemini 1.5 Flash (AI)
-- Firebase Admin SDK (Firestore, FCM)
-- APScheduler (background jobs)
+## Roadmap direction
 
-**Mobile:**
-- React Native 0.73
-- Firebase SDK (Auth, Firestore, Messaging)
-- TypeScript
+- Expand backend runtime from scaffold to full ingestion -> extraction -> matching -> alert pipeline
+- Complete end-to-end route personalization and incident relevance ranking
+- Improve operator/maintainer observability for incident and alert quality
 
-**Services:**
-- Firebase Auth (user authentication)
-- Cloud Firestore (real-time database)
-- Firebase Cloud Messaging (push notifications)
+## Documentation
 
-**Cost:** $0/month (all free tiers)
-
----
-
-## 📚 Documentation
-
-- **[Implementation Guide (FastAPI)](./docs/IMPLEMENTATION_GUIDE_FASTAPI.md)** - Step-by-step implementation
-- **[Backend Comparison](./docs/backend_comparison.md)** - Firebase vs FastAPI analysis
-- **[PRD](./docs/PRD.md)** - Product requirements
-- **[Project Structure](./docs/PROJECT_STRUCTURE.md)** - Detailed architecture
-
----
-
-## 🎯 Key Features
-
-✅ All 8 rail lines supported (~100 stations)  
-✅ AI-powered incident extraction from social media  
-✅ Real-time updates via Firestore  
-✅ Time-window based alerts  
-✅ Cross-line route support  
-✅ Push notifications  
-✅ Zero cost (free tiers)
-
----
-
-## 📄 License
-
-MIT License - see [LICENSE](LICENSE) file
-
----
-
-## 🙏 Acknowledgments
-
-- MyRapid for public station data
-- Reddit & Twitter communities for real-time reports
-- Google Gemini for AI-powered extraction
-- Firebase for backend infrastructure
-
----
-
-**Built with ❤️ for Klang Valley commuters**
+- Product requirements: `docs/PRD.md`
+- Implementation details: `docs/IMPLEMENTATION_GUIDE.md`
+- Project map: `docs/PROJECT_STRUCTURE.md`
+- Android run guide: `docs/RUN_APP.md`
