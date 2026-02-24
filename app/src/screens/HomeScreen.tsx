@@ -13,6 +13,7 @@ interface HomeScreenProps {
   lastForegroundMessage: string;
   onGoToRoutes: () => void;
   onGoToCommunity: () => void;
+  onLogout: () => void;
 }
 
 export const HomeScreen: React.FC<HomeScreenProps> = ({
@@ -22,6 +23,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
   lastForegroundMessage,
   onGoToRoutes,
   onGoToCommunity,
+  onLogout,
 }) => {
   return (
     <BaseScreen style={styles.container}>
@@ -64,6 +66,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
           variant="outline"
           fullWidth
         />
+        <Button label="Logout" onPress={onLogout} variant="ghost" fullWidth />
       </View>
     </BaseScreen>
   );
