@@ -1,41 +1,212 @@
 import React from 'react';
-import {StatusBar, StyleSheet, Text, useColorScheme, View} from 'react-native';
-import {SafeAreaProvider, SafeAreaView} from 'react-native-safe-area-context';
+import { Alert, StatusBar, useColorScheme } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { NavigationContainer, type LinkingOptions } from '@react-navigation/native';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 import {
   getFcmToken,
   onForegroundFcmMessage,
   requestNotificationPermission,
 } from './src/services/firebase';
+import { checkHealth, sendToken } from './src/services/api/apiEndpoints';
+import { setErrorCallback, setLoadingCallback, wakeServer } from './src/services/api/apiClient';
+import { Banner } from './src/components/atoms/Banner';
+import { LoadingOverlay } from './src/components/molecules/LoadingOverlay';
+import LoginScreen from './src/screens/LoginScreen';
+import Register from './src/screens/Register';
+import { HomeScreen } from './src/screens/HomeScreen';
+import Community from './src/screens/Community';
+import RouteManagement from './src/screens/RouteManagement';
+import Reporting from './src/screens/Reporting';
+import Feedback from './src/screens/Feedback';
+import AddRoute from './src/screens/AddRoute';
+
+type AuthStackParamList = {
+  Login: undefined;
+  Register: undefined;
+};
+
+type MainTabParamList = {
+  Home: undefined;
+  RouteManagement: undefined;
+  Community: undefined;
+  Reporting: undefined;
+  Feedback: undefined;
+};
+
+type AppStackParamList = {
+  MainTabs: undefined;
+  AddRoute: undefined;
+};
+
+type RootParamList = {
+  Login: undefined;
+  Register: undefined;
+  MainTabs: undefined;
+  AddRoute: undefined;
+};
+
+const AuthStack = createNativeStackNavigator<AuthStackParamList>();
+const MainTabs = createBottomTabNavigator<MainTabParamList>();
+const AppStack = createNativeStackNavigator<AppStackParamList>();
+
+const linking: LinkingOptions<RootParamList> = {
+  prefixes: ['donkiwonki://', 'https://donkiwonki.app'],
+  config: {
+    screens: {
+      Login: 'login',
+      Register: 'register',
+      MainTabs: {
+        screens: {
+          Home: 'home',
+          RouteManagement: 'routes',
+          Community: 'community',
+          Reporting: 'report',
+          Feedback: 'feedback',
+        },
+      },
+      AddRoute: 'add-route',
+    },
+  },
+};
+
+interface MainTabsNavigatorProps {
+  apiStatus: string;
+  permissionStatus: string;
+  tokenPreview: string;
+  lastForegroundMessage: string;
+}
+
+const MainTabsNavigator: React.FC<MainTabsNavigatorProps> = ({
+  apiStatus,
+  permissionStatus,
+  tokenPreview,
+  lastForegroundMessage,
+}) => (
+  <MainTabs.Navigator
+    screenOptions={{
+      headerShown: false,
+      tabBarHideOnKeyboard: true,
+    }}
+  >
+    <MainTabs.Screen name="Home" options={{ title: 'Home' }}>
+      {({ navigation }) => (
+        <HomeScreen
+          apiStatus={apiStatus}
+          permissionStatus={permissionStatus}
+          tokenPreview={tokenPreview}
+          lastForegroundMessage={lastForegroundMessage}
+          onGoToRoutes={() => navigation.navigate('RouteManagement')}
+          onGoToCommunity={() => navigation.navigate('Community')}
+        />
+      )}
+    </MainTabs.Screen>
+    <MainTabs.Screen
+      name="RouteManagement"
+      component={RouteManagement}
+      options={{ title: 'Routes' }}
+    />
+    <MainTabs.Screen name="Community" component={Community} options={{ title: 'Community' }} />
+    <MainTabs.Screen name="Reporting" component={Reporting} options={{ title: 'Report' }} />
+    <MainTabs.Screen name="Feedback" component={Feedback} options={{ title: 'Feedback' }} />
+  </MainTabs.Navigator>
+);
+
+interface AppStackNavigatorProps extends MainTabsNavigatorProps {}
+
+const AppStackNavigator: React.FC<AppStackNavigatorProps> = props => (
+  <AppStack.Navigator screenOptions={{ headerShown: false }}>
+    <AppStack.Screen name="MainTabs">
+      {() => <MainTabsNavigator {...props} />}
+    </AppStack.Screen>
+    <AppStack.Screen name="AddRoute" component={AddRoute} />
+  </AppStack.Navigator>
+);
+
+interface AuthStackNavigatorProps {
+  onLoginSuccess: () => void;
+}
+
+const AuthStackNavigator: React.FC<AuthStackNavigatorProps> = ({ onLoginSuccess }) => (
+  <AuthStack.Navigator screenOptions={{ headerShown: false }}>
+    <AuthStack.Screen name="Login">
+      {({ navigation }) => (
+        <LoginScreen
+          onLoginSuccess={onLoginSuccess}
+          onGoToRegister={() => navigation.navigate('Register')}
+        />
+      )}
+    </AuthStack.Screen>
+    <AuthStack.Screen name="Register">
+      {({ navigation }) => (
+        <Register
+          onRegisterSuccess={onLoginSuccess}
+          onBackToLogin={() => navigation.navigate('Login')}
+        />
+      )}
+    </AuthStack.Screen>
+  </AuthStack.Navigator>
+);
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
   const [permissionStatus, setPermissionStatus] = React.useState('Checking...');
   const [tokenPreview, setTokenPreview] = React.useState('Pending...');
-  const [lastForegroundMessage, setLastForegroundMessage] = React.useState(
-    'No message yet.',
-  );
+  const [lastForegroundMessage, setLastForegroundMessage] = React.useState('No message yet.');
+  const [apiStatus, setApiStatus] = React.useState('Waking server...');
+  const [globalLoading, setGlobalLoading] = React.useState(false);
+  const [bannerVisible, setBannerVisible] = React.useState(false);
+  const [bannerTitle, setBannerTitle] = React.useState('');
+  const [bannerMessage, setBannerMessage] = React.useState('');
+  const [isAuthenticated, setIsAuthenticated] = React.useState(false);
+
+  React.useEffect(() => {
+    setLoadingCallback(setGlobalLoading);
+    setErrorCallback(message => {
+      Alert.alert('API Error', message);
+    });
+
+    return () => {
+      setLoadingCallback(null);
+      setErrorCallback(null);
+    };
+  }, []);
 
   React.useEffect(() => {
     let isMounted = true;
 
+    const initializeApp = async () => {
+      try {
+        setApiStatus('Waking server (may take up to 60s)...');
+        await wakeServer();
+        if (!isMounted) return;
+
+        setApiStatus('Server awake. Checking health...');
+        const healthResponse = await checkHealth();
+        if (isMounted) {
+          setApiStatus(`Connected: ${JSON.stringify(healthResponse)}`);
+        }
+      } catch (err) {
+        if (isMounted) {
+          setApiStatus(`Server wake failed: ${(err as Error).message}`);
+        }
+      }
+    };
+
     const setupFcm = async () => {
       const granted = await requestNotificationPermission();
-      if (!isMounted) {
-        return;
-      }
+      if (!isMounted) return;
 
       setPermissionStatus(granted ? 'Granted' : 'Denied');
-
       if (!granted) {
         setTokenPreview('Unavailable (permission denied)');
         return;
       }
 
       const token = await getFcmToken();
-      if (!isMounted) {
-        return;
-      }
+      if (!isMounted) return;
 
       if (!token) {
         setTokenPreview('Unavailable (failed to fetch token)');
@@ -43,15 +214,27 @@ function App() {
       }
 
       const preview = `${token.slice(0, 14)}...${token.slice(-8)}`;
+      try {
+        await sendToken(token);
+      } catch {
+        if (isMounted) {
+          setApiStatus('FCM token could not be sent to server.');
+        }
+      }
+
       setTokenPreview(preview);
     };
 
+    initializeApp();
     setupFcm();
 
     const unsubscribeForeground = onForegroundFcmMessage(payload => {
-      const title = payload.title ?? 'Untitled message';
-      const body = payload.body ?? 'No body';
+      const title = payload.title ?? 'Notification';
+      const body = payload.body ?? 'You have a new message';
       setLastForegroundMessage(`${title}: ${body}`);
+      setBannerTitle(title);
+      setBannerMessage(body);
+      setBannerVisible(true);
     });
 
     return () => {
@@ -63,47 +246,31 @@ function App() {
   return (
     <SafeAreaProvider>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <SafeAreaView style={styles.container} edges={['top', 'bottom']}>
-        <View style={styles.content}>
-          <Text style={styles.title}>Donki-Wonki App Base</Text>
-          <Text style={styles.subtitle}>FCM permission: {permissionStatus}</Text>
-          <Text style={styles.subtitle}>FCM token: {tokenPreview}</Text>
-          <Text style={styles.subtitle}>Last foreground message:</Text>
-          <Text style={styles.message}>{lastForegroundMessage}</Text>
-        </View>
-      </SafeAreaView>
+      <NavigationContainer linking={linking}>
+        {isAuthenticated ? (
+          <AppStackNavigator
+            apiStatus={apiStatus}
+            permissionStatus={permissionStatus}
+            tokenPreview={tokenPreview}
+            lastForegroundMessage={lastForegroundMessage}
+          />
+        ) : (
+          <AuthStackNavigator onLoginSuccess={() => setIsAuthenticated(true)} />
+        )}
+      </NavigationContainer>
+
+      <Banner
+        visible={bannerVisible}
+        title={bannerTitle}
+        message={bannerMessage}
+        variant="info"
+        onDismiss={() => setBannerVisible(false)}
+        autoDismiss={true}
+        autoDismissDelay={5000}
+      />
+      <LoadingOverlay visible={globalLoading} message="Loading..." />
     </SafeAreaProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#F5F0E8',
-  },
-  content: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: 24,
-    gap: 8,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: '700',
-    color: '#1F1C18',
-    textAlign: 'center',
-  },
-  subtitle: {
-    fontSize: 14,
-    color: '#61584D',
-    textAlign: 'center',
-  },
-  message: {
-    fontSize: 13,
-    color: '#3A352F',
-    textAlign: 'center',
-  },
-});
 
 export default App;
