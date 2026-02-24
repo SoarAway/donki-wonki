@@ -22,7 +22,7 @@ import RouteManagement from './src/screens/RouteManagement';
 import Reporting from './src/screens/Reporting';
 import Feedback from './src/screens/Feedback';
 import AddRoute from './src/screens/AddRoute';
-import { getUserId, saveUserId } from './src/services/authStorage';
+import { clearUserId, getUserId, saveUserId } from './src/services/authStorage';
 
 type AuthStackParamList = {
   Login: undefined;
@@ -54,7 +54,7 @@ const MainTabs = createBottomTabNavigator<MainTabParamList>();
 const AppStack = createNativeStackNavigator<AppStackParamList>();
 
 const linking: LinkingOptions<RootParamList> = {
-  prefixes: ['donkiwonki://', 'https://donkiwonki.app'],
+  prefixes: ['donkiwonki://', 'https://prod-on-the-way.onrender.com'],
   config: {
     screens: {
       Login: 'login',
@@ -78,6 +78,7 @@ interface MainTabsNavigatorProps {
   permissionStatus: string;
   tokenPreview: string;
   lastForegroundMessage: string;
+  onLogout: () => void;
 }
 
 const MainTabsNavigator: React.FC<MainTabsNavigatorProps> = ({
@@ -85,6 +86,7 @@ const MainTabsNavigator: React.FC<MainTabsNavigatorProps> = ({
   permissionStatus,
   tokenPreview,
   lastForegroundMessage,
+  onLogout,
 }) => (
   <MainTabs.Navigator
     screenOptions={{
@@ -101,6 +103,7 @@ const MainTabsNavigator: React.FC<MainTabsNavigatorProps> = ({
           lastForegroundMessage={lastForegroundMessage}
           onGoToRoutes={() => navigation.navigate('RouteManagement')}
           onGoToCommunity={() => navigation.navigate('Community')}
+          onLogout={onLogout}
         />
       )}
     </MainTabs.Screen>
@@ -274,6 +277,11 @@ function App() {
             permissionStatus={permissionStatus}
             tokenPreview={tokenPreview}
             lastForegroundMessage={lastForegroundMessage}
+            onLogout={async () => {
+              await clearUserId();
+              setUserId(null);
+              setIsAuthenticated(false);
+            }}
           />
         ) : (
           <AuthStackNavigator
