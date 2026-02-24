@@ -12,6 +12,9 @@
     "server": "cd server && npm run serve",
     "install:all": "npm install && cd app && npm install && cd ../server && npm install"
   },
+  "devDependencies": {
+    "@types/react": "^19.2.13"
+  },
   "keywords": [
     "rail",
     "transit",
