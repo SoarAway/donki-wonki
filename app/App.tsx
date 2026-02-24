@@ -22,6 +22,7 @@ import RouteManagement from './src/screens/RouteManagement';
 import Reporting from './src/screens/Reporting';
 import Feedback from './src/screens/Feedback';
 import AddRoute from './src/screens/AddRoute';
+import { getUserId, saveUserId } from './src/services/authStorage';
 
 type AuthStackParamList = {
   Login: undefined;
@@ -126,7 +127,7 @@ const AppStackNavigator: React.FC<AppStackNavigatorProps> = props => (
 );
 
 interface AuthStackNavigatorProps {
-  onLoginSuccess: () => void;
+  onLoginSuccess: (userId: string) => void;
 }
 
 const AuthStackNavigator: React.FC<AuthStackNavigatorProps> = ({ onLoginSuccess }) => (
@@ -161,6 +162,8 @@ function App() {
   const [bannerTitle, setBannerTitle] = React.useState('');
   const [bannerMessage, setBannerMessage] = React.useState('');
   const [isAuthenticated, setIsAuthenticated] = React.useState(false);
+  const [authReady, setAuthReady] = React.useState(false);
+  const [userId, setUserId] = React.useState<string | null>(null);
 
   React.useEffect(() => {
     setLoadingCallback(setGlobalLoading);
@@ -176,6 +179,23 @@ function App() {
 
   React.useEffect(() => {
     let isMounted = true;
+
+    const restoreAuthState = async () => {
+      try {
+        const storedUserId = await getUserId();
+        if (!isMounted) {
+          return;
+        }
+        if (storedUserId) {
+          setUserId(storedUserId);
+          setIsAuthenticated(true);
+        }
+      } finally {
+        if (isMounted) {
+          setAuthReady(true);
+        }
+      }
+    };
 
     const initializeApp = async () => {
       try {
@@ -225,6 +245,7 @@ function App() {
       setTokenPreview(preview);
     };
 
+    restoreAuthState();
     initializeApp();
     setupFcm();
 
@@ -247,7 +268,7 @@ function App() {
     <SafeAreaProvider>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
       <NavigationContainer linking={linking}>
-        {isAuthenticated ? (
+        {!authReady ? null : isAuthenticated ? (
           <AppStackNavigator
             apiStatus={apiStatus}
             permissionStatus={permissionStatus}
@@ -255,7 +276,13 @@ function App() {
             lastForegroundMessage={lastForegroundMessage}
           />
         ) : (
-          <AuthStackNavigator onLoginSuccess={() => setIsAuthenticated(true)} />
+          <AuthStackNavigator
+            onLoginSuccess={async nextUserId => {
+              await saveUserId(nextUserId);
+              setUserId(nextUserId);
+              setIsAuthenticated(true);
+            }}
+          />
         )}
       </NavigationContainer>
 
@@ -268,7 +295,10 @@ function App() {
         autoDismiss={true}
         autoDismissDelay={5000}
       />
-      <LoadingOverlay visible={globalLoading} message="Loading..." />
+      <LoadingOverlay
+        visible={globalLoading || !authReady}
+        message={!authReady ? 'Restoring session...' : `Loading${userId ? ` (${userId})` : ''}...`}
+      />
     </SafeAreaProvider>
   );
 }

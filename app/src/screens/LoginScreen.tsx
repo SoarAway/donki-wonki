@@ -7,7 +7,7 @@ import { BaseScreen } from '../models/BaseScreen';
 const logoImg = require('../assets/Logo.png');
 
 interface LoginScreenProps {
-    onLoginSuccess?: () => void;
+    onLoginSuccess?: (userId: string) => void;
     onGoToRegister?: () => void;
 }
 
@@ -31,7 +31,8 @@ export default function LoginScreen({ onLoginSuccess, onGoToRegister }: LoginScr
         console.log('Login attempt:', email);
         Alert.alert('Login Success', `Welcome back, ${email}!`);
         if (onLoginSuccess) {
-            onLoginSuccess();
+            const userId = email.trim().toLowerCase();
+            onLoginSuccess(userId);
         }
     };
 
