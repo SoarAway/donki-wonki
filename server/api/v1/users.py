@@ -41,7 +41,7 @@ def login_user_endpoint(payload: LoginUserRequest) -> LoginUserResponse:
 )
 def register_user_endpoint(new_user: RegisterUserRequest) -> RegisterUserResponse:
     try:
-        created_user = register_user(user_in)
+        created_user = register_user(new_user)
         notification_id = send_alert_to_device(
         token=new_user.device_token,
         title="Welcome to On The Way",
