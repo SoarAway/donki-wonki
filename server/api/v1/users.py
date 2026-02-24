@@ -42,11 +42,11 @@ def login_user_endpoint(payload: LoginUserRequest) -> LoginUserResponse:
 def register_user_endpoint(new_user: RegisterUserRequest) -> RegisterUserResponse:
     try:
         created_user = register_user(new_user)
-        notification_id = send_alert_to_device(
-        token=new_user.device_token,
-        title="Welcome to On The Way",
-        body= (f"User {new_user.username} is registered."),
-    )
+        send_alert_to_device(
+            token=new_user.device_token,
+            title="Welcome to On The Way",
+            body=f"User {new_user.username} is registered.",
+        )
 
     except ValueError as exc:
         raise HTTPException(status_code=409, detail=str(exc))
@@ -54,9 +54,7 @@ def register_user_endpoint(new_user: RegisterUserRequest) -> RegisterUserRespons
     return RegisterUserResponse(
         status="success",
         message="User registered successfully",
-        id=created_user.id,
-        email=created_user.email,
-        username=created_user.username,
+        user=created_user,
     )
 
 
