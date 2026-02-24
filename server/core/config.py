@@ -22,6 +22,9 @@ class Settings(BaseSettings):
     GEMINI_TIMEOUT_SECONDS: int = 30
     GEMINI_MIN_CONFIDENCE: float = 0.7
 
+    GOOGLE_MAPS_API_KEY: str | None = None
+    STATIONS_DATA_PATH: str = os.path.join(BASE_DIR, "data", "stations.json")
+
     model_config = SettingsConfigDict(
         env_file=".env",
         env_file_encoding="utf-8",
