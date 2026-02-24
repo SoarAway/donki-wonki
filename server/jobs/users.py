@@ -15,7 +15,7 @@ if project_root not in sys.path:
 from core.firebase import initialize_firebase, get_firestore_client
 from utils.hashing_utils import hash_password, verify_password
 
-def register_user(user_name, user_password, user_email, dob):
+def register_user(user_name, user_password, user_email, dob, device_token):
     """
     Registers a new user into Firestore after normalization.
     """
@@ -42,6 +42,7 @@ def register_user(user_name, user_password, user_email, dob):
         "date_of_birth": dob_dt,
         "created_at": datetime.datetime.now(datetime.timezone.utc),
         "last_modified": datetime.datetime.now(datetime.timezone.utc),
+        "device_token": device_token,
     }
 
     # Load
@@ -132,27 +133,3 @@ def login_user():
             return False
     
     return False
-
-def main():
-    print("--- User Management System ---")
-    print("1. Register New Account")
-    print("2. Lookup User by Email")
-    print("3. Login")
-    choice = input("Select an option (1/2/3): ")
-
-    if choice == "1":
-        user_name = input("Enter username: ")
-        user_password = input("Enter password: ")
-        user_email = input("Enter email: ")
-        dob = input("Enter date of birth (YYYY-MM-DD): ")
-        register_user(user_name, user_password, user_email, dob)
-    elif choice == "2":
-        email = input("Enter email to lookup: ")
-        get_user(email)
-    elif choice == "3":
-        login_user()
-    else:
-        print("Invalid choice.")
-
-if __name__ == "__main__":
-    main()
