@@ -1,5 +1,13 @@
 import datetime
 import time as time_module
+import os
+import sys
+
+# Add the parent directory ('jobs') to sys.path so we can import route and users
+jobs_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if jobs_dir not in sys.path:
+    sys.path.insert(0, jobs_dir)
+
 from route import save_or_update_route, get_all_routes_by_email, get_next_upcoming_route
 from users import register_user, check_email_exists
 
@@ -12,7 +20,7 @@ def test_route_functions():
     # 1. Ensure user exists
     if not check_email_exists(test_email):
         print("Registering test user...")
-        register_user("Test User Route", "password123", test_email, "1990s-01-01")
+        register_user("Test User Route", "password123", test_email, "1990-01-01", "test-token-route")
     
     # 2. Test save_or_update_route (Creation)
     print("\nTesting save_or_update_route (Create)...")
