@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, KeyboardAvoidingView, Platform, ScrollView, Alert, SafeAreaView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Alert } from 'react-native';
 import { Button } from '../components/atoms/Button';
 import { Input } from '../components/atoms/Input';
 import { Dropdown } from '../components/atoms/Dropdown';
 import { BackButton } from '../components/atoms/BackButton';
+import { BaseScreen } from '../models/BaseScreen';
 
 // Mock data as requested - user will update this manually later
 const TRANSIT_SYSTEMS = ["LRT", "MRT", "Monorail", "KTM"];
@@ -147,81 +148,75 @@ export default function Reporting({ navigation }: any) {
     };
 
     return (
-        <SafeAreaView style={styles.container}>
+        <BaseScreen style={styles.container} keyboardAvoiding>
             <View style={styles.header}>
                 <BackButton onPress={() => navigation && navigation.navigate('Community')} />
                 <Text style={styles.title}>Reporting</Text>
             </View>
-
-            <KeyboardAvoidingView
-                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-                style={{ flex: 1 }}
+            <ScrollView
+                contentContainerStyle={styles.scrollContainer}
+                keyboardShouldPersistTaps="always"
             >
-                <ScrollView
-                    contentContainerStyle={styles.scrollContainer}
-                    keyboardShouldPersistTaps="always"
-                >
-                    <View style={styles.formContainer}>
-                        <Dropdown
-                            label="Transit System:"
-                            placeholder="Choose a transit system"
-                            options={TRANSIT_SYSTEMS}
-                            selectedValue={transitSystem}
-                            onSelect={setTransitSystem}
-                        />
+                <View style={styles.formContainer}>
+                    <Dropdown
+                        label="Transit System:"
+                        placeholder="Choose a transit system"
+                        options={TRANSIT_SYSTEMS}
+                        selectedValue={transitSystem}
+                        onSelect={setTransitSystem}
+                    />
 
-                        <Dropdown
-                            label="Line:"
-                            placeholder="Choose a line"
-                            options={availableLines}
-                            selectedValue={line}
-                            onSelect={setLine}
-                        />
+                    <Dropdown
+                        label="Line:"
+                        placeholder="Choose a line"
+                        options={availableLines}
+                        selectedValue={line}
+                        onSelect={setLine}
+                    />
 
-                        <Dropdown
-                            label="Station:"
-                            placeholder="Choose a station"
-                            options={availableStations}
-                            selectedValue={station}
-                            onSelect={setStation}
-                        />
+                    <Dropdown
+                        label="Station:"
+                        placeholder="Choose a station"
+                        options={availableStations}
+                        selectedValue={station}
+                        onSelect={setStation}
+                    />
 
-                        <Dropdown
-                            label="Type of Incident:"
-                            placeholder="Choose type of incident"
-                            options={INCIDENT_TYPES}
-                            selectedValue={incidentType}
-                            onSelect={setIncidentType}
-                        />
+                    <Dropdown
+                        label="Type of Incident:"
+                        placeholder="Choose type of incident"
+                        options={INCIDENT_TYPES}
+                        selectedValue={incidentType}
+                        onSelect={setIncidentType}
+                    />
 
-                        {incidentType === 'Others' && (
-                            <Input
-                                label="Please specify incident:"
-                                placeholder="Type the incident here"
-                                value={otherIncident}
-                                onChangeText={setOtherIncident}
-                            />
-                        )}
-
+                    {incidentType === 'Others' && (
                         <Input
-                            label="Description:"
-                            placeholder="Add more details about the incident"
-                            value={description}
-                            onChangeText={setDescription}
-                            multiline
-                            numberOfLines={4}
-                            style={styles.textArea}
+                            label="Please specify incident:"
+                            placeholder="Type the incident here"
+                            value={otherIncident}
+                            onChangeText={setOtherIncident}
                         />
+                    )}
 
-                        <Button
-                            title="Submit"
-                            onPress={handleSubmit}
-                            style={styles.submitButton}
-                        />
-                    </View>
-                </ScrollView>
-            </KeyboardAvoidingView>
-        </SafeAreaView>
+                    <Input
+                        label="Description:"
+                        placeholder="Add more details about the incident"
+                        value={description}
+                        onChangeText={setDescription}
+                        multiline
+                        numberOfLines={4}
+                        style={styles.textArea}
+                    />
+
+                    <Button
+                        label="Submit"
+                        onPress={handleSubmit}
+                        style={styles.submitButton}
+                    />
+                </View>
+            </ScrollView>
+        </BaseScreen>
     );
 }
 
@@ -229,6 +224,9 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#F7F9FC',
+    },
+    flexContainer: {
+        flex: 1,
     },
     header: {
         flexDirection: 'row',

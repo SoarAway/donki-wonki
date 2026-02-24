@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView, Platform } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, ScrollView } from 'react-native';
 
 interface DropdownProps {
     label: string;
@@ -18,9 +18,9 @@ export const Dropdown: React.FC<DropdownProps> = ({ label, placeholder, options,
     };
 
     return (
-        <View style={[styles.container, isOpen && { zIndex: 5000 }]}>
+        <View style={[styles.container, isOpen && styles.openContainer]}>
             <Text style={styles.label}>{label}</Text>
-            <View style={{ zIndex: isOpen ? 6000 : 0 }}>
+            <View style={[styles.innerContainer, isOpen && styles.openInnerContainer]}>
                 <TouchableOpacity
                     style={styles.dropdownButton}
                     onPress={() => setIsOpen(!isOpen)}
@@ -70,6 +70,15 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         width: '100%',
         position: 'relative',
+    },
+    openContainer: {
+        zIndex: 5000,
+    },
+    innerContainer: {
+        zIndex: 0,
+    },
+    openInnerContainer: {
+        zIndex: 6000,
     },
     label: {
         fontSize: 16,

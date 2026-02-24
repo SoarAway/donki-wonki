@@ -2,6 +2,7 @@ import React from 'react';
 import { Animated, Easing, StyleSheet } from 'react-native';
 import { Text } from '../components/atoms/Text';
 import { colors, radius, spacing } from '../components/config';
+import { BaseScreen } from '../models/BaseScreen';
 
 export interface LandingPageProps {
   onFinish: () => void;
@@ -106,39 +107,41 @@ export const LandingPage: React.FC<LandingPageProps> = ({ onFinish }) => {
   ]);
 
   return (
-    <Animated.View style={[styles.container, { opacity: containerOpacity }]}>
-      <Animated.View
-        style={[
-          styles.orbPrimary,
-          { transform: [{ translateY: orbOffset }] },
-        ]}
-      />
-      <Animated.View
-        style={[
-          styles.orbSecondary,
-          { transform: [{ translateY: Animated.multiply(orbOffset, -1) }] },
-        ]}
-      />
-      <Animated.View style={[styles.logoShell, { transform: [{ scale: logoScale }] }]}>
-        <Text variant="2xl" weight="bold" color="neutral.0" align="center">
-          DW
-        </Text>
+    <BaseScreen>
+      <Animated.View style={[styles.container, { opacity: containerOpacity }]}>
+        <Animated.View
+          style={[
+            styles.orbPrimary,
+            { transform: [{ translateY: orbOffset }] },
+          ]}
+        />
+        <Animated.View
+          style={[
+            styles.orbSecondary,
+            { transform: [{ translateY: Animated.multiply(orbOffset, -1) }] },
+          ]}
+        />
+        <Animated.View style={[styles.logoShell, { transform: [{ scale: logoScale }] }]}>
+          <Text variant="2xl" weight="bold" color="neutral.0" align="center">
+            DW
+          </Text>
+        </Animated.View>
+        <Animated.View
+          style={[
+            styles.titleWrap,
+            { opacity: titleOpacity, transform: [{ translateY: titleTranslate }] },
+          ]}>
+          <Text variant="3xl" weight="bold" color="text.primary" align="center">
+            Donki-Wonki
+          </Text>
+        </Animated.View>
+        <Animated.View style={[styles.subtitleWrap, { opacity: subtitleOpacity }]}>
+          <Text variant="sm" color="text.secondary" align="center">
+            Smarter rail alerts before your commute begins
+          </Text>
+        </Animated.View>
       </Animated.View>
-      <Animated.View
-        style={[
-          styles.titleWrap,
-          { opacity: titleOpacity, transform: [{ translateY: titleTranslate }] },
-        ]}>
-        <Text variant="3xl" weight="bold" color="text.primary" align="center">
-          Donki-Wonki
-        </Text>
-      </Animated.View>
-      <Animated.View style={[styles.subtitleWrap, { opacity: subtitleOpacity }]}>
-        <Text variant="sm" color="text.secondary" align="center">
-          Smarter rail alerts before your commute begins
-        </Text>
-      </Animated.View>
-    </Animated.View>
+    </BaseScreen>
   );
 };
 

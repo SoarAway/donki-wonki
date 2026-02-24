@@ -1,11 +1,18 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, KeyboardAvoidingView, Platform, ScrollView, Alert, SafeAreaView, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Alert } from 'react-native';
 import { Button } from '../components/atoms/Button';
 import { Input } from '../components/atoms/Input';
 import { Dropdown } from '../components/atoms/Dropdown';
 import { BackButton } from '../components/atoms/BackButton';
+import { BaseScreen } from '../models/BaseScreen';
 
-export default function Feedback() {
+interface FeedbackProps {
+    navigation?: {
+        navigate: (screen: string) => void;
+    };
+}
+
+export default function Feedback({ navigation }: FeedbackProps) {
     const [problemType, setProblemType] = useState('Select option');
     const [otherProblem, setOtherProblem] = useState('');
     const [description, setDescription] = useState('');
@@ -42,60 +49,55 @@ export default function Feedback() {
     };
 
     return (
-        <SafeAreaView style={styles.container}>
+        <BaseScreen style={styles.container} keyboardAvoiding>
             <View style={styles.header}>
-                <BackButton onPress={() => console.log('Back pressed')} />
+                <BackButton onPress={() => navigation?.navigate('Home')} />
                 <Text style={styles.title}>Feedback Page</Text>
             </View>
 
 
-            <KeyboardAvoidingView
-                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-                style={{ flex: 1 }}
+            <ScrollView
+                contentContainerStyle={styles.scrollContainer}
+                keyboardShouldPersistTaps="handled"
             >
-                <ScrollView
-                    contentContainerStyle={styles.scrollContainer}
-                    keyboardShouldPersistTaps="handled"
-                >
-                    <View style={styles.formContainer}>
-                        <Dropdown
-                            label="Type of Problem:"
-                            placeholder="Select option"
-                            options={problemOptions}
-                            selectedValue={problemType}
-                            onSelect={setProblemType}
-                        />
+                <View style={styles.formContainer}>
+                    <Dropdown
+                        label="Type of Problem:"
+                        placeholder="Select option"
+                        options={problemOptions}
+                        selectedValue={problemType}
+                        onSelect={setProblemType}
+                    />
 
-                        {problemType === 'Others' && (
-                            <Input
-                                label="Others:"
-                                placeholder="Type your problem here"
-                                value={otherProblem}
-                                onChangeText={setOtherProblem}
-                            />
-                        )}
-
+                    {problemType === 'Others' && (
                         <Input
-                            label="Description:"
-                            placeholder="Description"
-                            value={description}
-                            onChangeText={setDescription}
-                            multiline
-                            numberOfLines={4}
-                            style={styles.textArea}
+                            label="Others:"
+                            placeholder="Type your problem here"
+                            value={otherProblem}
+                            onChangeText={setOtherProblem}
                         />
-                    </View>
-                </ScrollView>
-            </KeyboardAvoidingView>
+                    )}
+
+                    <Input
+                        label="Description:"
+                        placeholder="Description"
+                        value={description}
+                        onChangeText={setDescription}
+                        multiline
+                        numberOfLines={4}
+                        style={styles.textArea}
+                    />
+                </View>
+            </ScrollView>
 
             <View style={styles.bottomContainer}>
                 <Button
-                    title="Submit"
+                    label="Submit"
                     onPress={handleSubmit}
                     style={styles.submitButton}
                 />
             </View>
-        </SafeAreaView>
+        </BaseScreen>
     );
 }
 
@@ -106,6 +108,9 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#F7F9FC',
+    },
+    flexContainer: {
+        flex: 1,
     },
     header: {
         flexDirection: 'row',

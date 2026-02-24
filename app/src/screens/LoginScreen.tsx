@@ -1,13 +1,27 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Alert, KeyboardAvoidingView, Platform, Image, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Alert, Image, TouchableOpacity } from 'react-native';
 import { Button } from '../components/atoms/Button';
 import { Input } from '../components/atoms/Input';
+import { BaseScreen } from '../models/BaseScreen';
 
 const logoImg = require('../assets/Logo.png');
 
-export default function LoginScreen() {
+interface LoginScreenProps {
+    onLoginSuccess?: () => void;
+    onGoToRegister?: () => void;
+}
+
+export default function LoginScreen({ onLoginSuccess, onGoToRegister }: LoginScreenProps) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+
+    const handleRegisterPress = () => {
+        if (onGoToRegister) {
+            onGoToRegister();
+            return;
+        }
+        console.log('Navigate to Register');
+    };
 
     const handleLogin = () => {
         if (!email || !password) {
@@ -16,19 +30,14 @@ export default function LoginScreen() {
         }
         console.log('Login attempt:', email);
         Alert.alert('Login Success', `Welcome back, ${email}!`);
-    };
-
-    const handleRegisterPress = () => {
-        console.log('Navigate to Register');
-        // Navigation logic will go here once set up
+        if (onLoginSuccess) {
+            onLoginSuccess();
+        }
     };
 
     return (
-        <View style={styles.container}>
-            <KeyboardAvoidingView
-                behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-                style={styles.keyboardView}
-            >
+        <BaseScreen style={styles.container} keyboardAvoiding keyboardBehavior="padding">
+            <View style={styles.keyboardView}>
                 <Image source={logoImg} style={styles.logo} />
                 <View style={styles.box}>
                     <Text style={styles.title}>Login</Text>
@@ -51,7 +60,7 @@ export default function LoginScreen() {
                     />
 
                     <Button
-                        title="Login"
+                        label="Login"
                         onPress={handleLogin}
                         style={styles.loginButton}
                     />
@@ -63,8 +72,8 @@ export default function LoginScreen() {
                         </TouchableOpacity>
                     </View>
                 </View>
-            </KeyboardAvoidingView>
-        </View>
+            </View>
+        </BaseScreen>
     );
 }
 

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image } from 'react-native';
 import { Button } from '../components/atoms/Button';
+import { BaseScreen } from '../models/BaseScreen';
 
 interface Post {
     id: string;
@@ -75,7 +76,7 @@ export default function Community({ navigation }: any) {
     };
 
     return (
-        <SafeAreaView style={styles.container}>
+        <BaseScreen style={styles.container}>
             <View style={styles.header}>
                 <Text style={styles.title}>Community</Text>
             </View>
@@ -112,12 +113,12 @@ export default function Community({ navigation }: any) {
 
             <View style={styles.bottomContainer}>
                 <Button
-                    title="Report"
+                    label="Report"
                     onPress={() => navigation.navigate('Reporting')}
                     style={styles.reportButton}
                 />
             </View>
-        </SafeAreaView>
+        </BaseScreen>
     );
 }
 

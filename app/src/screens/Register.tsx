@@ -1,44 +1,96 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Alert, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Alert, ScrollView } from 'react-native';
 import { Button } from '../components/atoms/Button';
 import { Input } from '../components/atoms/Input';
-import { Checkbox } from '../components/atoms/Checkbox';
+import { registerUser } from '../services/api/apiEndpoints';
+import {
+    firstValidationError,
+    hasValidationErrors,
+    matchValue,
+    minLength,
+    requireValue,
+    validateEmail,
+} from '../utils/authValidation';
+import { BaseScreen } from '../models/BaseScreen';
 
-export default function Register() {
-    const [name, setName] = useState('');
+interface RegisterProps {
+    onRegisterSuccess?: () => void;
+    onBackToLogin?: () => void;
+}
+
+export default function Register({ onRegisterSuccess, onBackToLogin }: RegisterProps) {
+    const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [isAuthorized, setIsAuthorized] = useState(false);
+    const [submitting, setSubmitting] = useState(false);
 
-    const handleRegister = () => {
-        if (!name || !email || !password || !confirmPassword) {
-            Alert.alert('Error', 'Please fill in all fields');
+    const [emailError, setEmailError] = useState('');
+    const [usernameError, setUsernameError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
+    const [confirmPasswordError, setConfirmPasswordError] = useState('');
+
+    const handleRegister = async () => {
+        const errors = {
+            email: validateEmail(email, 'Enter a valid email address.'),
+            username: requireValue(username, 'Username is required.'),
+            password: firstValidationError(
+                minLength(password, 8, 'Password must be at least 8 characters.'),
+            ),
+            confirmPassword: matchValue(
+                confirmPassword,
+                password,
+                'Passwords do not match.',
+            ),
+        };
+
+        setEmailError(errors.email);
+        setUsernameError(errors.username);
+        setPasswordError(errors.password);
+        setConfirmPasswordError(errors.confirmPassword);
+
+        if (hasValidationErrors(errors)) {
             return;
         }
-        if (password !== confirmPassword) {
-            Alert.alert('Error', 'Passwords do not match');
-            return;
+
+        setSubmitting(true);
+        try {
+            const response = await registerUser({
+                email: email.trim(),
+                username: username.trim(),
+                password,
+            });
+
+            Alert.alert('Registration Success', response.message);
+            if (onRegisterSuccess) {
+                onRegisterSuccess();
+                return;
+            }
+            if (onBackToLogin) {
+                onBackToLogin();
+            }
+        } catch (error) {
+            const message = error instanceof Error ? error.message : 'Unable to register now.';
+            Alert.alert('Registration Failed', message);
+        } finally {
+            setSubmitting(false);
         }
-        console.log('Register attempt:', email);
-        Alert.alert('Register Success', `Welcome, ${name}!`);
     };
 
     return (
-        <KeyboardAvoidingView
-            behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-            style={styles.container}
-        >
+        <BaseScreen style={styles.container} keyboardAvoiding keyboardBehavior="padding">
             <ScrollView contentContainerStyle={styles.scrollContainer}>
                 <View style={styles.card}>
                     <Text style={styles.title}>Register</Text>
 
                     <Input
-                        label="Name"
-                        placeholder="Enter your name"
-                        value={name}
-                        onChangeText={setName}
-                        autoCapitalize="words"
+                        label="Username"
+                        placeholder="Enter your username"
+                        value={username}
+                        onChangeText={setUsername}
+                        autoCapitalize="none"
+                        autoCorrect={false}
+                        error={usernameError}
                     />
 
                     <Input
@@ -48,6 +100,8 @@ export default function Register() {
                         onChangeText={setEmail}
                         keyboardType="email-address"
                         autoCapitalize="none"
+                        autoCorrect={false}
+                        error={emailError}
                     />
 
                     <Input
@@ -56,6 +110,8 @@ export default function Register() {
                         value={password}
                         onChangeText={setPassword}
                         secureTextEntry
+                        autoCapitalize="none"
+                        error={passwordError}
                     />
 
                     <Input
@@ -64,24 +120,26 @@ export default function Register() {
                         value={confirmPassword}
                         onChangeText={setConfirmPassword}
                         secureTextEntry
+                        autoCapitalize="none"
+                        error={confirmPasswordError}
                     />
 
-                    <View style={styles.checkboxWrapper}>
-                        <Checkbox
-                            label="Authorize to connect to google calendar"
-                            checked={isAuthorized}
-                            onToggle={() => setIsAuthorized(!isAuthorized)}
-                        />
-                    </View>
+                    <Button
+                        label="Register"
+                        onPress={handleRegister}
+                        loading={submitting}
+                        style={styles.registerButton}
+                    />
 
                     <Button
-                        title="Next"
-                        onPress={handleRegister}
-                        style={styles.registerButton}
+                        label="Back to Login"
+                        onPress={() => onBackToLogin && onBackToLogin()}
+                        variant="outline"
+                        style={styles.backButton}
                     />
                 </View>
             </ScrollView>
-        </KeyboardAvoidingView>
+        </BaseScreen>
     );
 }
 
@@ -118,10 +176,7 @@ const styles = StyleSheet.create({
     registerButton: {
         marginTop: 20,
     },
-    checkboxWrapper: {
-        marginTop: 5,
-        transform: [{ scale: 0.85 }],
-        alignSelf: 'flex-start',
-        marginLeft: -20, // To compensate for left margin after scaling
+    backButton: {
+        marginTop: 10,
     },
 });

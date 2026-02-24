@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { Button } from '../components/atoms/Button';
+import { BaseScreen } from '../models/BaseScreen';
 
 interface Route {
     id: string;
@@ -29,7 +30,7 @@ export default function RouteManagement({ navigation }: any) {
     ]);
 
     return (
-        <SafeAreaView style={styles.container}>
+        <BaseScreen style={styles.container}>
             <View style={styles.header}>
                 <Text style={styles.title}>Route Management</Text>
             </View>
@@ -62,12 +63,12 @@ export default function RouteManagement({ navigation }: any) {
 
             <View style={styles.bottomContainer}>
                 <Button
-                    title="Add Route"
+                    label="Add Route"
                     onPress={() => navigation.navigate('AddRoute')}
                     style={styles.addRouteButton}
                 />
             </View>
-        </SafeAreaView>
+        </BaseScreen>
     );
 }
 

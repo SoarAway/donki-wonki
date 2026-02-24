@@ -7,12 +7,12 @@ import {
     TouchableOpacity,
     Image,
     TextInput,
-    SafeAreaView,
 } from 'react-native';
 import { Input } from '../components/atoms/Input';
 import { Button } from '../components/atoms/Button';
 import { Checkbox } from '../components/atoms/Checkbox';
-import { AutocompleteInput } from '../components/atoms/AutoCompleteInput.tsx';
+import { AutocompleteInput } from '../components/atoms/AutoCompleteInput';
+import { BaseScreen } from '../models/BaseScreen';
 
 const closeIcon = require('../assets/close.png');
 
@@ -79,7 +79,7 @@ export default function AddRoute() {
     };
 
     return (
-        <SafeAreaView style={styles.safeArea}>
+        <BaseScreen style={styles.safeArea}>
             <ScrollView
                 style={styles.scrollView}
                 contentContainerStyle={styles.container}
@@ -98,7 +98,7 @@ export default function AddRoute() {
                         value={startPoint}
                         onChangeText={setStartPoint}
                         onSelect={setStartPoint}
-                        containerStyle={{ zIndex: 2000 }}
+                        containerStyle={styles.startAutocomplete}
                     />
                     <AutocompleteInput
                         label="Destination Point:"
@@ -106,7 +106,7 @@ export default function AddRoute() {
                         value={destPoint}
                         onChangeText={setDestPoint}
                         onSelect={setDestPoint}
-                        containerStyle={{ zIndex: 1000 }}
+                        containerStyle={styles.destAutocomplete}
                     />
 
                     <Text style={styles.sectionLabel}>Day:</Text>
@@ -152,12 +152,12 @@ export default function AddRoute() {
             </ScrollView>
             <View style={styles.bottomContainer}>
                 <Button
-                    title="Next"
+                    label="Next"
                     onPress={() => console.log('Form Submitted', { label, startPoint, destPoint, selectedDays, timeSlots })}
                     style={styles.nextButton}
                 />
             </View>
-        </SafeAreaView>
+        </BaseScreen>
     );
 }
 
@@ -176,6 +176,12 @@ const styles = StyleSheet.create({
     },
     formSection: {
         flex: 1,
+    },
+    startAutocomplete: {
+        zIndex: 2000,
+    },
+    destAutocomplete: {
+        zIndex: 1000,
     },
     bottomContainer: {
         position: 'absolute',
