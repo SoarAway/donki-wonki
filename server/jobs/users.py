@@ -69,7 +69,7 @@ def check_email_exists(email):
         return True
     return False
 
-def get_user_by_email(email):
+def get_user(email):
     """
     Retrieves user info from Firestore by email.
     """
@@ -148,7 +148,7 @@ def main():
         register_user(user_name, user_password, user_email, dob)
     elif choice == "2":
         email = input("Enter email to lookup: ")
-        get_user_by_email(email)
+        get_user(email)
     elif choice == "3":
         login_user()
     else:
