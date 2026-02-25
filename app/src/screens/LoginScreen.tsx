@@ -3,6 +3,13 @@ import { View, Text, StyleSheet, Alert, Image, TouchableOpacity } from 'react-na
 import { Button } from '../components/atoms/Button';
 import { Input } from '../components/atoms/Input';
 import { BaseScreen } from '../models/BaseScreen';
+import { loginUser } from '../services/api/apiEndpoints';
+import {
+    firstValidationError,
+    hasValidationErrors,
+    minLength,
+    validateEmail,
+} from '../utils/authValidation';
 
 const logoImg = require('../assets/Logo.png');
 
@@ -14,6 +21,10 @@ interface LoginScreenProps {
 export default function LoginScreen({ onLoginSuccess, onGoToRegister }: LoginScreenProps) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [submitting, setSubmitting] = useState(false);
+
+    const [emailError, setEmailError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
 
     const handleRegisterPress = () => {
         if (onGoToRegister) {
@@ -23,16 +34,38 @@ export default function LoginScreen({ onLoginSuccess, onGoToRegister }: LoginScr
         console.log('Navigate to Register');
     };
 
-    const handleLogin = () => {
-        if (!email || !password) {
-            Alert.alert('Error', 'Please fill in all fields');
+    const handleLogin = async () => {
+        const errors = {
+            email: validateEmail(email, 'Enter a valid email address.'),
+            password: firstValidationError(
+                minLength(password, 8, 'Password must be at least 8 characters.'),
+            ),
+        };
+
+        setEmailError(errors.email);
+        setPasswordError(errors.password);
+
+        if (hasValidationErrors(errors)) {
             return;
         }
-        console.log('Login attempt:', email);
-        Alert.alert('Login Success', `Welcome back, ${email}!`);
-        if (onLoginSuccess) {
-            const userId = email.trim().toLowerCase();
-            onLoginSuccess(userId);
+
+        setSubmitting(true);
+        try {
+            // call loginUser api with user email and password
+            const response = await loginUser({
+                email: email.trim(),
+                password,
+            });
+
+            Alert.alert('Login Success', response.message);
+            if (onLoginSuccess) {
+                onLoginSuccess(response.email.trim().toLowerCase());
+            }
+        } catch (error) {
+            const message = error instanceof Error ? error.message : 'Unable to login now.';
+            Alert.alert('Login Failed', message);
+        } finally {
+            setSubmitting(false);
         }
     };
 
@@ -50,6 +83,8 @@ export default function LoginScreen({ onLoginSuccess, onGoToRegister }: LoginScr
                         onChangeText={setEmail}
                         keyboardType="email-address"
                         autoCapitalize="none"
+                        autoCorrect={false}
+                        error={emailError}
                     />
 
                     <Input
@@ -58,11 +93,14 @@ export default function LoginScreen({ onLoginSuccess, onGoToRegister }: LoginScr
                         value={password}
                         onChangeText={setPassword}
                         secureTextEntry
+                        autoCapitalize="none"
+                        error={passwordError}
                     />
 
                     <Button
                         label="Login"
                         onPress={handleLogin}
+                        loading={submitting}
                         style={styles.loginButton}
                     />
 
