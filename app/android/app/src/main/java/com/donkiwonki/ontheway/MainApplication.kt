@@ -1,4 +1,4 @@
-package com.donkiwonkiapp
+package com.donkiwonki.ontheway
 
 import android.app.Application
 import com.facebook.react.PackageList
