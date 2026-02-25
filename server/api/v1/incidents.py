@@ -5,6 +5,7 @@ Exposes Gemini-powered incident extraction to HTTP clients.
 
 from fastapi import APIRouter, HTTPException
 
+from core.config import get_settings
 from api.schemas.gemini import (
     IncidentExtractionRequest,
     IncidentExtractionResponse,
@@ -15,6 +16,7 @@ from services.gemini_service import get_gemini_service
 from services.incident_service import get_incident_service
 
 router = APIRouter()
+settings = get_settings()
 
 
 @router.post("/extract", response_model=IncidentExtractionResponse)
@@ -43,9 +45,15 @@ async def extract_incident(request: IncidentExtractionRequest) -> IncidentExtrac
         }
     """
     try:
+        if not settings.GEMINI_API_KEY:
+            raise HTTPException(status_code=503, detail="Gemini API is not configured")
         service = get_gemini_service()
         result = await service.extract_incident(request)
         return result
+    except HTTPException:
+        raise
+    except NotImplementedError as exc:
+        raise HTTPException(status_code=501, detail=str(exc))
     except Exception as exc:
         raise HTTPException(
             status_code=500,
@@ -62,9 +70,18 @@ async def extract_incidents_batch(
     Limited to 10 texts per request for rate limiting.
     """
     try:
+        # check for gemini api key available in settings
+        if not settings.GEMINI_API_KEY:
+            raise HTTPException(status_code=503, detail="Gemini API is not configured")
+
         service = get_gemini_service()
         result = await service.extract_incidents_batch(request)
         return result
+        
+    except HTTPException:
+        raise
+    except NotImplementedError as exc:
+        raise HTTPException(status_code=501, detail=str(exc))
     except Exception as exc:
         raise HTTPException(
             status_code=500,
@@ -95,6 +112,8 @@ async def process_social_media_post(
         Extraction result with processing status
     """
     try:
+        if not settings.GEMINI_API_KEY:
+            raise HTTPException(status_code=503, detail="Gemini API is not configured")
         service = get_incident_service()
         result = await service.process_social_media_post(
             text=text,
@@ -102,6 +121,10 @@ async def process_social_media_post(
             # TODO: Add metadata parameter if needed
         )
         return result
+    except HTTPException:
+        raise
+    except NotImplementedError as exc:
+        raise HTTPException(status_code=501, detail=str(exc))
     except Exception as exc:
         raise HTTPException(
             status_code=500,
