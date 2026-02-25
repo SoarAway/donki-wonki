@@ -23,7 +23,7 @@ class RegisterUserRequest(BaseModel):
     username: str
     password: str
     date_of_birth: str | None = None
-    device_token: int | None = None
+    device_token: str | None = None
 
 
 class RegisterUserResponse(BaseResponse):
