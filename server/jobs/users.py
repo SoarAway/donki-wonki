@@ -100,6 +100,23 @@ def get_user(email):
     
     return user_data
 
+def get_user_id_by_email(email: str) -> str:
+    """
+    Looks up a user document by email and returns the document ID.
+    """
+    initialize_firebase()
+    db = get_firestore_client()
+    if db is None:
+        return None
+
+    users_ref = db.collection("users")
+    query = users_ref.where("email", "==", email.lower()).limit(1)
+    results = query.stream()
+
+    for doc in results:
+        return doc.id
+    return None
+
 def login_user():
     """
     Prompts for email and password, then validates credentials.
