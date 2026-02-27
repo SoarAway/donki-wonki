@@ -5,11 +5,13 @@ import { Button } from '../components/atoms/Button';
 import Logo from '../assets/Logo.svg';
 import { NavBar } from '../components/molecules/NavBar';
 import { BaseScreen } from '../models/BaseScreen';
+import { getNextUpcomingRoute } from '../services/api/apiEndpoints';
 import { colorTokens, radius, spacing, typography } from '../components/config';
 
 const LOGO_SIZE = spacing[20] + spacing[2];
 
 interface HomeScreenProps {
+  userEmail: string;
   apiStatus: string;
   permissionStatus: string;
   tokenPreview: string;
@@ -20,6 +22,7 @@ interface HomeScreenProps {
 }
 
 export const HomeScreen: React.FC<HomeScreenProps> = ({
+  userEmail,
   apiStatus,
   permissionStatus,
   tokenPreview,
@@ -28,6 +31,12 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
   onGoToCommunity,
   onLogout,
 }) => {
+  const [upcomingRoute, setUpcomingRoute] = React.useState<{
+    name: string;
+    path: string;
+    schedule: string;
+  } | null>(null);
+
   const disruptions = [
     {
       id: '1',
@@ -37,20 +46,64 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
     },
   ];
 
-  const upcomingRoutes = [
-    {
-      id: '1',
-      name: 'Work',
-      path: 'LRT Bandar Puteri - LRT SS15',
-      schedule: 'Monday 7:00a.m.',
-    },
-    {
-      id: '2',
-      name: 'Home',
-      path: 'LRT SS15 - LRT Bandar Puteri',
-      schedule: 'Monday 5:00p.m.',
-    },
-  ];
+  React.useEffect(() => {
+    let active = true;
+
+    const pickString = (source: Record<string, unknown>, keys: string[]): string | null => {
+      for (const key of keys) {
+        const value = source[key];
+        if (typeof value === 'string' && value.trim().length > 0) {
+          return value.trim();
+        }
+      }
+      return null;
+    };
+
+    const loadUpcomingRoute = async () => {
+      if (!userEmail) {
+        if (active) {
+          setUpcomingRoute(null);
+        }
+        return;
+      }
+
+      try {
+        const response = await getNextUpcomingRoute(userEmail);
+        const routeData = response.route;
+
+        const routeName =
+          pickString(routeData, ['label', 'name', 'route_name', 'route_desc']) ?? 'Upcoming Route';
+        const departingStation =
+          pickString(routeData, ['departing_station', 'from_station', 'source_station']) ??
+          pickString(routeData, ['departing_location', 'from', 'source']) ??
+          'Departure';
+        const destinationStation =
+          pickString(routeData, ['destination_station', 'to_station', 'target_station']) ??
+          pickString(routeData, ['destination_location', 'to', 'target']) ??
+          'Destination';
+        const day = pickString(routeData, ['day_of_week', 'day']) ?? 'Scheduled';
+        const time = pickString(routeData, ['time', 'departure_time']) ?? 'N/A';
+
+        if (active) {
+          setUpcomingRoute({
+            name: routeName,
+            path: `${departingStation} - ${destinationStation}`,
+            schedule: `${day} ${time}`,
+          });
+        }
+      } catch {
+        if (active) {
+          setUpcomingRoute(null);
+        }
+      }
+    };
+
+    loadUpcomingRoute();
+
+    return () => {
+      active = false;
+    };
+  }, [userEmail]);
 
   return (
     <BaseScreen style={styles.container}>
@@ -79,19 +132,19 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
 
         <Text style={styles.sectionTitle}>Upcoming Route</Text>
 
-        {upcomingRoutes.map(route => (
-          <View key={route.id} style={styles.routeCard}>
-            <Text style={styles.routeName}>{route.name}</Text>
-            <Text style={styles.routePath}>{route.path}</Text>
-            <Text style={styles.routeSchedule}>{route.schedule}</Text>
+        {upcomingRoute ? (
+          <View style={styles.routeCard}>
+            <Text style={styles.routeName}>{upcomingRoute.name}</Text>
+            <Text style={styles.routePath}>{upcomingRoute.path}</Text>
+            <Text style={styles.routeSchedule}>{upcomingRoute.schedule}</Text>
           </View>
-        ))}
+        ) : (
+          <View style={styles.routeCard}>
+            <Text style={styles.routeName}>No upcoming route</Text>
+            <Text style={styles.routePath}>Add a route to get schedule-based alerts.</Text>
+          </View>
+        )}
 
-        <View style={styles.actions}>
-          <Button title="Manage Routes" onPress={onGoToRoutes} />
-          <Button title="Open Community" onPress={onGoToCommunity} />
-          <Button title="Logout" onPress={onLogout} />
-        </View>
 
       </ScrollView>
 

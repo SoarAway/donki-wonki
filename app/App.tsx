@@ -77,6 +77,7 @@ const linking: LinkingOptions<RootParamList> = {
 };
 
 interface MainTabsNavigatorProps {
+  userEmail: string;
   apiStatus: string;
   permissionStatus: string;
   tokenPreview: string;
@@ -85,6 +86,7 @@ interface MainTabsNavigatorProps {
 }
 
 const MainTabsNavigator: React.FC<MainTabsNavigatorProps> = ({
+  userEmail,
   apiStatus,
   permissionStatus,
   tokenPreview,
@@ -101,6 +103,7 @@ const MainTabsNavigator: React.FC<MainTabsNavigatorProps> = ({
     <MainTabs.Screen name="Home" options={{ title: 'Home' }}>
       {({ navigation }) => (
         <HomeScreen
+          userEmail={userEmail}
           apiStatus={apiStatus}
           permissionStatus={permissionStatus}
           tokenPreview={tokenPreview}
@@ -277,6 +280,7 @@ function App() {
       <NavigationContainer linking={linking}>
         {!authReady ? null : isAuthenticated ? (
           <AppStackNavigator
+            userEmail={userId ?? ''}
             apiStatus={apiStatus}
             permissionStatus={permissionStatus}
             tokenPreview={tokenPreview}
