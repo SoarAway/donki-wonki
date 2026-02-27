@@ -1,4 +1,4 @@
-from pydantic import BaseModel, Field, model_validator
+from pydantic import BaseModel, Field
 
 from api.schemas.base import BaseResponse
 
@@ -15,18 +15,8 @@ class AutocompleteResponse(BaseResponse):
 
 
 class NearestStationRequest(BaseModel):
-    place_id: str | None = None
-    latitude: float | None = None
-    longitude: float | None = None
-
-    @model_validator(mode="after")
-    def validate_location_input(self) -> "NearestStationRequest":
-        # Require one of: Google place_id or explicit latitude/longitude.
-        has_place_id = bool(self.place_id)
-        has_coordinates = self.latitude is not None and self.longitude is not None
-        if not has_place_id and not has_coordinates:
-            raise ValueError("Provide either place_id or latitude and longitude")
-        return self
+    departure_place_id: str
+    destination_place_id: str
 
 
 class UserLocation(BaseModel):
@@ -35,7 +25,11 @@ class UserLocation(BaseModel):
 
 
 class NearestStationResponse(BaseResponse):
-    nearest_station: str
-    station_line: str | None = None
-    distance_km: float = Field(..., ge=0)
-    user_location: UserLocation
+    departure_nearest_station: str
+    destination_nearest_station: str
+    departure_station_line: str | None = None
+    destination_station_line: str | None = None
+    departure_distance_km: float = Field(..., ge=0)
+    destination_distance_km: float = Field(..., ge=0)
+    departure_user_location: UserLocation
+    destination_user_location: UserLocation

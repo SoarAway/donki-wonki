@@ -99,6 +99,9 @@ def create_route(
 
     time_from = time.strftime("%H:%M")
     time_to = calcTimeTo(time_from, departing_station, destination_station)
+    days = [day.strip() for day in day_of_week.split(",") if day.strip()]
+    if not days:
+        return None
 
     route_data = {
         "departingLocation": departing_location,
@@ -113,12 +116,12 @@ def create_route(
     route_ref.set(route_data)
 
     schedules_ref = route_ref.collection("schedules")
-    existing_schedules = (
-        schedules_ref.where("dayOfWeek", "==", day_of_week).where("timeFrom", "==", time_from).limit(1).stream()
-    )
-
-    if not any(existing_schedules):
-        add_schedule(user_id, route_id, day_of_week, time_from, time_to)
+    for day in days:
+        existing_schedules = (
+            schedules_ref.where("dayOfWeek", "==", day).where("timeFrom", "==", time_from).limit(1).stream()
+        )
+        if not any(existing_schedules):
+            add_schedule(user_id, route_id, day, time_from, time_to)
 
     return route_id
 
