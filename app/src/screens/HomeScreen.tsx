@@ -71,24 +71,20 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
         const response = await getNextUpcomingRoute(userEmail);
         const routeData = response.route;
 
-        const routeName =
-          pickString(routeData, ['label', 'name', 'route_name', 'route_desc']) ?? 'Upcoming Route';
-        const departingStation =
-          pickString(routeData, ['departing_station', 'from_station', 'source_station']) ??
-          pickString(routeData, ['departing_location', 'from', 'source']) ??
-          'Departure';
-        const destinationStation =
-          pickString(routeData, ['destination_station', 'to_station', 'target_station']) ??
-          pickString(routeData, ['destination_location', 'to', 'target']) ??
-          'Destination';
-        const day = pickString(routeData, ['day_of_week', 'day']) ?? 'Scheduled';
-        const time = pickString(routeData, ['time', 'departure_time']) ?? 'N/A';
+        const routeName = pickString(routeData, ['description']) ?? 'Upcoming Route';
+        const departingStation = pickString(routeData, ['departingStation']) ?? 'LRT';
+        const departingLocation = pickString(routeData, ['departingLocation']) ?? 'LRT';
+        const destinationStation = pickString(routeData, ['destinationStation']) ?? 'LRT';
+        const destinationLocation = pickString(routeData, ['destinationLocation']) ?? 'LRT';
+        const day = pickString(routeData, ['dayOfWeek', 'day']) ?? 'Scheduled';
+        const timeFrom = pickString(routeData, ['timeFrom', 'departureTime']) ?? 'N/A';
+        const timeTo = pickString(routeData, ['timeTo', 'arrivalTime']) ?? 'N/A';
 
         if (active) {
           setUpcomingRoute({
             name: routeName,
-            path: `${departingStation} - ${destinationStation}`,
-            schedule: `${day} ${time}`,
+            path: `${departingStation} ${departingLocation} - ${destinationStation} ${destinationLocation}`,
+            schedule: `${day} ${timeFrom} - ${timeTo}`,
           });
         }
       } catch {
@@ -144,7 +140,6 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
             <Text style={styles.routePath}>Add a route to get schedule-based alerts.</Text>
           </View>
         )}
-
 
       </ScrollView>
 
