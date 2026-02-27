@@ -91,6 +91,7 @@ const MainTabsNavigator: React.FC<MainTabsNavigatorProps> = ({
     screenOptions={{
       headerShown: false,
       tabBarHideOnKeyboard: true,
+      tabBarStyle: { display: 'none' }
     }}
   >
     <MainTabs.Screen name="Home" options={{ title: 'Home' }}>

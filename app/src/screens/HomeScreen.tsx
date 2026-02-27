@@ -1,10 +1,8 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import { Button } from '../components/atoms/Button';
-import { Text } from '../components/atoms/Text';
-import {colorTokens, radius, spacing} from '../components/config';
-import { BaseScreen } from '../models/BaseScreen';
+import { NavBar } from '../components/molecules/NavBar';
 
 interface HomeScreenProps {
   apiStatus: string;
@@ -25,67 +23,185 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
   onGoToCommunity,
   onLogout,
 }) => {
+  const disruptions = [
+    {
+      id: '1',
+      title: 'Disruption in Kelana Jaya Line',
+      message: 'Leave 30 minutes earlier to reach destination on time',
+      timestamp: '4 mins ago',
+    },
+  ];
+
+  const upcomingRoutes = [
+    {
+      id: '1',
+      name: 'Work',
+      path: 'LRT Bandar Puteri - LRT SS15',
+      schedule: 'Monday 7:00a.m.',
+    },
+    {
+      id: '2',
+      name: 'Home',
+      path: 'LRT SS15 - LRT Bandar Puteri',
+      schedule: 'Monday 5:00p.m.',
+    },
+  ];
+
   return (
-    <BaseScreen style={styles.container}>
-      <Text variant="2xl" weight="bold" color="text.primary">
-        Donki-Wonki
-      </Text>
-      <Text variant="sm" color="text.secondary">
-        Predictive rail disruption alerts for Klang Valley commuters.
-      </Text>
+    <SafeAreaView style={styles.container}>
+      <ScrollView
+        style={styles.scrollView}
+        contentContainerStyle={styles.scrollContainer}
+        showsVerticalScrollIndicator={false}
+      >
+        <View style={styles.header}>
+          <Text style={styles.welcomeText}>Welcome!!</Text>
+          <TouchableOpacity onPress={onLogout} activeOpacity={0.8}>
+            <Image source={require('../assets/Logo.png')} style={styles.logo} resizeMode="contain" />
+          </TouchableOpacity>
+        </View>
 
-      <View style={styles.card}>
-        <Text variant="sm" weight="semibold" color="text.primary">
-          System Status
-        </Text>
-        <Text variant="xs" color="text.secondary">
-          API: {apiStatus}
-        </Text>
-        <Text variant="xs" color="text.secondary">
-          Notification permission: {permissionStatus}
-        </Text>
-        <Text variant="xs" color="text.secondary">
-          Token: {tokenPreview}
-        </Text>
-      </View>
+        {disruptions.map(alert => (
+          <View key={alert.id} style={styles.alertCard}>
+            <View style={styles.alertTitleRow}>
+              <Text style={styles.alertIcon}>🚫</Text>
+              <Text style={styles.alertTitle}>{alert.title}</Text>
+            </View>
+            <Text style={styles.alertMessage}>{alert.message}</Text>
+            <Text style={styles.alertTimestamp}>{alert.timestamp}</Text>
+          </View>
+        ))}
 
-      <View style={styles.card}>
-        <Text variant="sm" weight="semibold" color="text.primary">
-          Latest Foreground Alert
-        </Text>
-        <Text variant="xs" color="text.secondary">
-          {lastForegroundMessage}
-        </Text>
-      </View>
+        <Text style={styles.sectionTitle}>Upcoming Route</Text>
 
-      <View style={styles.actions}>
-        <Button label="Manage Routes" onPress={onGoToRoutes} fullWidth />
-        <Button
-          label="Open Community"
-          onPress={onGoToCommunity}
-          variant="outline"
-          fullWidth
-        />
-        <Button label="Logout" onPress={onLogout} variant="ghost" fullWidth />
-      </View>
-    </BaseScreen>
+        {upcomingRoutes.map(route => (
+          <View key={route.id} style={styles.routeCard}>
+            <Text style={styles.routeName}>{route.name}</Text>
+            <Text style={styles.routePath}>{route.path}</Text>
+            <Text style={styles.routeSchedule}>{route.schedule}</Text>
+          </View>
+        ))}
+
+      </ScrollView>
+
+      <NavBar
+        activeTab="Home"
+        onTabPress={tab => {
+          if (tab === 'Route') {
+            onGoToRoutes();
+          } else if (tab === 'Community') {
+            onGoToCommunity();
+          }
+        }}
+      />
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: spacing[5],
-    gap: spacing[3],
+    backgroundColor: '#FAFCFD',
   },
-  card: {
-    backgroundColor: colorTokens.background_default,
-    borderRadius: radius.md,
-    padding: spacing[4],
-    gap: spacing[2],
+  scrollView: {
+    flex: 1,
+  },
+  scrollContainer: {
+    paddingHorizontal: 32,
+    paddingTop: 100,
+    paddingBottom: 120,
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 28,
+  },
+  welcomeText: {
+    fontSize: 32,
+    fontWeight: 'bold',
+    color: '#000000',
+    letterSpacing: -0.5,
+  },
+  logo: {
+    width: 90,
+    height: 90,
+  },
+  alertCard: {
+    backgroundColor: '#FFE4E4',
+    borderRadius: 14,
+    padding: 16,
+    marginBottom: 28,
+  },
+  alertTitleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 6,
+  },
+  alertIcon: {
+    fontSize: 18,
+    marginRight: 8,
+  },
+  alertTitle: {
+    fontSize: 15,
+    fontWeight: 'bold',
+    color: '#000000',
+    flexShrink: 1,
+  },
+  alertMessage: {
+    fontSize: 13,
+    color: '#333333',
+    marginBottom: 8,
+    lineHeight: 18,
+  },
+  alertTimestamp: {
+    fontSize: 12,
+    color: '#CC2222',
+    textAlign: 'right',
+    fontStyle: 'italic',
+  },
+  sectionTitle: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    color: '#000000',
+    marginBottom: 16,
+    letterSpacing: -0.3,
+  },
+  routeCard: {
+    backgroundColor: '#F0F1F6',
+    borderRadius: 16,
+    padding: 20,
+    marginBottom: 16,
+  },
+  routeName: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#000000',
+    marginBottom: 4,
+  },
+  routePath: {
+    fontSize: 14,
+    color: '#333333',
+    marginBottom: 6,
+  },
+  routeSchedule: {
+    fontSize: 14,
+    color: '#2B5FC1',
+    fontStyle: 'italic',
+  },
+  statusCard: {
+    backgroundColor: '#F2F4FF',
+    borderRadius: 14,
+    padding: 16,
+    marginBottom: 16,
+  },
+  statusText: {
+    fontSize: 13,
+    color: '#222222',
+    marginBottom: 6,
   },
   actions: {
-    marginTop: spacing[2],
-    gap: spacing[2],
+    gap: 10,
+    marginBottom: 8,
   },
 });
