@@ -43,6 +43,7 @@ const DrumColumn: React.FC<{
 }> = ({ items, selectedIndex, onIndexChange }) => {
     const scrollRef = useRef<ScrollView>(null);
 
+    // Scroll to initial position on mount
     useEffect(() => {
         const timeout = setTimeout(() => {
             scrollRef.current?.scrollTo({
@@ -51,7 +52,7 @@ const DrumColumn: React.FC<{
             });
         }, 50);
         return () => clearTimeout(timeout);
-    }, [selectedIndex]);
+    }, []);
 
     const handleMomentumEnd = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
         const idx = snapIndex(e.nativeEvent.contentOffset.y);
