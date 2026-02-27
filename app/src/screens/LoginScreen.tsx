@@ -1,178 +1,170 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Alert, Image, TouchableOpacity } from 'react-native';
-import { Button } from '../components/atoms/Button';
-import { Input } from '../components/atoms/Input';
-import { BaseScreen } from '../models/BaseScreen';
-import { loginUser } from '../services/api/apiEndpoints';
 import {
-    firstValidationError,
-    hasValidationErrors,
-    minLength,
-    validateEmail,
-} from '../utils/authValidation';
+    View,
+    Text,
+    StyleSheet,
+    Alert,
+    KeyboardAvoidingView,
+    Platform,
+    Image,
+    TouchableOpacity,
+    TextInput,
+    ScrollView,
+} from 'react-native';
 
 const logoImg = require('../assets/Logo.png');
 
-interface LoginScreenProps {
-    onLoginSuccess?: (userId: string) => void;
-    onGoToRegister?: () => void;
-}
-
-export default function LoginScreen({ onLoginSuccess, onGoToRegister }: LoginScreenProps) {
+export default function LoginScreen({ navigation }: any) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [submitting, setSubmitting] = useState(false);
 
-    const [emailError, setEmailError] = useState('');
-    const [passwordError, setPasswordError] = useState('');
-
-    const handleRegisterPress = () => {
-        if (onGoToRegister) {
-            onGoToRegister();
+    const handleLogin = () => {
+        if (!email || !password) {
+            Alert.alert('Error', 'Please fill in all fields');
             return;
         }
-        console.log('Navigate to Register');
+        console.log('Login attempt:', email);
+        Alert.alert('Login Success', `Welcome back, ${email}!`);
     };
 
-    const handleLogin = async () => {
-        const errors = {
-            email: validateEmail(email, 'Enter a valid email address.'),
-            password: firstValidationError(
-                minLength(password, 8, 'Password must be at least 8 characters.'),
-            ),
-        };
-
-        setEmailError(errors.email);
-        setPasswordError(errors.password);
-
-        if (hasValidationErrors(errors)) {
-            return;
-        }
-
-        setSubmitting(true);
-        try {
-            // call loginUser api with user email and password
-            const response = await loginUser({
-                email: email.trim(),
-                password,
-            });
-
-            Alert.alert('Login Success', response.message);
-            if (onLoginSuccess) {
-                onLoginSuccess(response.email.trim().toLowerCase());
-            }
-        } catch (error) {
-            const message = error instanceof Error ? error.message : 'Unable to login now.';
-            Alert.alert('Login Failed', message);
-        } finally {
-            setSubmitting(false);
+    const handleRegisterPress = () => {
+        if (navigation) {
+            navigation.navigate('Register');
         }
     };
 
     return (
-        <BaseScreen style={styles.container} keyboardAvoiding keyboardBehavior="padding">
-            <View style={styles.keyboardView}>
+        <KeyboardAvoidingView
+            style={styles.container}
+            behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        >
+            <ScrollView
+                contentContainerStyle={styles.scrollContent}
+                keyboardShouldPersistTaps="handled"
+                showsVerticalScrollIndicator={false}
+            >
+                {/* Logo */}
                 <Image source={logoImg} style={styles.logo} />
-                <View style={styles.box}>
-                    <Text style={styles.title}>Login</Text>
 
-                    <Input
-                        label="Email"
-                        placeholder="Enter your email address"
+                {/* Title */}
+                <Text style={styles.title}>Login to your{'\n'}Account</Text>
+
+                {/* Email field */}
+                <View style={styles.fieldGroup}>
+                    <Text style={styles.label}>Email:</Text>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Enter your email"
+                        placeholderTextColor="#AAAAAA"
                         value={email}
                         onChangeText={setEmail}
                         keyboardType="email-address"
                         autoCapitalize="none"
-                        autoCorrect={false}
-                        error={emailError}
                     />
+                </View>
 
-                    <Input
-                        label="Password"
+                {/* Password field */}
+                <View style={styles.fieldGroup}>
+                    <Text style={styles.label}>Password:</Text>
+                    <TextInput
+                        style={styles.input}
                         placeholder="Enter your password"
+                        placeholderTextColor="#AAAAAA"
                         value={password}
                         onChangeText={setPassword}
                         secureTextEntry
-                        autoCapitalize="none"
-                        error={passwordError}
                     />
-
-                    <Button
-                        label="Login"
-                        onPress={handleLogin}
-                        loading={submitting}
-                        style={styles.loginButton}
-                    />
-
-                    <View style={styles.register}>
-                        <Text style={styles.registerText}>don't have an account yet?</Text>
-                        <TouchableOpacity onPress={handleRegisterPress}>
-                            <Text style={styles.registerLink}> register here</Text>
-                        </TouchableOpacity>
-                    </View>
                 </View>
-            </View>
-        </BaseScreen>
+
+                {/* Login button */}
+                <TouchableOpacity style={styles.loginBtn} onPress={handleLogin} activeOpacity={0.85}>
+                    <Text style={styles.loginBtnText}>Login</Text>
+                </TouchableOpacity>
+
+                {/* Register row */}
+                <View style={styles.registerRow}>
+                    <Text style={styles.registerText}>Don't have an account yet? </Text>
+                    <TouchableOpacity onPress={handleRegisterPress}>
+                        <Text style={styles.registerLink}>Register Now</Text>
+                    </TouchableOpacity>
+                </View>
+            </ScrollView>
+        </KeyboardAvoidingView>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#8DBDF1',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        padding: 20,
+        backgroundColor: '#F1F0F6',
     },
-    keyboardView: {
-        width: '100%',
-        alignItems: 'center',
+    scrollContent: {
+        flexGrow: 1,
+        paddingHorizontal: 32,
+        paddingTop: 125,
+        paddingBottom: 40,
     },
     logo: {
-        width: 150,
-        height: 80,
+        width: 90,
+        height: 60,
         resizeMode: 'contain',
-        marginTop: 120,
-        marginBottom: 30,
-    },
-    box: {
-        backgroundColor: '#F1F0F6',
-        borderRadius: 50,
-        padding: 30,
-        width: '100%',
-        maxWidth: 400,
-        paddingVertical: 50,
-        elevation: 5,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.1,
-        shadowRadius: 10,
+        marginBottom: 28,
     },
     title: {
-        fontSize: 30,
-        fontWeight: 'bold',
-        marginBottom: 40,
-        textAlign: 'center',
-        color: '#000000',
+        fontSize: 32,
+        fontWeight: '800',
+        color: '#111111',
+        lineHeight: 40,
+        marginBottom: 36,
     },
-    loginButton: {
-        marginTop: 30,
+    fieldGroup: {
+        marginBottom: 20,
     },
-    register: {
+    label: {
+        fontSize: 15,
+        fontWeight: '500',
+        color: '#111111',
+        marginBottom: 8,
+    },
+    input: {
+        backgroundColor: '#E8E8EF',
+        borderRadius: 14,
+        paddingHorizontal: 18,
+        paddingVertical: 16,
+        fontSize: 14,
+        color: '#111111',
+        width: '100%',
+    },
+    loginBtn: {
+        backgroundColor: '#2B308B',
+        borderRadius: 50,
+        paddingVertical: 15,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginTop: 35,
+        marginBottom: 28,
+    },
+    loginBtnText: {
+        color: '#FFFFFF',
+        fontSize: 16,
+        fontWeight: '700',
+    },
+    registerRow: {
         flexDirection: 'row',
-        marginTop: 25,
         justifyContent: 'center',
         alignItems: 'center',
+        flexWrap: 'wrap',
     },
     registerText: {
         fontSize: 14,
-        color: '#666',
-        fontWeight: '500',
+        color: '#000000',
+        fontStyle: 'italic',
     },
     registerLink: {
         fontSize: 14,
-        color: '#1256A7',
-        fontWeight: 'bold',
+        color: '#2B308B',
+        fontWeight: '700',
+        fontStyle: 'italic',
         textDecorationLine: 'underline',
     },
 });

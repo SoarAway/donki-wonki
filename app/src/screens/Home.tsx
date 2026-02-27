@@ -3,9 +3,11 @@ import {
     View,
     Text,
     StyleSheet,
+    SafeAreaView,
     ScrollView,
     Image,
 } from 'react-native';
+import { NavBar } from '../components/molecules/NavBar';
 
 interface DisruptionAlert {
     id: string;
@@ -45,9 +47,9 @@ const upcomingRoutes: UpcomingRoute[] = [
     },
 ];
 
-export default function Home() {
+export default function Home({ navigation }: any) {
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             <ScrollView
                 style={styles.scrollView}
                 contentContainerStyle={styles.scrollContainer}
@@ -86,7 +88,19 @@ export default function Home() {
                     </View>
                 ))}
             </ScrollView>
-        </View>
+            <NavBar
+                activeTab="Home"
+                onTabPress={tab => {
+                    if (tab === 'Home') {
+                        navigation.navigate('Home');
+                    } else if (tab === 'Route') {
+                        navigation.navigate('RouteManagement');
+                    } else if (tab === 'Community') {
+                        navigation.navigate('Community');
+                    }
+                }}
+            />
+        </SafeAreaView>
     );
 }
 
@@ -101,7 +115,7 @@ const styles = StyleSheet.create({
     scrollContainer: {
         paddingHorizontal: 32,
         paddingTop: 100,
-        paddingBottom: 40,
+        paddingBottom: 120,
     },
 
     // Header

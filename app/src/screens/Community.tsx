@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity, Image } from 'react-native';
 import { Button } from '../components/atoms/Button';
-import { BaseScreen } from '../models/BaseScreen';
+import { NavBar } from '../components/molecules/NavBar';
 
 interface Post {
     id: string;
-    username: string;
+    username?: string;
     content: string;
     timestamp: string;
     liked: boolean;
@@ -43,14 +43,6 @@ export default function Community({ navigation }: any) {
             liked: false,
             disliked: false,
         },
-        {
-            id: '4',
-            username: '@xxhannnn',
-            content: 'LRT Kelana Jaya Breakdown. Already wait for 40 minutes!',
-            timestamp: '10 mins ago',
-            liked: false,
-            disliked: false,
-        },
     ]);
 
     const [, setPostsState] = useState(posts); // Used to trigger re-renders for likes
@@ -76,18 +68,27 @@ export default function Community({ navigation }: any) {
     };
 
     return (
-        <BaseScreen style={styles.container}>
+        <SafeAreaView style={styles.container}>
             <View style={styles.header}>
-                <Text style={styles.title}>Community</Text>
+                <Text style={styles.title}>Community Reports</Text>
+                <Button
+                    title="+ Add Report"
+                    onPress={() => navigation.navigate('Reporting')}
+                    style={styles.reportButton}
+                    textStyle={styles.reportButtonText}
+                />
             </View>
 
             <ScrollView
                 style={styles.scrollView}
                 contentContainerStyle={styles.scrollContainer}
+                showsVerticalScrollIndicator={false}
             >
                 {posts.map((post) => (
                     <View key={post.id} style={styles.card}>
-                        <Text style={styles.username}>{post.username}</Text>
+                        {post.username ? (
+                            <Text style={styles.username}>{post.username}</Text>
+                        ) : null}
                         <Text style={styles.content}>{post.content}</Text>
 
                         <View style={styles.footer}>
@@ -110,30 +111,35 @@ export default function Community({ navigation }: any) {
                     </View>
                 ))}
             </ScrollView>
-
-            <View style={styles.bottomContainer}>
-                <Button
-                    label="Report"
-                    onPress={() => navigation.navigate('Reporting')}
-                    style={styles.reportButton}
-                />
-            </View>
-        </BaseScreen>
+            <NavBar
+                activeTab="Community"
+                onTabPress={(tab) => {
+                    if (tab === 'Home') {
+                        navigation.navigate('Home');
+                    } else if (tab === 'Route') {
+                        navigation.navigate('RouteManagement');
+                    } else if (tab === 'Community') {
+                        navigation.navigate('Community');
+                    }
+                }}
+            />
+        </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#F3F4FB',
+        backgroundColor: '#FAFCFD',
     },
     header: {
-        paddingHorizontal: 25,
+        paddingHorizontal: 32,
         paddingTop: 90,
         paddingBottom: 30,
+        gap: 16,
     },
     title: {
-        fontSize: 30,
+        fontSize: 32,
         fontWeight: 'bold',
         color: '#000000',
         letterSpacing: -1,
@@ -142,41 +148,39 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     scrollContainer: {
-        paddingHorizontal: 20,
+        paddingHorizontal: 32,
         paddingBottom: 120,
     },
     card: {
-        backgroundColor: '#FFFFFF',
-        borderRadius: 12,
-        padding: 16,
-        marginBottom: 16,
+        backgroundColor: '#F2F4FF',
+        borderRadius: 14,
+        padding: 18,
+        marginBottom: 14,
         borderWidth: 0.5,
-        borderColor: '#1256A7',
-        shadowColor: '#1256A7',
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.08,
-        shadowRadius: 8,
-        elevation: 4,
+        borderColor: '#D8DAE8',
+        shadowColor: '#000000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.05,
+        shadowRadius: 6,
+        elevation: 2,
     },
     username: {
         fontSize: 13,
-        color: '#333333',
+        color: '#555555',
         fontStyle: 'italic',
         marginBottom: 8,
-        opacity: 0.8,
     },
     content: {
         fontSize: 18,
         fontWeight: 'bold',
         color: '#000000',
-        lineHeight: 24,
-        marginBottom: 12,
+        lineHeight: 25,
+        marginBottom: 14,
     },
     footer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginTop: 5,
     },
     actions: {
         flexDirection: 'row',
@@ -186,31 +190,19 @@ const styles = StyleSheet.create({
         marginRight: 18,
     },
     icon: {
-        width: 20,
-        height: 20,
+        width: 22,
+        height: 22,
         resizeMode: 'contain',
     },
     timestamp: {
         fontSize: 11,
-        color: '#999999',
+        color: '#AAAAAA',
         fontStyle: 'italic',
     },
-    bottomContainer: {
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        right: 0,
-        paddingHorizontal: 30,
-        paddingBottom: 40,
-    },
     reportButton: {
-        backgroundColor: '#1256A7',
-        borderRadius: 14,
-        height: 65,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.3,
-        shadowRadius: 5,
-        elevation: 10,
+        backgroundColor: '#F0F1F6',
+    },
+    reportButtonText: {
+        color: '#5A81FA',
     },
 });

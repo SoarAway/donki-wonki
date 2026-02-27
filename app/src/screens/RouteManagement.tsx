@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity } from 'react-native';
 import { Button } from '../components/atoms/Button';
-import { BaseScreen } from '../models/BaseScreen';
+import { NavBar } from '../components/molecules/NavBar';
 
 interface Route {
     id: string;
     name: string;
     path: string;
-    schedule: string;
-    backgroundColor?: string;
+    time: string;
+    schedules: string[];
 }
 
 export default function RouteManagement({ navigation }: any) {
@@ -17,20 +17,20 @@ export default function RouteManagement({ navigation }: any) {
             id: '1',
             name: 'Work',
             path: 'LRT Bandar Puteri - LRT SS15',
-            schedule: 'Monday - Friday 7:00a.m.',
-            backgroundColor: '#DFE5F0',
+            time: '7:00 AM',
+            schedules: ['Monday', 'Tuesday', 'Wednesday'],
         },
         {
             id: '2',
             name: 'Home',
             path: 'LRT SS15 - LRT Bandar Puteri',
-            schedule: 'Monday - Friday 5:00p.m.',
-            backgroundColor: '#FFFFFF',
+            time: '8:00 PM',
+            schedules: ['Monday', 'Tuesday', 'Wednesday'],
         },
     ]);
 
     return (
-        <BaseScreen style={styles.container}>
+        <SafeAreaView style={styles.container}>
             <View style={styles.header}>
                 <Text style={styles.title}>Route Management</Text>
             </View>
@@ -40,16 +40,15 @@ export default function RouteManagement({ navigation }: any) {
                 contentContainerStyle={styles.scrollContainer}
             >
                 {routes.map((route) => (
-                    <View
-                        key={route.id}
-                        style={[
-                            styles.card,
-                            { backgroundColor: route.backgroundColor || '#FFFFFF' }
-                        ]}
-                    >
+                    <View key={route.id} style={styles.card}>
                         <Text style={styles.routeName}>{route.name}</Text>
                         <Text style={styles.routePath}>{route.path}</Text>
-                        <Text style={styles.routeSchedule}>{route.schedule}</Text>
+
+                        <View style={styles.scheduleList}>
+                            <Text style={styles.scheduleItem}>
+                            </Text>
+                            <Text style={styles.scheduleItem}>{route.time}</Text>
+                        </View>
 
                         <TouchableOpacity
                             onPress={() => navigation.navigate('AddRoute', { routeId: route.id })}
@@ -59,31 +58,42 @@ export default function RouteManagement({ navigation }: any) {
                         </TouchableOpacity>
                     </View>
                 ))}
+                <View style={styles.bottomContainer}>
+                    <Button
+                        title="Add Route"
+                        onPress={() => navigation.navigate('AddRoute')}
+                        style={styles.addRouteButton}
+                    />
+                </View>
             </ScrollView>
-
-            <View style={styles.bottomContainer}>
-                <Button
-                    label="Add Route"
-                    onPress={() => navigation.navigate('AddRoute')}
-                    style={styles.addRouteButton}
-                />
-            </View>
-        </BaseScreen>
+            <NavBar
+                activeTab="Route"
+                onTabPress={(tab) => {
+                    if (tab === 'Home') {
+                        navigation.navigate('Home');
+                    } else if (tab === 'Route') {
+                        navigation.navigate('RouteManagement');
+                    } else if (tab === 'Community') {
+                        navigation.navigate('Community');
+                    }
+                }}
+            />
+        </SafeAreaView>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#F3F4FB',
+        backgroundColor: '#FAFCFD',
     },
     header: {
-        paddingHorizontal: 25,
-        paddingTop: 80,
-        paddingBottom: 25,
+        paddingHorizontal: 32,
+        paddingTop: 100,
+        paddingBottom: 20,
     },
     title: {
-        fontSize: 32,
+        fontSize: 27,
         fontWeight: 'bold',
         color: '#000000',
         letterSpacing: -0.5,
@@ -92,63 +102,60 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     scrollContainer: {
-        paddingHorizontal: 20,
-        paddingBottom: 120,
+        paddingHorizontal: 32,
+        paddingTop: 8,
+        paddingBottom: 36,
     },
     card: {
+        backgroundColor: '#F2F4FF',
         borderRadius: 16,
         padding: 20,
-        marginBottom: 20,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.1,
-        shadowRadius: 10,
-        elevation: 5,
+        marginBottom: 18,
+        shadowColor: '#4A5080',
+        shadowOffset: { width: 0, height: 6 },
+        shadowOpacity: 0.18,
+        shadowRadius: 14,
+        elevation: 6,
         position: 'relative',
     },
     routeName: {
         fontSize: 22,
         fontWeight: 'bold',
         color: '#000000',
-        marginBottom: 8,
+        marginBottom: 6,
     },
     routePath: {
         fontSize: 14,
         color: '#333333',
-        marginBottom: 4,
+        marginBottom: 10,
     },
-    routeSchedule: {
+    scheduleList: {
+        marginBottom: 24,
+    },
+    scheduleItem: {
         fontSize: 14,
-        color: '#3B6BB1',
+        color: '#2B5FC1',
         fontStyle: 'italic',
+        lineHeight: 22,
     },
     editButton: {
         position: 'absolute',
-        right: 20,
-        bottom: 15,
+        right: 18,
+        bottom: 14,
     },
     editText: {
         fontSize: 14,
-        color: '#3B6BB1',
+        color: '#2B5FC1',
         textDecorationLine: 'underline',
         fontStyle: 'italic',
     },
     bottomContainer: {
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        right: 0,
-        paddingHorizontal: 20,
-        paddingBottom: 40,
+        paddingTop: 8,
+        paddingBottom: 20,
     },
     addRouteButton: {
-        backgroundColor: '#1256A7',
-        borderRadius: 14,
-        height: 60,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.3,
-        shadowRadius: 5,
-        elevation: 10,
+        backgroundColor: '#2D3A9C',
+        borderRadius: 50,
+        height: 50,
     },
 });
