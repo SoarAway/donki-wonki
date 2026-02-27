@@ -77,13 +77,13 @@ def run(base_url: str, email_prefix: str) -> None:
         "route_desc": "Route API verification flow",
     }
     save_route = requests.post(
-        f"{base_url}/api/v1/route/save-or-update",
+        f"{base_url}/api/v1/route/create",
         json=save_payload,
         timeout=20,
     )
-    _assert_status("route-save-or-update", save_route, 200)
+    _assert_status("route-create", save_route, 200)
     route_id = str(save_route.json().get("route_id", ""))
-    _assert_true("extract-route-id", bool(route_id), "missing route_id in /route/save-or-update response")
+    _assert_true("extract-route-id", bool(route_id), "missing route_id in /route/create response")
 
     routes_by_email = requests.get(
         f"{base_url}/api/v1/route/all-by-email",

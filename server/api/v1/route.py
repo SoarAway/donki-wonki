@@ -1,15 +1,19 @@
+import datetime
 from typing import Any
 
 from fastapi import APIRouter, HTTPException, Query
 from pydantic import BaseModel, EmailStr
 
 from api.schemas.base import BaseResponse, ERROR_RESPONSES
-from services.user_service import (
+from services.route_service import (
     add_schedule,
+    create_route,
+    delete_route,
+    edit_route,
     get_all_routes_by_email,
     get_next_upcoming_route,
+    get_specific_route,
     get_user_routes_with_schedules,
-    save_or_update_route,
 )
 
 router = APIRouter()
@@ -20,10 +24,27 @@ class RouteScheduleRequest(BaseModel):
     departing_location: str
     destination_location: str
     day_of_week: str
-    time: str
+    time: datetime.time
     departing_station: str
     destination_station: str
     route_desc: str
+
+
+class EditRouteRequest(BaseModel):
+    email: EmailStr
+    route_id: str
+    departing_location: str
+    destination_location: str
+    day_of_week: str
+    time: datetime.time
+    departing_station: str
+    destination_station: str
+    route_desc: str
+
+
+class DeleteRouteRequest(BaseModel):
+    email: EmailStr
+    route_id: str
 
 
 class AddScheduleRequest(BaseModel):
@@ -50,13 +71,17 @@ class NextUpcomingRouteResponse(BaseResponse):
     route: dict[str, Any]
 
 
+class SpecificRouteResponse(BaseResponse):
+    route: dict[str, Any]
+
+
 @router.post(
-    "/save-or-update",
+    "/create",
     response_model=RouteIdResponse,
     responses=ERROR_RESPONSES,
 )
-def save_or_update_route_endpoint(payload: RouteScheduleRequest) -> RouteIdResponse:
-    route_id = save_or_update_route(
+def create_route_endpoint(payload: RouteScheduleRequest) -> RouteIdResponse:
+    route_id = create_route(
         email=str(payload.email),
         departing_location=payload.departing_location,
         destination_location=payload.destination_location,
@@ -67,12 +92,55 @@ def save_or_update_route_endpoint(payload: RouteScheduleRequest) -> RouteIdRespo
         route_desc=payload.route_desc,
     )
     if route_id is None:
-        raise HTTPException(status_code=404, detail="User not found or route could not be saved")
+        raise HTTPException(status_code=404, detail="User not found or route could not be created")
 
     return RouteIdResponse(
         status="success",
-        message="Route saved successfully",
+        message="Route created successfully",
         route_id=route_id,
+    )
+
+
+@router.put(
+    "/edit",
+    response_model=RouteIdResponse,
+    responses=ERROR_RESPONSES,
+)
+def edit_route_endpoint(payload: EditRouteRequest) -> RouteIdResponse:
+    route_id = edit_route(
+        email=str(payload.email),
+        route_id=payload.route_id,
+        departing_location=payload.departing_location,
+        destination_location=payload.destination_location,
+        day_of_week=payload.day_of_week,
+        time=payload.time,
+        departing_station=payload.departing_station,
+        destination_station=payload.destination_station,
+        route_desc=payload.route_desc,
+    )
+    if route_id is None:
+        raise HTTPException(status_code=404, detail="User or route not found")
+
+    return RouteIdResponse(
+        status="success",
+        message="Route updated successfully",
+        route_id=route_id,
+    )
+
+
+@router.delete(
+    "/delete",
+    response_model=BaseResponse,
+    responses=ERROR_RESPONSES,
+)
+def delete_route_endpoint(payload: DeleteRouteRequest) -> BaseResponse:
+    deleted = delete_route(email=str(payload.email), route_id=payload.route_id)
+    if not deleted:
+        raise HTTPException(status_code=404, detail="User or route not found")
+
+    return BaseResponse(
+        status="success",
+        message="Route deleted successfully",
     )
 
 
@@ -115,15 +183,40 @@ def get_routes_by_user_id_endpoint(
 )
 def get_next_upcoming_route_endpoint(
     email: str = Query(..., description="User email address"),
-    timestamp: float = Query(..., description="Unix timestamp in seconds"),
+    timestamp: float | None = Query(None, description="Unix timestamp in seconds (optional)"),
 ) -> NextUpcomingRouteResponse:
-    route = get_next_upcoming_route(email=email, timestamp=timestamp)
+    effective_timestamp = (
+        timestamp
+        if timestamp is not None
+        else datetime.datetime.now(datetime.timezone.utc).timestamp()
+    )
+    route = get_next_upcoming_route(email=email, timestamp=effective_timestamp)
     if route is None:
         raise HTTPException(status_code=404, detail="No upcoming route found")
 
     return NextUpcomingRouteResponse(
         status="success",
         message="Upcoming route fetched successfully",
+        route=route,
+    )
+
+
+@router.get(
+    "/specific",
+    response_model=SpecificRouteResponse,
+    responses=ERROR_RESPONSES,
+)
+def get_specific_route_endpoint(
+    email: str = Query(..., description="User email address"),
+    route_id: str = Query(..., description="Route id"),
+) -> SpecificRouteResponse:
+    route = get_specific_route(email=email, route_id=route_id)
+    if route is None:
+        raise HTTPException(status_code=404, detail="Route not found")
+
+    return SpecificRouteResponse(
+        status="success",
+        message="Route fetched successfully",
         route=route,
     )
 
