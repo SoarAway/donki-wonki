@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, Alert } from 'react-native';
 import { Button } from '../components/atoms/Button';
@@ -158,5 +159,3 @@ const styles = StyleSheet.create({
         ...shadows.md,
     },
 });
-
-

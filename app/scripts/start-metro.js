@@ -1,26 +1,41 @@
 #!/usr/bin/env node
 
 const { spawn } = require('child_process');
+const fs = require('fs');
 const path = require('path');
 
-const workspaceRoot = path.resolve(__dirname, '..', '..');
 const appRoot = path.resolve(__dirname, '..');
+const workspaceRoot = path.resolve(appRoot, '..');
 
-process.env.NODE_PATH = [
-  path.join(workspaceRoot, 'node_modules'),
-  path.join(appRoot, 'node_modules'),
-  process.env.NODE_PATH || ''
-].filter(Boolean).join(path.delimiter);
+const appCliPath = path.join(
+  appRoot,
+  'node_modules',
+  '@react-native-community',
+  'cli',
+  'build',
+  'bin.js'
+);
+const rootCliPath = path.join(
+  workspaceRoot,
+  'node_modules',
+  '@react-native-community',
+  'cli',
+  'build',
+  'bin.js'
+);
 
-require('module').Module._initPaths();
+const cliPath = fs.existsSync(appCliPath) ? appCliPath : rootCliPath;
 
 const metro = spawn(
-  'npx',
-  ['react-native', 'start', ...process.argv.slice(2)],
+  process.execPath,
+  [cliPath, 'start', ...process.argv.slice(2)],
   {
     stdio: 'inherit',
-    shell: true,
-    env: process.env,
+    env: {
+      ...process.env,
+      NODE_PATH: [path.join(appRoot, 'node_modules'), path.join(workspaceRoot, 'node_modules')]
+        .join(path.delimiter),
+    },
     cwd: appRoot
   }
 );

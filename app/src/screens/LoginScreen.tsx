@@ -11,6 +11,7 @@ import {
 import { BaseScreen } from '../models/BaseScreen';
 import { colorTokens, radius, spacing, typography } from '../components/config';
 import Logo from '../assets/Logo.svg';
+import { loginUser } from '../services/api/apiEndpoints';
 
 const LOGO_WIDTH = spacing[20] + spacing[2];
 const LOGO_HEIGHT = spacing[12] + spacing[3];
@@ -23,14 +24,26 @@ interface LoginScreenProps {
 export default function LoginScreen({ onLoginSuccess, onGoToRegister }: LoginScreenProps) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [submitting, setSubmitting] = useState(false);
 
-    const handleLogin = () => {
+    const handleLogin = async () => {
         if (!email || !password) {
             Alert.alert('Error', 'Please fill in all fields');
             return;
         }
-        console.log('Login attempt:', email);
-        onLoginSuccess(email.trim().toLowerCase());
+        try {
+            setSubmitting(true);
+            const response = await loginUser({
+                email: email.trim().toLowerCase(),
+                password,
+            });
+            onLoginSuccess(response.email.trim().toLowerCase());
+        } catch (error) {
+            const message = error instanceof Error ? error.message : 'Unable to login now.';
+            Alert.alert('Login Failed', message);
+        } finally {
+            setSubmitting(false);
+        }
     };
 
     return (
@@ -75,7 +88,7 @@ export default function LoginScreen({ onLoginSuccess, onGoToRegister }: LoginScr
 
                 {/* Login button */}
                 <TouchableOpacity style={styles.loginBtn} onPress={handleLogin} activeOpacity={0.85}>
-                    <Text style={styles.loginBtnText}>Login</Text>
+                    <Text style={styles.loginBtnText}>{submitting ? 'Logging in...' : 'Login'}</Text>
                 </TouchableOpacity>
 
                 {/* Register row */}

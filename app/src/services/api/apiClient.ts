@@ -5,6 +5,7 @@ const BASE_URL = 'https://donki-wonki.onrender.com';
 
 const WAKE_TIMEOUT_MS = 60000; // 60 seconds
 const WAKE_RETRY_ATTEMPTS = 3;
+const REQUEST_TIMEOUT_MS = 15000; // 15 seconds
 
 interface ApiConfig {
   baseUrl: string;
@@ -59,12 +60,12 @@ function notifyError(message: string) {
 export async function get<T>(path: string): Promise<T> {
   try {
     notifyLoading(true);
-    const response = await fetch(`${config.baseUrl}${path}`, {
+    const response = await fetchWithTimeout(`${config.baseUrl}${path}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
       },
-    });
+    }, REQUEST_TIMEOUT_MS);
 
     if (!response.ok) {
       const errorMessage = await parseErrorMessage(response);
@@ -95,13 +96,13 @@ export async function get<T>(path: string): Promise<T> {
 export async function post<T>(path: string, body: any): Promise<T> {
   try {
     notifyLoading(true);
-    const response = await fetch(`${config.baseUrl}${path}`, {
+    const response = await fetchWithTimeout(`${config.baseUrl}${path}`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(body),
-    });
+    }, REQUEST_TIMEOUT_MS);
 
     if (!response.ok) {
       const errorMessage = await parseErrorMessage(response);
@@ -128,13 +129,13 @@ export async function post<T>(path: string, body: any): Promise<T> {
 export async function put<T>(path: string, body: any): Promise<T> {
   try {
     notifyLoading(true);
-    const response = await fetch(`${config.baseUrl}${path}`, {
+    const response = await fetchWithTimeout(`${config.baseUrl}${path}`, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(body),
-    });
+    }, REQUEST_TIMEOUT_MS);
 
     if (!response.ok) {
       const errorMessage = await parseErrorMessage(response);
@@ -161,13 +162,13 @@ export async function put<T>(path: string, body: any): Promise<T> {
 export async function del<T>(path: string, body?: any): Promise<T> {
   try {
     notifyLoading(true);
-    const response = await fetch(`${config.baseUrl}${path}`, {
+    const response = await fetchWithTimeout(`${config.baseUrl}${path}`, {
       method: 'DELETE',
       headers: {
         'Content-Type': 'application/json',
       },
       body: body !== undefined ? JSON.stringify(body) : undefined,
-    });
+    }, REQUEST_TIMEOUT_MS);
 
     if (!response.ok) {
       const errorMessage = await parseErrorMessage(response);
@@ -219,6 +220,29 @@ async function parseErrorMessage(response: Response): Promise<string> {
   }
 
   return `API Error: ${response.status} ${response.statusText}`;
+}
+
+async function fetchWithTimeout(
+  input: RequestInfo | URL,
+  init: RequestInit,
+  timeoutMs: number,
+): Promise<Response> {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+
+  try {
+    return await fetch(input, {
+      ...init,
+      signal: controller.signal,
+    });
+  } catch (error) {
+    if (error instanceof Error && error.name === 'AbortError') {
+      throw new Error(`Request timed out after ${Math.floor(timeoutMs / 1000)}s`);
+    }
+    throw error;
+  } finally {
+    clearTimeout(timeoutId);
+  }
 }
 
 

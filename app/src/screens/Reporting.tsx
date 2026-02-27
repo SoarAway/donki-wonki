@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView, Alert } from 'react-native';
 import { Button } from '../components/atoms/Button';
@@ -98,7 +99,6 @@ export default function Reporting({ navigation }: any) {
     const [incidentType, setIncidentType] = useState('');
     const [otherIncident, setOtherIncident] = useState('');
     const [description, setDescription] = useState('');
-    const [submitting, setSubmitting] = useState(false);
 
     const [availableLines, setAvailableLines] = useState<string[]>([]);
     const [availableStations, setAvailableStations] = useState<string[]>([]);
@@ -124,7 +124,7 @@ export default function Reporting({ navigation }: any) {
         }
     }, [line]);
 
-    const handleSubmit = async () => {
+    const handleSubmit = () => {
         if (!transitSystem || !line || !station || !incidentType || !description) {
             Alert.alert('Error', 'Please fill in all required fields');
             return;
@@ -137,22 +137,16 @@ export default function Reporting({ navigation }: any) {
 
         const finalIncidentType = incidentType === 'Others' ? otherIncident : incidentType;
 
-        try {
-            setSubmitting(true);
-            await sendReport({
-                line,
-                station,
-                incident_type: finalIncidentType,
-                description,
-            });
-            Alert.alert('Success', 'Report submitted successfully. Thank you for your feedback!');
-            if (navigation) navigation.navigate('Community');
-        } catch (error) {
-            const message = error instanceof Error ? error.message : 'Failed to submit report.';
-            Alert.alert('Error', message);
-        } finally {
-            setSubmitting(false);
-        }
+        console.log('Report submitted:', {
+            transitSystem,
+            line,
+            station,
+            incidentType: finalIncidentType,
+            description
+        });
+
+        Alert.alert('Success', 'Report submitted successfully. Thank you for your feedback!');
+        if (navigation) navigation.navigate('Community');
     };
 
     return (
@@ -220,7 +214,6 @@ export default function Reporting({ navigation }: any) {
                     <Button
                         title="Submit"
                         onPress={handleSubmit}
-                        loading={submitting}
                         style={styles.submitButton}
                     />
                 </View>

@@ -1,36 +1,72 @@
-import React, { useCallback, useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
-import { useFocusEffect } from '@react-navigation/native';
+import React, { useCallback, useEffect, useState } from 'react';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { Button } from '../components/atoms/Button';
 import { NavBar } from '../components/molecules/NavBar';
 import { BaseScreen } from '../models/BaseScreen';
 import { colorTokens, radius, shadows, spacing, typography } from '../components/config';
+import { getRoutesByEmail } from '../services/api/apiEndpoints';
+import { getUserId } from '../services/authStorage';
 
 interface Route {
     id: string;
     name: string;
     path: string;
-    time: string;
-    schedules: string[];
+    schedule: string;
 }
 
 export default function RouteManagement({ navigation }: any) {
-    const [routes] = useState<Route[]>([
-        {
-            id: '1',
-            name: 'Work',
-            path: 'LRT Bandar Puteri - LRT SS15',
-            time: '7:00 AM',
-            schedules: ['Monday', 'Tuesday', 'Wednesday'],
-        },
-        {
-            id: '2',
-            name: 'Home',
-            path: 'LRT SS15 - LRT Bandar Puteri',
-            time: '8:00 PM',
-            schedules: ['Monday', 'Tuesday', 'Wednesday'],
-        },
-    ]);
+    const [routes, setRoutes] = useState<Route[]>([]);
+
+    const loadRoutes = useCallback(async () => {
+        try {
+            const email = await getUserId();
+            if (!email) {
+                setRoutes([]);
+                return;
+            }
+
+            const response = await getRoutesByEmail(email);
+            const mappedRoutes: Route[] = (response.routes ?? []).map((raw: any) => {
+                const routeId = String(raw.id ?? raw.routeId ?? '');
+                const description = String(raw.description ?? raw.route_desc ?? 'Route');
+                const departingLocation = String(raw.departingLocation ?? raw.departing_location ?? '-');
+                const destinationLocation = String(raw.destinationLocation ?? raw.destination_location ?? '-');
+
+                const schedules = Array.isArray(raw.schedules) ? raw.schedules : [];
+                let scheduleText = '-';
+                if (schedules.length > 0) {
+                    const firstSchedule = schedules[0] ?? {};
+                    const day = String(firstSchedule.dayOfWeek ?? firstSchedule.day_of_week ?? '').trim();
+                    const timeFrom = String(firstSchedule.timeFrom ?? firstSchedule.time_from ?? '').trim();
+                    scheduleText = `${day} ${timeFrom}`.trim() || '-';
+                } else {
+                    const day = String(raw.dayOfWeek ?? raw.day_of_week ?? '').trim();
+                    const timeFrom = String(raw.timeFrom ?? raw.time_from ?? '').trim();
+                    scheduleText = `${day} ${timeFrom}`.trim() || '-';
+                }
+
+                return {
+                    id: routeId,
+                    name: description,
+                    path: `${departingLocation} - ${destinationLocation}`,
+                    schedule: scheduleText,
+                };
+            });
+
+            setRoutes(mappedRoutes);
+        } catch {
+            setRoutes([]);
+        }
+    }, []);
+
+    useEffect(() => {
+        loadRoutes();
+    }, [loadRoutes]);
+
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', loadRoutes);
+        return unsubscribe;
+    }, [navigation, loadRoutes]);
 
     return (
         <BaseScreen style={styles.container}>
@@ -48,9 +84,7 @@ export default function RouteManagement({ navigation }: any) {
                         <Text style={styles.routePath}>{route.path}</Text>
 
                         <View style={styles.scheduleList}>
-                            <Text style={styles.scheduleItem}>
-                            </Text>
-                            <Text style={styles.scheduleItem}>{route.time}</Text>
+                            <Text style={styles.scheduleItem}>{route.schedule}</Text>
                         </View>
 
                         <TouchableOpacity
@@ -59,15 +93,14 @@ export default function RouteManagement({ navigation }: any) {
                         >
                             <Text style={styles.editText}>edit</Text>
                         </TouchableOpacity>
-
-                        <TouchableOpacity
-                            onPress={() => handleDelete(route.id)}
-                            style={styles.deleteButton}
-                        >
-                            <Text style={styles.deleteText}>delete</Text>
-                        </TouchableOpacity>
                     </View>
                 ))}
+                {routes.length === 0 && (
+                    <View style={styles.card}>
+                        <Text style={styles.routeName}>No routes yet</Text>
+                        <Text style={styles.routePath}>Tap Add Route to create your first route.</Text>
+                    </View>
+                )}
                 <View style={styles.bottomContainer}>
                     <Button
                         title="Add Route"
@@ -149,20 +182,9 @@ const styles = StyleSheet.create({
         right: 18,
         bottom: 14,
     },
-    deleteButton: {
-        position: 'absolute',
-        right: 20,
-        top: 15,
-    },
     editText: {
         fontSize: typography.sizes.sm,
         color: colorTokens.secondary_accent,
-        textDecorationLine: 'underline',
-        fontStyle: 'italic',
-    },
-    deleteText: {
-        fontSize: 14,
-        color: '#B14444',
         textDecorationLine: 'underline',
         fontStyle: 'italic',
     },

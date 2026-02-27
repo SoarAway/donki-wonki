@@ -12,6 +12,7 @@ import { Button } from '../components/atoms/Button';
 import { Input } from '../components/atoms/Input';
 import { BaseScreen } from '../models/BaseScreen';
 import { colorTokens, radius, spacing, typography } from '../components/config';
+import { registerUser } from '../services/api/apiEndpoints';
 
 interface RegisterProps {
     onRegisterSuccess: (userId: string) => void;
@@ -24,6 +25,7 @@ export default function Register({ onRegisterSuccess, onBackToLogin }: RegisterP
     const [dob, setDob] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [submitting, setSubmitting] = useState(false);
 
     // ── DOB helpers (no extra useState needed) ────────────────────
     const isValidDate = (dateStr: string): boolean => {
@@ -70,7 +72,15 @@ export default function Register({ onRegisterSuccess, onBackToLogin }: RegisterP
             : '';
     // ──────────────────────────────────────────────────────────────
 
-    const handleRegister = () => {
+    const toApiDob = (value: string): string | null => {
+        if (!isValidDate(value)) {
+            return null;
+        }
+        const [day, month, year] = value.split('/');
+        return `${year}-${month}-${day}`;
+    };
+
+    const handleRegister = async () => {
         if (!name || !email || !dob || !password || !confirmPassword) {
             Alert.alert('Error', 'Please fill in all fields');
             return;
@@ -87,8 +97,27 @@ export default function Register({ onRegisterSuccess, onBackToLogin }: RegisterP
             Alert.alert('Error', 'Passwords do not match');
             return;
         }
-        console.log('Register attempt:', email);
-        onRegisterSuccess(email.trim().toLowerCase());
+        const apiDob = toApiDob(dob);
+        if (!apiDob) {
+            Alert.alert('Error', 'Please enter a valid date of birth (DD/MM/YYYY).');
+            return;
+        }
+
+        try {
+            setSubmitting(true);
+            const response = await registerUser({
+                email: email.trim().toLowerCase(),
+                username: name.trim(),
+                password,
+                date_of_birth: apiDob,
+            });
+            onRegisterSuccess(response.user.email.trim().toLowerCase());
+        } catch (error) {
+            const message = error instanceof Error ? error.message : 'Unable to register now.';
+            Alert.alert('Registration Failed', message);
+        } finally {
+            setSubmitting(false);
+        }
     };
 
     return (
@@ -160,7 +189,7 @@ export default function Register({ onRegisterSuccess, onBackToLogin }: RegisterP
 
                 {/* Next Button */}
                 <Button
-                    title="Next"
+                    title={submitting ? 'Registering...' : 'Next'}
                     onPress={handleRegister}
                     style={styles.button}
                 />

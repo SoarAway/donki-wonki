@@ -6,6 +6,8 @@ import Logo from '../assets/Logo.svg';
 import { NavBar } from '../components/molecules/NavBar';
 import { BaseScreen } from '../models/BaseScreen';
 import { colorTokens, radius, spacing, typography } from '../components/config';
+import { getNextUpcomingRoute } from '../services/api/apiEndpoints';
+import { getUserId } from '../services/authStorage';
 
 const LOGO_SIZE = spacing[20] + spacing[2];
 
@@ -20,10 +22,6 @@ interface HomeScreenProps {
 }
 
 export const HomeScreen: React.FC<HomeScreenProps> = ({
-  apiStatus,
-  permissionStatus,
-  tokenPreview,
-  lastForegroundMessage,
   onGoToRoutes,
   onGoToCommunity,
   onLogout,
@@ -37,20 +35,52 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
     },
   ];
 
-  const upcomingRoutes = [
+  const [upcomingRoutes, setUpcomingRoutes] = React.useState([
     {
       id: '1',
-      name: 'Work',
-      path: 'LRT Bandar Puteri - LRT SS15',
-      schedule: 'Monday 7:00a.m.',
+      name: 'No route yet',
+      path: 'Add your route to see upcoming trip',
+      schedule: '-',
     },
-    {
-      id: '2',
-      name: 'Home',
-      path: 'LRT SS15 - LRT Bandar Puteri',
-      schedule: 'Monday 5:00p.m.',
-    },
-  ];
+  ]);
+
+  React.useEffect(() => {
+    let mounted = true;
+
+    const loadUpcoming = async () => {
+      try {
+        const email = await getUserId();
+        if (!email) {
+          return;
+        }
+        const result = await getNextUpcomingRoute(email);
+        const route = result.route as any;
+        const departingLocation = String(route.departingLocation ?? '-');
+        const destinationLocation = String(route.destinationLocation ?? '-');
+        const day = String(route.dayOfWeek ?? '');
+        const time = String(route.timeFrom ?? '');
+
+        if (!mounted) {
+          return;
+        }
+        setUpcomingRoutes([
+          {
+            id: String(route.routeId ?? 'upcoming'),
+            name: String(route.description ?? 'Upcoming Route'),
+            path: `${departingLocation} - ${destinationLocation}`,
+            schedule: `${day} ${time}`.trim() || '-',
+          },
+        ]);
+      } catch {
+        // Keep fallback card when no route exists or endpoint returns 404.
+      }
+    };
+
+    loadUpcoming();
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
   return (
     <BaseScreen style={styles.container}>
@@ -87,17 +117,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
           </View>
         ))}
 
-        <Text style={styles.sectionTitle}>System Status</Text>
-        <View style={styles.statusCard}>
-          <Text style={styles.statusText}>API: {apiStatus}</Text>
-          <Text style={styles.statusText}>Notification permission: {permissionStatus}</Text>
-          <Text style={styles.statusText}>Token: {tokenPreview}</Text>
-          <Text style={styles.statusText}>Latest alert: {lastForegroundMessage}</Text>
-        </View>
-
         <View style={styles.actions}>
-          <Button title="Manage Routes" onPress={onGoToRoutes} />
-          <Button title="Open Community" onPress={onGoToCommunity} />
           <Button title="Logout" onPress={onLogout} />
         </View>
 
@@ -207,17 +227,6 @@ const styles = StyleSheet.create({
     fontSize: typography.sizes.sm,
     color: colorTokens.link,
     fontStyle: 'italic',
-  },
-  statusCard: {
-    backgroundColor: colorTokens.surface_soft,
-    borderRadius: radius.lg + 2,
-    padding: spacing[4],
-    marginBottom: spacing[4],
-  },
-  statusText: {
-    fontSize: typography.sizes.xs + 1,
-    color: colorTokens.text_strong,
-    marginBottom: spacing[1] + 2,
   },
   actions: {
     gap: spacing[2] + 2,

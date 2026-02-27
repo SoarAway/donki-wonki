@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Animated, Easing, StyleSheet } from 'react-native';
 import { Text } from '../components/atoms/Text';
