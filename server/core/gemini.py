@@ -5,8 +5,9 @@ All HTTP concerns (retries, timeouts, error handling) are handled here.
 """
 
 from typing import Any
-
+import json
 from google import genai
+from google.genai import types
 
 from core.config import get_settings
 
@@ -38,24 +39,31 @@ class GeminiClient:
         Raises:
             GeminiAPIError: If API call fails
         """
-        # TODO: Implement actual API call
-        # - Add retry logic with exponential backoff
-        # - Handle rate limits (429)
-        # - Handle quota exceeded
-        # - Handle timeout
-        raise NotImplementedError("Gemini API integration pending")
-    
+        try:
+            config = types.GenerateContentConfig(
+                system_instruction=system_instruction,
+                temperature=0.1,
+            )
+            response = await self.client.aio.models.generate_content(
+                model=self.model_name,
+                contents=prompt,
+                config=config
+            )
+            return response.text
+        except Exception as e:
+            raise GeminiAPIError(f"Gemini API call failed: {str(e)}")
+
     async def generate_structured(
         self,
         prompt: str,
-        output_schema: dict[str, Any],
+        output_schema: Any,
         system_instruction: str | None = None
     ) -> dict[str, Any]:
         """Generate structured JSON output from Gemini.
         
         Args:
             prompt: The user prompt/text to analyze
-            output_schema: JSON schema defining expected output
+            output_schema: Output schema (can be a Pydantic model or dict)
             system_instruction: Optional system instructions
             
         Returns:
@@ -63,10 +71,29 @@ class GeminiClient:
             
         Raises:
             GeminiAPIError: If API call fails
-            GeminiParseError: If response doesn't match schema
+            GeminiParseError: If response cannot be parsed
         """
-        # TODO: Implement with response_mime_type='application/json'
-        raise NotImplementedError("Structured output integration pending")
+        try:
+            config = types.GenerateContentConfig(
+                system_instruction=system_instruction,
+                response_mime_type="application/json",
+                response_schema=output_schema,
+                temperature=0.1,
+            )
+            response = await self.client.aio.models.generate_content(
+                model=self.model_name,
+                contents=prompt,
+                config=config
+            )
+            
+            if not response.text:
+                raise GeminiParseError("Empty response from Gemini")
+                
+            return json.loads(response.text)
+        except json.JSONDecodeError as e:
+            raise GeminiParseError(f"Failed to parse Gemini JSON response: {str(e)}")
+        except Exception as e:
+            raise GeminiAPIError(f"Gemini structured generation failed: {str(e)}")
 
 
 class GeminiAPIError(Exception):

@@ -1,0 +1,10 @@
+{
+    "has_active_incident": true,
+    "incident_type": "Widespread Technical Disruption",
+    "description": "Multiple trains have been taken out of service at KLCC, Ara Damansara, Gombak, Putra Heights, Kelana Jaya, and Subang Alam stations due to technical disruptions, causing temporary changes in train frequency. The previous predicted end time of 11:30 is no longer accurate given the expanded scope of the disruption and ongoing reports as late as 10:32.",
+    "predicted_end_time": "13:00",
+    "affected_stations": [
+        "KLCC"
+    ],
+    "runned_at": "2026-02-28T05:46:15.241172+08:00"
+}
