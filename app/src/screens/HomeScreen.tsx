@@ -87,14 +87,6 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
           </View>
         ))}
 
-        <Text style={styles.sectionTitle}>System Status</Text>
-        <View style={styles.statusCard}>
-          <Text style={styles.statusText}>API: {apiStatus}</Text>
-          <Text style={styles.statusText}>Notification permission: {permissionStatus}</Text>
-          <Text style={styles.statusText}>Token: {tokenPreview}</Text>
-          <Text style={styles.statusText}>Latest alert: {lastForegroundMessage}</Text>
-        </View>
-
         <View style={styles.actions}>
           <Button title="Manage Routes" onPress={onGoToRoutes} />
           <Button title="Open Community" onPress={onGoToCommunity} />
