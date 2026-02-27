@@ -1,6 +1,5 @@
 import React from 'react';
 import { Alert, StatusBar, useColorScheme } from 'react-native';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer, type LinkingOptions } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -40,6 +39,10 @@ type MainTabParamList = {
 type AppStackParamList = {
   MainTabs: undefined;
   AddRoute: undefined;
+  AddRoute2 : undefined; 
+  NotificationDetail: undefined; 
+  RouteManagement: undefined;
+  RouteStatus: undefined;
 };
 
 type RootParamList = {
@@ -92,6 +95,7 @@ const MainTabsNavigator: React.FC<MainTabsNavigatorProps> = ({
     screenOptions={{
       headerShown: false,
       tabBarHideOnKeyboard: true,
+      tabBarStyle: { display: 'none' }
     }}
   >
     <MainTabs.Screen name="Home" options={{ title: 'Home' }}>
@@ -268,7 +272,7 @@ function App() {
   }, []);
 
   return (
-    <SafeAreaProvider>
+    <>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
       <NavigationContainer linking={linking}>
         {!authReady ? null : isAuthenticated ? (
@@ -307,7 +311,7 @@ function App() {
         visible={globalLoading || !authReady}
         message={!authReady ? 'Restoring session...' : `Loading${userId ? ` (${userId})` : ''}...`}
       />
-    </SafeAreaProvider>
+    </>
   );
 }
 

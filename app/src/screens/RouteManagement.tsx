@@ -2,70 +2,35 @@ import React, { useCallback, useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import { Button } from '../components/atoms/Button';
+import { NavBar } from '../components/molecules/NavBar';
 import { BaseScreen } from '../models/BaseScreen';
-import { deleteRoute, getRoutesByEmail } from '../services/api/apiEndpoints';
-import { getUserId } from '../services/authStorage';
+import { colorTokens, radius, shadows, spacing, typography } from '../components/config';
 
 interface Route {
     id: string;
     name: string;
     path: string;
-    schedule: string;
-    backgroundColor?: string;
+    time: string;
+    schedules: string[];
 }
 
 export default function RouteManagement({ navigation }: any) {
-    const [routes, setRoutes] = useState<Route[]>([]);
-    const [authEmail, setAuthEmail] = useState<string>('');
-
-    const loadRoutes = useCallback(async () => {
-        try {
-            const email = await getUserId();
-            if (!email) {
-                setRoutes([]);
-                return;
-            }
-            setAuthEmail(email);
-            const response = await getRoutesByEmail(email);
-            const mapped: Route[] = response.routes.map((raw: any) => {
-                const schedules = Array.isArray(raw.schedules) ? raw.schedules : [];
-                const first = schedules[0] || {};
-                const days = schedules.map((s: any) => s.dayOfWeek).filter(Boolean);
-                return {
-                    id: String(raw.id ?? ''),
-                    name: String(raw.description ?? 'Route'),
-                    path: `${String(raw.departingLocation ?? '-')}` + ' - ' + `${String(raw.destinationLocation ?? '-')}`,
-                    schedule: days.length > 0
-                        ? `${days.join(', ')} ${String(first.timeFrom ?? '')}`.trim()
-                        : 'No schedule',
-                    backgroundColor: '#FFFFFF',
-                };
-            });
-            setRoutes(mapped);
-        } catch (error) {
-            const message = error instanceof Error ? error.message : 'Failed to load routes.';
-            Alert.alert('Error', message);
-        }
-    }, []);
-
-    useFocusEffect(
-        useCallback(() => {
-            loadRoutes();
-        }, [loadRoutes]),
-    );
-
-    const handleDelete = async (routeId: string) => {
-        if (!authEmail) {
-            return;
-        }
-        try {
-            await deleteRoute({ email: authEmail, route_id: routeId });
-            await loadRoutes();
-        } catch (error) {
-            const message = error instanceof Error ? error.message : 'Failed to delete route.';
-            Alert.alert('Error', message);
-        }
-    };
+    const [routes] = useState<Route[]>([
+        {
+            id: '1',
+            name: 'Work',
+            path: 'LRT Bandar Puteri - LRT SS15',
+            time: '7:00 AM',
+            schedules: ['Monday', 'Tuesday', 'Wednesday'],
+        },
+        {
+            id: '2',
+            name: 'Home',
+            path: 'LRT SS15 - LRT Bandar Puteri',
+            time: '8:00 PM',
+            schedules: ['Monday', 'Tuesday', 'Wednesday'],
+        },
+    ]);
 
     return (
         <BaseScreen style={styles.container}>
@@ -78,16 +43,15 @@ export default function RouteManagement({ navigation }: any) {
                 contentContainerStyle={styles.scrollContainer}
             >
                 {routes.map((route) => (
-                    <View
-                        key={route.id}
-                        style={[
-                            styles.card,
-                            { backgroundColor: route.backgroundColor || '#FFFFFF' }
-                        ]}
-                    >
+                    <View key={route.id} style={styles.card}>
                         <Text style={styles.routeName}>{route.name}</Text>
                         <Text style={styles.routePath}>{route.path}</Text>
-                        <Text style={styles.routeSchedule}>{route.schedule}</Text>
+
+                        <View style={styles.scheduleList}>
+                            <Text style={styles.scheduleItem}>
+                            </Text>
+                            <Text style={styles.scheduleItem}>{route.time}</Text>
+                        </View>
 
                         <TouchableOpacity
                             onPress={() => navigation.navigate('AddRoute', { routeId: route.id })}
@@ -104,15 +68,26 @@ export default function RouteManagement({ navigation }: any) {
                         </TouchableOpacity>
                     </View>
                 ))}
+                <View style={styles.bottomContainer}>
+                    <Button
+                        title="Add Route"
+                        onPress={() => navigation.navigate('AddRoute')}
+                        style={styles.addRouteButton}
+                    />
+                </View>
             </ScrollView>
-
-            <View style={styles.bottomContainer}>
-                <Button
-                    label="Add Route"
-                    onPress={() => navigation.navigate('AddRoute')}
-                    style={styles.addRouteButton}
-                />
-            </View>
+            <NavBar
+                activeTab="Route"
+                onTabPress={(tab) => {
+                    if (tab === 'Home') {
+                        navigation.navigate('Home');
+                    } else if (tab === 'Route') {
+                        navigation.navigate('RouteManagement');
+                    } else if (tab === 'Community') {
+                        navigation.navigate('Community');
+                    }
+                }}
+            />
         </BaseScreen>
     );
 }
@@ -120,57 +95,59 @@ export default function RouteManagement({ navigation }: any) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#F3F4FB',
+        backgroundColor: colorTokens.background_default,
     },
     header: {
-        paddingHorizontal: 25,
-        paddingTop: 80,
-        paddingBottom: 25,
+        paddingHorizontal: spacing[8],
+        paddingTop: spacing[24],
+        paddingBottom: spacing[5],
     },
     title: {
-        fontSize: 32,
-        fontWeight: 'bold',
-        color: '#000000',
-        letterSpacing: -0.5,
+        fontSize: typography.sizes['3xl'] - 3,
+        fontWeight: typography.weights.bold,
+        color: colorTokens.text_primary,
+        letterSpacing: typography.letterSpacing.tight,
     },
     scrollView: {
         flex: 1,
     },
     scrollContainer: {
-        paddingHorizontal: 20,
-        paddingBottom: 120,
+        paddingHorizontal: spacing[8],
+        paddingTop: spacing[2],
+        paddingBottom: spacing[10] - spacing[1],
     },
     card: {
-        borderRadius: 16,
-        padding: 20,
-        marginBottom: 20,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.1,
-        shadowRadius: 10,
-        elevation: 5,
+        backgroundColor: colorTokens.surface_soft,
+        borderRadius: radius.xl,
+        padding: spacing[5],
+        marginBottom: spacing[4] + 2,
+        ...shadows.md,
         position: 'relative',
     },
     routeName: {
-        fontSize: 22,
-        fontWeight: 'bold',
-        color: '#000000',
-        marginBottom: 8,
+        fontSize: typography.sizes['2xl'] - 2,
+        fontWeight: typography.weights.bold,
+        color: colorTokens.text_primary,
+        marginBottom: spacing[1] + 2,
     },
     routePath: {
-        fontSize: 14,
-        color: '#333333',
-        marginBottom: 4,
+        fontSize: typography.sizes.sm,
+        color: colorTokens.text_secondary,
+        marginBottom: spacing[2] + 2,
     },
-    routeSchedule: {
-        fontSize: 14,
-        color: '#3B6BB1',
+    scheduleList: {
+        marginBottom: spacing[6],
+    },
+    scheduleItem: {
+        fontSize: typography.sizes.sm,
+        color: colorTokens.secondary_accent,
         fontStyle: 'italic',
+        lineHeight: typography.lineHeights.lg - 6,
     },
     editButton: {
         position: 'absolute',
-        right: 20,
-        bottom: 15,
+        right: 18,
+        bottom: 14,
     },
     deleteButton: {
         position: 'absolute',
@@ -178,8 +155,8 @@ const styles = StyleSheet.create({
         top: 15,
     },
     editText: {
-        fontSize: 14,
-        color: '#3B6BB1',
+        fontSize: typography.sizes.sm,
+        color: colorTokens.secondary_accent,
         textDecorationLine: 'underline',
         fontStyle: 'italic',
     },
@@ -190,21 +167,12 @@ const styles = StyleSheet.create({
         fontStyle: 'italic',
     },
     bottomContainer: {
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        right: 0,
-        paddingHorizontal: 20,
-        paddingBottom: 40,
+        paddingTop: spacing[2],
+        paddingBottom: spacing[5],
     },
     addRouteButton: {
-        backgroundColor: '#1256A7',
-        borderRadius: 14,
-        height: 60,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.3,
-        shadowRadius: 5,
-        elevation: 10,
+        backgroundColor: colorTokens.primary_accent,
+        borderRadius: radius.full,
+        height: spacing[12] + 2,
     },
 });

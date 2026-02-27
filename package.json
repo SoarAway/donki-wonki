@@ -4,13 +4,12 @@
   "description": "Hyperlocal Predictive Rail Alerts for Klang Valley",
   "private": true,
   "workspaces": [
-    "app",
-    "server"
+    "app"
   ],
   "scripts": {
     "app": "cd app && npm start",
-    "server": "cd server && npm run serve",
-    "install:all": "npm install && cd app && npm install && cd ../server && npm install"
+    "server": "cd server && python -m uvicorn main:app --reload",
+    "install:all": "npm install && cd app && npm install"
   },
   "devDependencies": {
     "@types/react": "^19.2.13"

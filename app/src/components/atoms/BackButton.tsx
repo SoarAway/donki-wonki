@@ -10,8 +10,8 @@ interface BackButtonProps extends TouchableOpacityProps {
 
 export const BackButton: React.FC<BackButtonProps> = ({
     style,
-    color = '#1256A7',
-    size = 35,
+    color = '#2B308B',
+    size = 21,
     ...props
 }) => {
     return (

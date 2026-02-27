@@ -18,9 +18,9 @@ export const Dropdown: React.FC<DropdownProps> = ({ label, placeholder, options,
     };
 
     return (
-        <View style={[styles.container, isOpen && styles.openContainer]}>
+        <View style={[styles.container, isOpen && { zIndex: 5000 }]}>
             <Text style={styles.label}>{label}</Text>
-            <View style={[styles.innerContainer, isOpen && styles.openInnerContainer]}>
+            <View style={{ zIndex: isOpen ? 6000 : 0 }}>
                 <TouchableOpacity
                     style={styles.dropdownButton}
                     onPress={() => setIsOpen(!isOpen)}
@@ -29,7 +29,10 @@ export const Dropdown: React.FC<DropdownProps> = ({ label, placeholder, options,
                     <Text style={[styles.selectedText, !selectedValue && styles.placeholder]}>
                         {selectedValue || placeholder}
                     </Text>
-                    <Text style={styles.arrow}>{isOpen ? '▲' : '▼'}</Text>
+                    {/* Blue filled triangle arrow */}
+                    <View style={styles.arrowContainer}>
+                        <Text style={styles.arrow}>{isOpen ? '▲' : '▼'}</Text>
+                    </View>
                 </TouchableOpacity>
 
                 {isOpen && (
@@ -67,83 +70,83 @@ export const Dropdown: React.FC<DropdownProps> = ({ label, placeholder, options,
 
 const styles = StyleSheet.create({
     container: {
-        marginBottom: 20,
+        marginBottom: 18,
         width: '100%',
         position: 'relative',
     },
-    openContainer: {
-        zIndex: 5000,
-    },
-    innerContainer: {
-        zIndex: 0,
-    },
-    openInnerContainer: {
-        zIndex: 6000,
-    },
     label: {
-        fontSize: 16,
-        fontWeight: '600',
+        fontSize: 15,
+        fontWeight: '400',
         marginBottom: 8,
-        color: '#000000',
+        color: '#0D0D0D',
     },
     dropdownButton: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        elevation: 4,
-        borderRadius: 12,
-        padding: 12,
-        backgroundColor: '#FFFFFF',
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 4,
+        borderRadius: 10,
+        paddingHorizontal: 12,
+        width: '100%',
+        height: 44,
+        backgroundColor: '#F0F1F6',
     },
     selectedText: {
         fontSize: 14,
-        color: '#000000',
+        color: '#0D0D0D',
+        flex: 1,
     },
     placeholder: {
-        color: '#999',
+        color: '#AAAAAA',
         fontStyle: 'italic',
+    },
+    arrowContainer: {
+        padding: 8,
     },
     arrow: {
         fontSize: 12,
         color: '#1256A7',
     },
+    arrowUp: {},
     dropdownListContainer: {
         position: 'absolute',
         top: '100%',
         left: 0,
         right: 0,
-        marginTop: 5,
-        backgroundColor: '#FFFFFF',
-        borderRadius: 12,
-        elevation: 10,
+        marginTop: 4,
+        backgroundColor: '#EDEDF0',
+        borderRadius: 14,
+        zIndex: 10000,
+        overflow: 'hidden',
+        paddingVertical: 6,
+        // Elevation for Android
+        elevation: 8,
+        // Shadow for iOS
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 4 },
         shadowOpacity: 0.15,
-        shadowRadius: 10,
-        zIndex: 10000,
-        overflow: 'hidden',
+        shadowRadius: 8,
     },
     scrollView: {
         maxHeight: 200,
     },
     optionItem: {
-        padding: 15,
-        borderBottomWidth: 1,
-        borderBottomColor: '#F0F0F0',
+        paddingHorizontal: 14,
+        paddingVertical: 12,
+        marginHorizontal: 6,
+        borderRadius: 10,
+        marginVertical: 1,
+        backgroundColor: 'transparent',
     },
     selectedOptionItem: {
-        backgroundColor: '#E8F1FA',
+        backgroundColor: '#D8DDEE',
     },
     optionText: {
-        fontSize: 14,
-        color: '#333',
+        fontSize: 15,
+        color: '#555',
+        fontWeight: '400',
     },
     selectedOptionText: {
-        color: '#1256A7',
-        fontWeight: '600',
+        color: '#2B308B',
+        fontWeight: '500',
     },
 });

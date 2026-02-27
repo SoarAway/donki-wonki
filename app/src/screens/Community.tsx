@@ -1,21 +1,23 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { Button } from '../components/atoms/Button';
+import { NavBar } from '../components/molecules/NavBar';
 import { BaseScreen } from '../models/BaseScreen';
+import { colorTokens, radius, shadows, spacing, typography } from '../components/config';
+import { ReportCard } from '../components/molecules/ReportCard';
+import DislikeIcon from '../assets/Dislike.svg';
+import DislikeFilledIcon from '../assets/Dislike_Filled.svg';
+import LikeIcon from '../assets/Like.svg';
+import LikeFilledIcon from '../assets/Like_Filled.svg';
 
 interface Post {
     id: string;
-    username: string;
+    username?: string;
     content: string;
     timestamp: string;
     liked: boolean;
     disliked: boolean;
 }
-
-const LikeIcon = require('../assets/Like.png');
-const LikeFilledIcon = require('../assets/Like_Filled.png');
-const DislikeIcon = require('../assets/Dislike.png');
-const DislikeFilledIcon = require('../assets/Dislike_Filled.png');
 
 export default function Community({ navigation }: any) {
     const [posts] = useState<Post[]>([
@@ -40,14 +42,6 @@ export default function Community({ navigation }: any) {
             username: '@xxhannnn',
             content: 'LRT Kelana Jaya Breakdown. Already wait for 40 minutes!',
             timestamp: '4 mins ago',
-            liked: false,
-            disliked: false,
-        },
-        {
-            id: '4',
-            username: '@xxhannnn',
-            content: 'LRT Kelana Jaya Breakdown. Already wait for 40 minutes!',
-            timestamp: '10 mins ago',
             liked: false,
             disliked: false,
         },
@@ -78,46 +72,42 @@ export default function Community({ navigation }: any) {
     return (
         <BaseScreen style={styles.container}>
             <View style={styles.header}>
-                <Text style={styles.title}>Community</Text>
+                <Text style={styles.title}>Community Reports</Text>
+                <Button
+                    title="+ Add Report"
+                    onPress={() => navigation.navigate('Reporting')}
+                    style={styles.reportButton}
+                    textStyle={styles.reportButtonText}
+                />
             </View>
 
             <ScrollView
                 style={styles.scrollView}
                 contentContainerStyle={styles.scrollContainer}
+                showsVerticalScrollIndicator={false}
             >
                 {posts.map((post) => (
-                    <View key={post.id} style={styles.card}>
-                        <Text style={styles.username}>{post.username}</Text>
-                        <Text style={styles.content}>{post.content}</Text>
-
-                        <View style={styles.footer}>
-                            <View style={styles.actions}>
-                                <TouchableOpacity onPress={() => toggleLike(post.id)} style={styles.actionButton}>
-                                    <Image
-                                        source={post.liked ? LikeFilledIcon : LikeIcon}
-                                        style={styles.icon}
-                                    />
-                                </TouchableOpacity>
-                                <TouchableOpacity onPress={() => toggleDislike(post.id)} style={styles.actionButton}>
-                                    <Image
-                                        source={post.disliked ? DislikeFilledIcon : DislikeIcon}
-                                        style={styles.icon}
-                                    />
-                                </TouchableOpacity>
-                            </View>
-                            <Text style={styles.timestamp}>{post.timestamp}</Text>
-                        </View>
-                    </View>
+                    <ReportCard
+                        key={post.id}
+                        post={post}
+                        onLike={toggleLike}
+                        onDislike={toggleDislike}
+                        icons={{ LikeFilledIcon, LikeIcon, DislikeFilledIcon, DislikeIcon }}
+                    />
                 ))}
             </ScrollView>
-
-            <View style={styles.bottomContainer}>
-                <Button
-                    label="Report"
-                    onPress={() => navigation.navigate('Reporting')}
-                    style={styles.reportButton}
-                />
-            </View>
+            <NavBar
+                activeTab="Community"
+                onTabPress={(tab) => {
+                    if (tab === 'Home') {
+                        navigation.navigate('Home');
+                    } else if (tab === 'Route') {
+                        navigation.navigate('RouteManagement');
+                    } else if (tab === 'Community') {
+                        navigation.navigate('Community');
+                    }
+                }}
+            />
         </BaseScreen>
     );
 }
@@ -125,92 +115,76 @@ export default function Community({ navigation }: any) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#F3F4FB',
+        backgroundColor: colorTokens.background_default,
     },
     header: {
-        paddingHorizontal: 25,
-        paddingTop: 90,
-        paddingBottom: 30,
+        paddingHorizontal: spacing[8],
+        paddingTop: spacing[24] - spacing[2],
+        paddingBottom: spacing[6] + spacing[1],
+        gap: spacing[4],
     },
     title: {
-        fontSize: 30,
-        fontWeight: 'bold',
-        color: '#000000',
-        letterSpacing: -1,
+        fontSize: typography.sizes['4xl'] - 4,
+        fontWeight: typography.weights.bold,
+        color: colorTokens.text_primary,
+        letterSpacing: typography.letterSpacing.tight,
     },
     scrollView: {
         flex: 1,
     },
     scrollContainer: {
-        paddingHorizontal: 20,
-        paddingBottom: 120,
+        paddingHorizontal: spacing[8],
+        paddingBottom: spacing[24] + spacing[6],
     },
     card: {
-        backgroundColor: '#FFFFFF',
-        borderRadius: 12,
-        padding: 16,
-        marginBottom: 16,
+        backgroundColor: colorTokens.surface_soft,
+        borderRadius: radius.lg + 2,
+        padding: spacing[4] + 2,
+        marginBottom: spacing[4] - 2,
         borderWidth: 0.5,
-        borderColor: '#1256A7',
-        shadowColor: '#1256A7',
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.08,
-        shadowRadius: 8,
-        elevation: 4,
+        borderColor: colorTokens.border_subtle,
+        ...shadows.sm,
     },
     username: {
-        fontSize: 13,
-        color: '#333333',
+        fontSize: typography.sizes.xs + 1,
+        color: colorTokens.text_muted,
         fontStyle: 'italic',
-        marginBottom: 8,
-        opacity: 0.8,
+        marginBottom: spacing[2],
     },
     content: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        color: '#000000',
-        lineHeight: 24,
-        marginBottom: 12,
+        fontSize: typography.sizes.lg,
+        fontWeight: typography.weights.bold,
+        color: colorTokens.text_primary,
+        lineHeight: typography.lineHeights.lg - 3,
+        marginBottom: spacing[4] - 2,
     },
     footer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginTop: 5,
     },
     actions: {
         flexDirection: 'row',
         alignItems: 'center',
     },
     actionButton: {
-        marginRight: 18,
+        marginRight: spacing[4] + 2,
     },
     icon: {
-        width: 20,
-        height: 20,
+        width: 22,
+        height: 22,
         resizeMode: 'contain',
     },
     timestamp: {
-        fontSize: 11,
-        color: '#999999',
+        fontSize: typography.sizes.xs - 1,
+        color: colorTokens.text_subtle,
         fontStyle: 'italic',
     },
-    bottomContainer: {
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        right: 0,
-        paddingHorizontal: 30,
-        paddingBottom: 40,
-    },
     reportButton: {
-        backgroundColor: '#1256A7',
-        borderRadius: 14,
-        height: 65,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.3,
-        shadowRadius: 5,
-        elevation: 10,
+        backgroundColor: colorTokens.surface_muted,
+        borderRadius: radius.full,
+    },
+    reportButtonText: {
+        color: colorTokens.secondary_accent,
     },
 });

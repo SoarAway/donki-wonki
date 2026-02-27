@@ -1,142 +1,176 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, Alert, ScrollView } from 'react-native';
+import {
+    View,
+    Text,
+    StyleSheet,
+    Alert,
+    ScrollView,
+    Image,
+    TouchableOpacity,
+} from 'react-native';
 import { Button } from '../components/atoms/Button';
 import { Input } from '../components/atoms/Input';
-import { registerUser } from '../services/api/apiEndpoints';
-import {
-    firstValidationError,
-    hasValidationErrors,
-    matchValue,
-    minLength,
-    requireValue,
-    validateEmail,
-} from '../utils/authValidation';
 import { BaseScreen } from '../models/BaseScreen';
+import { colorTokens, radius, spacing, typography } from '../components/config';
 
 interface RegisterProps {
-    onRegisterSuccess?: (userIdentifier: string) => void;
-    onBackToLogin?: () => void;
+    onRegisterSuccess: (userId: string) => void;
+    onBackToLogin: () => void;
 }
 
 export default function Register({ onRegisterSuccess, onBackToLogin }: RegisterProps) {
-    const [username, setUsername] = useState('');
+    const [name, setName] = useState('');
     const [email, setEmail] = useState('');
+    const [dob, setDob] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [submitting, setSubmitting] = useState(false);
 
-    const [emailError, setEmailError] = useState('');
-    const [usernameError, setUsernameError] = useState('');
-    const [passwordError, setPasswordError] = useState('');
-    const [confirmPasswordError, setConfirmPasswordError] = useState('');
+    // ── DOB helpers (no extra useState needed) ────────────────────
+    const isValidDate = (dateStr: string): boolean => {
+        const parts = dateStr.split('/');
+        if (parts.length !== 3) return false;
+        const day = parseInt(parts[0], 10);
+        const month = parseInt(parts[1], 10);
+        const year = parseInt(parts[2], 10);
+        if (month < 1 || month > 12) return false;
+        if (day < 1 || day > 31) return false;
+        if (year < 1900 || year > new Date().getFullYear()) return false;
+        const date = new Date(year, month - 1, day);
+        return (
+            date.getFullYear() === year &&
+            date.getMonth() === month - 1 &&
+            date.getDate() === day
+        );
+    };
 
-    const handleRegister = async () => {
-        const errors = {
-            email: validateEmail(email, 'Enter a valid email address.'),
-            username: requireValue(username, 'Username is required.'),
-            password: firstValidationError(
-                minLength(password, 8, 'Password must be at least 8 characters.'),
-            ),
-            confirmPassword: matchValue(
-                confirmPassword,
-                password,
-                'Passwords do not match.',
-            ),
-        };
+    const handleDobChange = (text: string) => {
+        const digits = text.replace(/\D/g, '');
+        let formatted = '';
+        if (digits.length <= 2) {
+            formatted = digits;
+        } else if (digits.length <= 4) {
+            formatted = `${digits.slice(0, 2)}/${digits.slice(2)}`;
+        } else {
+            formatted = `${digits.slice(0, 2)}/${digits.slice(2, 4)}/${digits.slice(4, 8)}`;
+        }
+        setDob(formatted);
+    };
 
-        setEmailError(errors.email);
-        setUsernameError(errors.username);
-        setPasswordError(errors.password);
-        setConfirmPasswordError(errors.confirmPassword);
+    // Derived — no useState needed
+    const dobError =
+        dob.length === 10 && !isValidDate(dob)
+            ? 'Invalid date. Please enter a valid DD/MM/YYYY.'
+            : '';
+    // ──────────────────────────────────────────────────────────────
 
-        if (hasValidationErrors(errors)) {
+    // ── Email validation (derived, no useState) ──────────────────
+    const emailError =
+        email.length > 0 && (!email.includes('@') || !email.includes('.com'))
+            ? 'Email must contain @ and .com'
+            : '';
+    // ──────────────────────────────────────────────────────────────
+
+    const handleRegister = () => {
+        if (!name || !email || !dob || !password || !confirmPassword) {
+            Alert.alert('Error', 'Please fill in all fields');
             return;
         }
-
-        setSubmitting(true);
-        try {
-            const response = await registerUser({
-                email: email.trim(),
-                username: username.trim(),
-                password,
-            });
-
-            Alert.alert('Registration Success', response.message);
-            if (onRegisterSuccess) {
-                onRegisterSuccess(response.user.email.trim().toLowerCase());
-                return;
-            }
-            if (onBackToLogin) {
-                onBackToLogin();
-            }
-        } catch (error) {
-            const message = error instanceof Error ? error.message : 'Unable to register now.';
-            Alert.alert('Registration Failed', message);
-        } finally {
-            setSubmitting(false);
+        if (!email.includes('@') || !email.includes('.com')) {
+            Alert.alert('Error', 'Please enter a valid email with @ and .com');
+            return;
         }
+        if (dob.length < 10 || !isValidDate(dob)) {
+            Alert.alert('Error', 'Please enter a valid date of birth (DD/MM/YYYY).');
+            return;
+        }
+        if (password !== confirmPassword) {
+            Alert.alert('Error', 'Passwords do not match');
+            return;
+        }
+        console.log('Register attempt:', email);
+        onRegisterSuccess(email.trim().toLowerCase());
     };
 
     return (
-        <BaseScreen style={styles.container} keyboardAvoiding keyboardBehavior="padding">
-            <ScrollView contentContainerStyle={styles.scrollContainer}>
-                <View style={styles.card}>
-                    <Text style={styles.title}>Register</Text>
+        <BaseScreen style={styles.container} keyboardAvoiding>
+            <ScrollView
+                contentContainerStyle={styles.scrollContainer}
+                showsVerticalScrollIndicator={false}
+            >
+                {/* Logo */}
+                <Image
+                    source={require('../assets/Logo.png')}
+                    style={styles.logo}
+                    resizeMode="contain"
+                />
 
-                    <Input
-                        label="Username"
-                        placeholder="Enter your username"
-                        value={username}
-                        onChangeText={setUsername}
-                        autoCapitalize="none"
-                        autoCorrect={false}
-                        error={usernameError}
-                    />
+                {/* Title */}
+                <Text style={styles.title}>Register an{'\n'}Account</Text>
 
-                    <Input
-                        label="Email"
-                        placeholder="Enter your email address"
-                        value={email}
-                        onChangeText={setEmail}
-                        keyboardType="email-address"
-                        autoCapitalize="none"
-                        autoCorrect={false}
-                        error={emailError}
-                    />
+                {/* Form Fields */}
+                <Input
+                    label="Name:"
+                    placeholder="Enter your name"
+                    value={name}
+                    onChangeText={setName}
+                    autoCapitalize="words"
+                />
 
-                    <Input
-                        label="Password"
-                        placeholder="Enter your password"
-                        value={password}
-                        onChangeText={setPassword}
-                        secureTextEntry
-                        autoCapitalize="none"
-                        error={passwordError}
-                    />
+                <Input
+                    label="Email:"
+                    placeholder="Enter your email"
+                    value={email}
+                    onChangeText={setEmail}
+                    keyboardType="email-address"
+                    autoCapitalize="none"
+                    style={emailError ? styles.inputError : undefined}
+                />
+                {emailError ? (
+                    <Text style={styles.errorText}>{emailError}</Text>
+                ) : null}
 
-                    <Input
-                        label="Confirm Password"
-                        placeholder="Please confirm your password"
-                        value={confirmPassword}
-                        onChangeText={setConfirmPassword}
-                        secureTextEntry
-                        autoCapitalize="none"
-                        error={confirmPasswordError}
-                    />
+                <Input
+                    label="Date of Birth:"
+                    placeholder="DD/MM/YYYY"
+                    value={dob}
+                    onChangeText={handleDobChange}
+                    keyboardType="numeric"
+                    maxLength={10}
+                    style={dobError ? styles.inputError : undefined}
+                />
+                {dobError ? (
+                    <Text style={styles.errorText}>{dobError}</Text>
+                ) : null}
 
-                    <Button
-                        label="Register"
-                        onPress={handleRegister}
-                        loading={submitting}
-                        style={styles.registerButton}
-                    />
+                <Input
+                    label="Password:"
+                    placeholder="Enter your password"
+                    value={password}
+                    onChangeText={setPassword}
+                    secureTextEntry
+                />
 
-                    <Button
-                        label="Back to Login"
-                        onPress={() => onBackToLogin && onBackToLogin()}
-                        variant="outline"
-                        style={styles.backButton}
-                    />
+                <Input
+                    label="Confirm Password:"
+                    placeholder="Enter your confirm password"
+                    value={confirmPassword}
+                    onChangeText={setConfirmPassword}
+                    secureTextEntry
+                />
+
+                {/* Next Button */}
+                <Button
+                    title="Next"
+                    onPress={handleRegister}
+                    style={styles.button}
+                />
+
+                {/* Login link */}
+                <View style={styles.loginRow}>
+                    <Text style={styles.loginText}>Already have an account? </Text>
+                    <TouchableOpacity onPress={onBackToLogin}>
+                        <Text style={styles.loginLink}>Login Here</Text>
+                    </TouchableOpacity>
                 </View>
             </ScrollView>
         </BaseScreen>
@@ -146,37 +180,57 @@ export default function Register({ onRegisterSuccess, onBackToLogin }: RegisterP
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#8DBDF1',
+        backgroundColor: colorTokens.background_default,
     },
     scrollContainer: {
         flexGrow: 1,
-        justifyContent: 'center',
-        padding: 20,
+        paddingHorizontal: spacing[8],
+        paddingTop: spacing[24] + spacing[6],
+        paddingBottom: spacing[10],
     },
-    card: {
-        backgroundColor: '#F1F0F6',
-        borderRadius: 50,
-        paddingHorizontal: 40,
-        paddingTop: 40,
-        paddingBottom: 40,
-        width: '100%',
-        elevation: 5,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 10,
+    logo: {
+        width: spacing[20] + spacing[2],
+        height: spacing[12] + 2,
+        marginBottom: spacing[5],
     },
     title: {
-        fontSize: 30,
-        fontWeight: 'bold',
-        marginBottom: 50,
-        textAlign: 'center',
-        color: '#000000',
+        fontSize: typography.sizes['3xl'],
+        fontWeight: typography.weights.bold,
+        color: colorTokens.text_dark,
+        marginBottom: spacing[5] + 1,
+        lineHeight: typography.lineHeights['3xl'] + 6,
     },
-    registerButton: {
-        marginTop: 20,
+    button: {
+        marginTop: spacing[8],
+        borderRadius: radius.full,
     },
-    backButton: {
-        marginTop: 10,
+    loginRow: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        marginTop: spacing[4],
+        alignItems: 'center',
+    },
+    loginText: {
+        fontSize: typography.sizes.xs + 1,
+        color: colorTokens.text_muted,
+        fontStyle: 'italic',
+    },
+    loginLink: {
+        fontSize: typography.sizes.xs + 1,
+        color: colorTokens.primary_accent,
+        fontStyle: 'italic',
+        textDecorationLine: 'underline',
+        fontWeight: typography.weights.semibold,
+    },
+    inputError: {
+        borderWidth: 1,
+        borderColor: colorTokens.error_main,
+        backgroundColor: colorTokens.error_background_soft,
+    },
+    errorText: {
+        color: colorTokens.error_main,
+        fontSize: typography.sizes.xs - 1,
+        marginTop: -10,
+        marginBottom: spacing[2],
     },
 });
