@@ -1,7 +1,10 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import React, { useCallback, useState } from 'react';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 import { Button } from '../components/atoms/Button';
 import { BaseScreen } from '../models/BaseScreen';
+import { deleteRoute, getRoutesByEmail } from '../services/api/apiEndpoints';
+import { getUserId } from '../services/authStorage';
 
 interface Route {
     id: string;
@@ -12,22 +15,57 @@ interface Route {
 }
 
 export default function RouteManagement({ navigation }: any) {
-    const [routes] = useState<Route[]>([
-        {
-            id: '1',
-            name: 'Work',
-            path: 'LRT Bandar Puteri - LRT SS15',
-            schedule: 'Monday - Friday 7:00a.m.',
-            backgroundColor: '#DFE5F0',
-        },
-        {
-            id: '2',
-            name: 'Home',
-            path: 'LRT SS15 - LRT Bandar Puteri',
-            schedule: 'Monday - Friday 5:00p.m.',
-            backgroundColor: '#FFFFFF',
-        },
-    ]);
+    const [routes, setRoutes] = useState<Route[]>([]);
+    const [authEmail, setAuthEmail] = useState<string>('');
+
+    const loadRoutes = useCallback(async () => {
+        try {
+            const email = await getUserId();
+            if (!email) {
+                setRoutes([]);
+                return;
+            }
+            setAuthEmail(email);
+            const response = await getRoutesByEmail(email);
+            const mapped: Route[] = response.routes.map((raw: any) => {
+                const schedules = Array.isArray(raw.schedules) ? raw.schedules : [];
+                const first = schedules[0] || {};
+                const days = schedules.map((s: any) => s.dayOfWeek).filter(Boolean);
+                return {
+                    id: String(raw.id ?? ''),
+                    name: String(raw.description ?? 'Route'),
+                    path: `${String(raw.departingLocation ?? '-')}` + ' - ' + `${String(raw.destinationLocation ?? '-')}`,
+                    schedule: days.length > 0
+                        ? `${days.join(', ')} ${String(first.timeFrom ?? '')}`.trim()
+                        : 'No schedule',
+                    backgroundColor: '#FFFFFF',
+                };
+            });
+            setRoutes(mapped);
+        } catch (error) {
+            const message = error instanceof Error ? error.message : 'Failed to load routes.';
+            Alert.alert('Error', message);
+        }
+    }, []);
+
+    useFocusEffect(
+        useCallback(() => {
+            loadRoutes();
+        }, [loadRoutes]),
+    );
+
+    const handleDelete = async (routeId: string) => {
+        if (!authEmail) {
+            return;
+        }
+        try {
+            await deleteRoute({ email: authEmail, route_id: routeId });
+            await loadRoutes();
+        } catch (error) {
+            const message = error instanceof Error ? error.message : 'Failed to delete route.';
+            Alert.alert('Error', message);
+        }
+    };
 
     return (
         <BaseScreen style={styles.container}>
@@ -56,6 +94,13 @@ export default function RouteManagement({ navigation }: any) {
                             style={styles.editButton}
                         >
                             <Text style={styles.editText}>edit</Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity
+                            onPress={() => handleDelete(route.id)}
+                            style={styles.deleteButton}
+                        >
+                            <Text style={styles.deleteText}>delete</Text>
                         </TouchableOpacity>
                     </View>
                 ))}
@@ -127,9 +172,20 @@ const styles = StyleSheet.create({
         right: 20,
         bottom: 15,
     },
+    deleteButton: {
+        position: 'absolute',
+        right: 20,
+        top: 15,
+    },
     editText: {
         fontSize: 14,
         color: '#3B6BB1',
+        textDecorationLine: 'underline',
+        fontStyle: 'italic',
+    },
+    deleteText: {
+        fontSize: 14,
+        color: '#B14444',
         textDecorationLine: 'underline',
         fontStyle: 'italic',
     },

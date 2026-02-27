@@ -14,7 +14,7 @@ import {
 import { BaseScreen } from '../models/BaseScreen';
 
 interface RegisterProps {
-    onRegisterSuccess?: (userId: string) => void;
+    onRegisterSuccess?: (userIdentifier: string) => void;
     onBackToLogin?: () => void;
 }
 
@@ -63,7 +63,7 @@ export default function Register({ onRegisterSuccess, onBackToLogin }: RegisterP
 
             Alert.alert('Registration Success', response.message);
             if (onRegisterSuccess) {
-                onRegisterSuccess(response.user.id);
+                onRegisterSuccess(response.user.email.trim().toLowerCase());
                 return;
             }
             if (onBackToLogin) {

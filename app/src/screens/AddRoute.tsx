@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
     View,
     Text,
@@ -7,12 +7,21 @@ import {
     TouchableOpacity,
     Image,
     TextInput,
+    Alert,
 } from 'react-native';
 import { Input } from '../components/atoms/Input';
 import { Button } from '../components/atoms/Button';
 import { Checkbox } from '../components/atoms/Checkbox';
 import { AutocompleteInput } from '../components/atoms/AutoCompleteInput';
 import { BaseScreen } from '../models/BaseScreen';
+import {
+    addRouteSchedule,
+    createRoute,
+    editRoute,
+    getSpecificRoute,
+    getUserByEmail,
+} from '../services/api/apiEndpoints';
+import { getUserId } from '../services/authStorage';
 
 const closeIcon = require('../assets/close.png');
 
@@ -31,12 +40,67 @@ const DAYS = [
     'Every Weekdays',
 ];
 
-export default function AddRoute() {
+export default function AddRoute({ route }: any) {
     const [label, setLabel] = useState('');
     const [startPoint, setStartPoint] = useState('');
     const [destPoint, setDestPoint] = useState('');
+    const [departingStation, setDepartingStation] = useState('');
+    const [destinationStation, setDestinationStation] = useState('');
     const [selectedDays, setSelectedDays] = useState<string[]>([]);
     const [timeSlots, setTimeSlots] = useState<{ [key: string]: TimeSlot[] }>({});
+    const [submitting, setSubmitting] = useState(false);
+    const [routeId, setRouteId] = useState<string>('');
+
+    const params = route?.params ?? {};
+    const editRouteId = useMemo(() => String(params?.routeId || ''), [params?.routeId]);
+
+    useEffect(() => {
+        const load = async () => {
+            if (!editRouteId) {
+                return;
+            }
+            const email = await getUserId();
+            if (!email) {
+                return;
+            }
+            try {
+                const response = await getSpecificRoute(email, editRouteId);
+                const routeData = response.route as any;
+                setRouteId(editRouteId);
+                setLabel(String(routeData.description ?? ''));
+                setStartPoint(String(routeData.departingLocation ?? ''));
+                setDestPoint(String(routeData.destinationLocation ?? ''));
+                setDepartingStation(String(routeData.departingStation ?? ''));
+                setDestinationStation(String(routeData.destinationStation ?? ''));
+                const days = Array.isArray(routeData.dayOfWeek) ? routeData.dayOfWeek.filter(Boolean) : [];
+                if (days.length > 0) {
+                    setSelectedDays(days);
+                    const from = String(routeData.timeFrom ?? '');
+                    const to = String(routeData.timeTo ?? '');
+                    const nextSlots: { [key: string]: TimeSlot[] } = {};
+                    days.forEach((day: string) => {
+                        nextSlots[day] = [{ id: `${day}-0`, from, to }];
+                    });
+                    setTimeSlots(nextSlots);
+                }
+            } catch {
+                // Keep screen editable even if prefill fails.
+            }
+        };
+        load();
+    }, [editRouteId]);
+
+    const expandDays = (days: string[]) => {
+        const expanded: string[] = [];
+        days.forEach(day => {
+            if (day === 'Every Weekdays') {
+                expanded.push('Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday');
+            } else {
+                expanded.push(day);
+            }
+        });
+        return Array.from(new Set(expanded));
+    };
 
     const toggleDay = (day: string) => {
         if (selectedDays.includes(day)) {
@@ -78,6 +142,93 @@ export default function AddRoute() {
         });
     };
 
+    const handleSubmit = async () => {
+        const email = await getUserId();
+        if (!email) {
+            Alert.alert('Error', 'Please login again.');
+            return;
+        }
+
+        const days = expandDays(selectedDays);
+        if (!label || !startPoint || !destPoint || !departingStation || !destinationStation) {
+            Alert.alert('Error', 'Please fill in all route fields.');
+            return;
+        }
+        if (days.length === 0) {
+            Alert.alert('Error', 'Please select at least one day.');
+            return;
+        }
+
+        const firstDay = days[0];
+        const firstSlot = (timeSlots[firstDay] || [])[0];
+        if (!firstSlot?.from) {
+            Alert.alert('Error', 'Please provide at least one "From" time.');
+            return;
+        }
+
+        try {
+            setSubmitting(true);
+            const routeResponse = routeId || editRouteId
+                ? await editRoute({
+                    email,
+                    route_id: routeId || editRouteId,
+                    departing_location: startPoint,
+                    destination_location: destPoint,
+                    day_of_week: days.join(','),
+                    time: firstSlot.from,
+                    departing_station: departingStation,
+                    destination_station: destinationStation,
+                    route_desc: label,
+                })
+                : await createRoute({
+                    email,
+                    departing_location: startPoint,
+                    destination_location: destPoint,
+                    day_of_week: firstDay,
+                    time: firstSlot.from,
+                    departing_station: departingStation,
+                    destination_station: destinationStation,
+                    route_desc: label,
+                });
+
+            const savedRouteId = String(routeResponse.route_id);
+            if (!savedRouteId) {
+                throw new Error('Route ID missing in response.');
+            }
+            setRouteId(savedRouteId);
+
+            const user = await getUserByEmail(email);
+            const userId = user.user.id;
+
+            for (const day of days) {
+                const slots = timeSlots[day] || [];
+                for (let i = 0; i < slots.length; i += 1) {
+                    const slot = slots[i];
+                    if (!slot.from || !slot.to) {
+                        continue;
+                    }
+                    if (day === firstDay && i === 0) {
+                        continue;
+                    }
+                    await addRouteSchedule({
+                        user_id: userId,
+                        route_id: savedRouteId,
+                        day_of_week: day,
+                        time_from: slot.from,
+                        time_to: slot.to,
+                    });
+                }
+            }
+
+            Alert.alert('Success', routeId || editRouteId ? 'Route updated.' : 'Route created.');
+        } catch (error) {
+            const message = error instanceof Error ? error.message : 'Failed to save route.';
+            Alert.alert('Error', message);
+        } finally {
+            setSubmitting(false);
+        }
+    };
+
     return (
         <BaseScreen style={styles.safeArea}>
             <ScrollView
@@ -107,6 +258,18 @@ export default function AddRoute() {
                         onChangeText={setDestPoint}
                         onSelect={setDestPoint}
                         containerStyle={styles.destAutocomplete}
+                    />
+                    <Input
+                        label="Departing Station Code:"
+                        placeholder="Example: KJ1"
+                        value={departingStation}
+                        onChangeText={setDepartingStation}
+                    />
+                    <Input
+                        label="Destination Station Code:"
+                        placeholder="Example: KJ5"
+                        value={destinationStation}
+                        onChangeText={setDestinationStation}
                     />
 
                     <Text style={styles.sectionLabel}>Day:</Text>
@@ -152,8 +315,9 @@ export default function AddRoute() {
             </ScrollView>
             <View style={styles.bottomContainer}>
                 <Button
-                    label="Next"
-                    onPress={() => console.log('Form Submitted', { label, startPoint, destPoint, selectedDays, timeSlots })}
+                    label={routeId || editRouteId ? 'Save Changes' : 'Create Route'}
+                    onPress={handleSubmit}
+                    loading={submitting}
                     style={styles.nextButton}
                 />
             </View>
