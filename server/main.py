@@ -34,7 +34,7 @@ app = FastAPI(
     openapi_url="/openapi.json",
     docs_url="/docs",
     lifespan=lifespan,
-    version="0.1.3",
+    version="0.1.4",
 )
 
 # CORS origins based on environment
