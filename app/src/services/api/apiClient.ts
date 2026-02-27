@@ -122,6 +122,72 @@ export async function post<T>(path: string, body: any): Promise<T> {
   }
 }
 
+/**
+ * Perform a PUT request to the API.
+ */
+export async function put<T>(path: string, body: any): Promise<T> {
+  try {
+    notifyLoading(true);
+    const response = await fetch(`${config.baseUrl}${path}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    });
+
+    if (!response.ok) {
+      const errorMessage = await parseErrorMessage(response);
+      throw new Error(errorMessage);
+    }
+
+    return await response.json();
+  } catch (error) {
+    if (error instanceof Error) {
+      notifyError(error.message);
+    } else {
+      notifyError('Unknown API error occurred.');
+    }
+    console.error(`API PUT Error for ${path}:`, error);
+    throw error;
+  } finally {
+    notifyLoading(false);
+  }
+}
+
+/**
+ * Perform a DELETE request to the API.
+ */
+export async function del<T>(path: string, body?: any): Promise<T> {
+  try {
+    notifyLoading(true);
+    const response = await fetch(`${config.baseUrl}${path}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: body !== undefined ? JSON.stringify(body) : undefined,
+    });
+
+    if (!response.ok) {
+      const errorMessage = await parseErrorMessage(response);
+      throw new Error(errorMessage);
+    }
+
+    return await response.json();
+  } catch (error) {
+    if (error instanceof Error) {
+      notifyError(error.message);
+    } else {
+      notifyError('Unknown API error occurred.');
+    }
+    console.error(`API DELETE Error for ${path}:`, error);
+    throw error;
+  } finally {
+    notifyLoading(false);
+  }
+}
+
 async function parseErrorMessage(response: Response): Promise<string> {
   try {
     const data: unknown = await response.json();
