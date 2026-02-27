@@ -1,6 +1,5 @@
 import React from 'react';
 import { Alert, StatusBar, useColorScheme } from 'react-native';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer, type LinkingOptions } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -268,7 +267,7 @@ function App() {
   }, []);
 
   return (
-    <SafeAreaProvider>
+    <>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
       <NavigationContainer linking={linking}>
         {!authReady ? null : isAuthenticated ? (
@@ -307,7 +306,7 @@ function App() {
         visible={globalLoading || !authReady}
         message={!authReady ? 'Restoring session...' : `Loading${userId ? ` (${userId})` : ''}...`}
       />
-    </SafeAreaProvider>
+    </>
   );
 }
 
