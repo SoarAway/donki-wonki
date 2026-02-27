@@ -70,8 +70,13 @@ def add_schedule(user_id: str, route_id: str, day_of_week: str, time_from: str, 
         print("Error: Could not obtain Firestore client.")
         return None
 
+    route_ref = db.collection("users").document(user_id).collection("routes").document(route_id)
+    if not route_ref.get().exists:
+        print(f"Error: Route {route_id} not found for user {user_id}.")
+        return None
+
     schedule_id = str(uuid.uuid4())
-    schedule_ref = db.collection("users").document(user_id).collection("routes").document(route_id).collection("schedules").document(schedule_id)
+    schedule_ref = route_ref.collection("schedules").document(schedule_id)
     
     schedule_data = {
         "dayOfWeek": day_of_week,
@@ -108,9 +113,24 @@ def save_or_update_route(
         print(f"Error: No user found with email {email}")
         return None
 
-    route_id = str(uuid.uuid4())
-    route_ref = db.collection("users").document(user_id).collection("routes").document(route_id)
-    route_doc = route_ref.get()
+    routes_ref = db.collection("users").document(user_id).collection("routes")
+    existing_route_query = (
+        routes_ref.where("departingStation", "==", departing_station)
+        .where("destinationStation", "==", destination_station)
+        .where("departingLocation", "==", departing_location)
+        .where("destinationLocation", "==", destination_location)
+        .limit(1)
+        .stream()
+    )
+    existing_route_doc = next(existing_route_query, None)
+    if existing_route_doc is None:
+        route_id = str(uuid.uuid4())
+        route_ref = routes_ref.document(route_id)
+        route_exists = False
+    else:
+        route_id = existing_route_doc.id
+        route_ref = existing_route_doc.reference
+        route_exists = True
 
     # Calculate timeTo for the schedule subcollection
     time_to = calcTimeTo(time, departing_station, destination_station)
@@ -124,7 +144,7 @@ def save_or_update_route(
         "updatedAt": datetime.datetime.now(datetime.timezone.utc),
     }
 
-    if route_doc.exists:
+    if route_exists:
         print(f"Route {route_id} exists. Updating...")
         route_ref.update(route_data)
     else:
@@ -208,7 +228,11 @@ def get_next_upcoming_route(email: str, timestamp: float) -> Dict[str, Any] | No
                 min_wait = wait
                 candidate = route.copy()
                 candidate.pop("schedules", None)
+                candidate["routeId"] = str(route.get("id", ""))
                 candidate.update(schedule)
+                candidate["scheduleId"] = str(schedule.get("id", ""))
+                if "id" in candidate:
+                    del candidate["id"]
                 best_candidate = candidate
 
     return best_candidate

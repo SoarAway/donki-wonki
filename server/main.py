@@ -3,6 +3,7 @@ import logging
 import time
 
 from fastapi import FastAPI, HTTPException, Request
+from fastapi.encoders import jsonable_encoder
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, Response
@@ -33,7 +34,7 @@ app = FastAPI(
     openapi_url="/openapi.json",
     docs_url="/docs",
     lifespan=lifespan,
-    version="0.1.2",
+    version="0.1.3",
 )
 
 # CORS origins based on environment
@@ -105,12 +106,22 @@ async def validation_exception_handler(
     request: Request,
     exc: RequestValidationError,
 ) -> JSONResponse:
+    sanitized_errors = []
+    for error in exc.errors():
+        sanitized_error = dict(error)
+        context = sanitized_error.get("ctx")
+        if isinstance(context, dict) and "error" in context:
+            context = dict(context)
+            context["error"] = str(context["error"])
+            sanitized_error["ctx"] = context
+        sanitized_errors.append(sanitized_error)
+
     error_payload = ErrorResponse(
         error="VALIDATION_ERROR",
         message="Request validation failed",
         details={
             "path": str(request.url.path),
-            "errors": exc.errors(),
+            "errors": jsonable_encoder(sanitized_errors),
         },
     )
     return JSONResponse(status_code=422, content=error_payload.model_dump())
