@@ -255,6 +255,28 @@ def get_specific_route(email: str, route_id: str) -> dict[str, Any] | None:
         schedule_data = schedule_doc.to_dict()
         schedules.append(schedule_data)
 
+    return _flatten_route_schedule_fields(route_data, schedules)
+
+
+def get_all_routes_by_email(email: str) -> list[dict[str, Any]]:
+    user = get_user_by_email(email)
+    user_id = user.get("id") if user else None
+    if not isinstance(user_id, str) or not user_id:
+        return []
+    raw_routes = get_user_routes_with_schedules(user_id)
+    flattened_routes: list[dict[str, Any]] = []
+
+    for route in raw_routes:
+        route_copy = route.copy()
+        schedules = route_copy.pop("schedules", [])
+        if not isinstance(schedules, list):
+            schedules = []
+        flattened_routes.append(_flatten_route_schedule_fields(route_copy, schedules))
+
+    return flattened_routes
+
+
+def _flatten_route_schedule_fields(route_data: dict[str, Any], schedules: list[dict[str, Any]]) -> dict[str, Any]:
     if not schedules:
         route_data["dayOfWeek"] = []
         route_data["timeFrom"] = None
@@ -269,14 +291,6 @@ def get_specific_route(email: str, route_id: str) -> dict[str, Any] | None:
     route_data["timeFrom"] = first_schedule.get("timeFrom")
     route_data["timeTo"] = first_schedule.get("timeTo")
     return route_data
-
-
-def get_all_routes_by_email(email: str) -> list[dict[str, Any]]:
-    user = get_user_by_email(email)
-    user_id = user.get("id") if user else None
-    if not isinstance(user_id, str) or not user_id:
-        return []
-    return get_user_routes_with_schedules(user_id)
 
 
 def get_next_upcoming_route(email: str, timestamp: float) -> dict[str, Any] | None:
