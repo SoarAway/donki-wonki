@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { colors, radius, spacing } from '../config';
+import {colorTokens, radius, spacing} from '../config';
 import { Text } from './Text';
 
 export interface BadgeProps {
@@ -15,11 +15,11 @@ export interface BadgeProps {
 export const Badge: React.FC<BadgeProps> = ({ label, variant = 'neutral', size = 'md' }) => {
   const getColors = () => {
     switch (variant) {
-      case 'success': return { bg: colors.success.light, text: colors.success.dark };
-      case 'warning': return { bg: colors.warning.light, text: colors.warning.dark };
-      case 'error': return { bg: colors.error.light, text: colors.error.dark };
-      case 'info': return { bg: colors.info.light, text: colors.info.dark };
-      default: return { bg: colors.neutral[100], text: colors.neutral[700] };
+      case 'success': return { bg: colorTokens.background_default, text: colorTokens.primary_accent };
+      case 'warning': return { bg: colorTokens.secondary_accent, text: colorTokens.primary_accent };
+      case 'error': return { bg: colorTokens.error_background, text: colorTokens.error_main };
+      case 'info': return { bg: colorTokens.background_default, text: colorTokens.secondary_accent };
+      default: return { bg: colorTokens.background_default, text: colorTokens.primary_accent };
     }
   };
 

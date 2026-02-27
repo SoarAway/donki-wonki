@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, ViewStyle, ViewProps } from 'react-native';
-import { colors, spacing, radius } from '../config';
+import {colorTokens, ColorTokenName, radius, spacing} from '../config';
 
 export interface BoxProps extends ViewProps {
   padding?: keyof typeof spacing;
@@ -9,7 +9,7 @@ export interface BoxProps extends ViewProps {
   margin?: keyof typeof spacing;
   marginX?: keyof typeof spacing;
   marginY?: keyof typeof spacing;
-  backgroundColor?: keyof typeof colors.neutral | string;
+  backgroundColor?: ColorTokenName | string;
   borderRadius?: keyof typeof radius;
   row?: boolean;
   align?: ViewStyle['alignItems'];
@@ -53,7 +53,7 @@ export const Box: React.FC<BoxProps> = ({
     marginHorizontal: marginX ? spacing[marginX] : undefined,
     marginVertical: marginY ? spacing[marginY] : undefined,
     backgroundColor: backgroundColor
-      ? (colors.neutral[backgroundColor as keyof typeof colors.neutral] || backgroundColor)
+      ? colorTokens[backgroundColor as ColorTokenName] || backgroundColor
       : undefined,
     borderRadius: borderRadius ? radius[borderRadius] : undefined,
     flexDirection: row ? 'row' : 'column',

@@ -3,7 +3,7 @@ import { StyleSheet, View } from 'react-native';
 
 import { Button } from '../components/atoms/Button';
 import { Text } from '../components/atoms/Text';
-import { colors, radius, spacing } from '../components/config';
+import {colorTokens, radius, spacing} from '../components/config';
 import { BaseScreen } from '../models/BaseScreen';
 
 interface HomeScreenProps {
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     gap: spacing[3],
   },
   card: {
-    backgroundColor: colors.background.paper,
+    backgroundColor: colorTokens.background_default,
     borderRadius: radius.md,
     padding: spacing[4],
     gap: spacing[2],

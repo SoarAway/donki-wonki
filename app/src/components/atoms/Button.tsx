@@ -1,6 +1,6 @@
 import React from 'react';
-import { TouchableOpacity, ViewStyle } from 'react-native';
-import { colors, radius, spacing } from '../config';
+import {StyleSheet, TouchableOpacity, View, ViewStyle} from 'react-native';
+import {colorTokens, spacing} from '../config';
 import { Spinner } from './Spinner';
 import { Text } from './Text';
 
@@ -46,31 +46,31 @@ export const Button: React.FC<ButtonProps> = ({
   };
 
   const getBackgroundColor = () => {
-    if (disabled) return colors.neutral[300];
+    if (disabled) return colorTokens.secondary_accent;
     switch (variant) {
       case 'primary':
-        return colors.primary[500];
+        return colorTokens.primary_accent;
       case 'secondary':
-        return colors.secondary[500];
+        return colorTokens.secondary_accent;
       case 'outline':
       case 'ghost':
         return 'transparent';
       default:
-        return colors.primary[500];
+        return colorTokens.primary_accent;
     }
   };
 
   const getTextColor = () => {
-    if (disabled) return colors.neutral[500];
+    if (disabled) return colorTokens.primary_accent;
     switch (variant) {
       case 'primary':
       case 'secondary':
-        return colors.neutral[0];
+        return colorTokens.background_default;
       case 'outline':
       case 'ghost':
-        return colors.primary[500];
+        return colorTokens.primary_accent;
       default:
-        return colors.neutral[0];
+        return colorTokens.background_default;
     }
   };
 
@@ -78,7 +78,7 @@ export const Button: React.FC<ButtonProps> = ({
     if (variant === 'outline') {
       return {
         borderWidth: 1,
-        borderColor: disabled ? colors.neutral[300] : colors.primary[500],
+        borderColor: disabled ? colorTokens.secondary_accent : colorTokens.primary_accent,
       };
     }
     return {};
@@ -87,19 +87,64 @@ export const Button: React.FC<ButtonProps> = ({
   const getPadding = () => {
     switch (size) {
       case 'sm':
-        return { paddingVertical: spacing[2], paddingHorizontal: spacing[3] };
+        return {paddingVertical: spacing[2], paddingHorizontal: spacing[4]};
       case 'md':
-        return { paddingVertical: spacing[3], paddingHorizontal: spacing[4] };
+        return {paddingVertical: spacing[3], paddingHorizontal: spacing[6]};
       case 'lg':
-        return { paddingVertical: spacing[4], paddingHorizontal: spacing[6] };
+        return {paddingVertical: spacing[4], paddingHorizontal: spacing[8]};
       default:
-        return { paddingVertical: spacing[3], paddingHorizontal: spacing[4] };
+        return {paddingVertical: spacing[3], paddingHorizontal: spacing[6]};
     }
   };
 
+  const bodyStyles: ViewStyle = {
+    backgroundColor: getBackgroundColor(),
+    borderRadius: 999,
+    alignItems: 'center',
+    justifyContent: 'center',
+    flexDirection: 'row',
+    alignSelf: fullWidth ? 'stretch' : 'flex-start',
+    opacity: disabled ? 0.7 : 1,
+    ...getBorder(),
+    ...getPadding(),
+  };
+
+  if (variant === 'primary') {
+    return (
+      <View
+        style={[
+          styles.layeredWrapper,
+          fullWidth ? styles.fullWidth : styles.autoWidth,
+          disabled ? styles.disabled : null,
+          style,
+        ]}
+      >
+        <View style={styles.layeredBase} />
+        <TouchableOpacity
+          onPress={handlePress}
+          disabled={disabled || isLoading}
+          style={[bodyStyles, styles.layeredBody]}
+          activeOpacity={0.9}
+        >
+          {isLoading ? (
+            <Spinner size="small" color={getTextColor()} />
+          ) : (
+            <Text
+              variant={size === 'lg' ? 'lg' : 'base'}
+              weight="semibold"
+              style={[styles.centerText, {color: getTextColor()}]}
+            >
+              {buttonText}
+            </Text>
+          )}
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
   const containerStyles: ViewStyle = {
     backgroundColor: getBackgroundColor(),
-    borderRadius: radius.md,
+    borderRadius: 999,
     alignItems: 'center',
     justifyContent: 'center',
     flexDirection: 'row',
@@ -119,14 +164,47 @@ export const Button: React.FC<ButtonProps> = ({
       {isLoading ? (
         <Spinner size="small" color={getTextColor()} />
       ) : (
-        <Text
-          variant={size === 'lg' ? 'lg' : 'base'}
-          weight="semibold"
-          style={{ color: getTextColor() }}
-        >
-          {buttonText}
-        </Text>
+          <Text
+            variant={size === 'lg' ? 'lg' : 'base'}
+            weight="semibold"
+            style={[styles.centerText, {color: getTextColor()}]}
+          >
+            {buttonText}
+          </Text>
       )}
     </TouchableOpacity>
   );
 };
+
+const styles = StyleSheet.create({
+  layeredWrapper: {
+    position: 'relative',
+    overflow: 'visible',
+    shadowColor: '#000000',
+    shadowOffset: {width: 0, height: 8},
+    shadowOpacity: 0.18,
+    shadowRadius: 14,
+    elevation: 8,
+  },
+  layeredBase: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: '#5A81FA',
+    borderRadius: 999,
+    transform: [{translateX: -4}, {translateY: -4}],
+  },
+  layeredBody: {
+    backgroundColor: '#2B308B',
+  },
+  fullWidth: {
+    alignSelf: 'stretch',
+  },
+  autoWidth: {
+    alignSelf: 'flex-start',
+  },
+  disabled: {
+    opacity: 0.7,
+  },
+  centerText: {
+    textAlign: 'center',
+  },
+});

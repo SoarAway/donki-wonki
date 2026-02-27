@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { colors, spacing } from '../config';
+import {colorTokens, spacing} from '../config';
 
 export interface DividerProps {
   color?: string;
@@ -13,7 +13,7 @@ export interface DividerProps {
  * Thin horizontal or vertical separator with token-based spacing.
  */
 export const Divider: React.FC<DividerProps> = ({
-  color = colors.neutral[200],
+  color = colorTokens.secondary_accent,
   vertical = false,
   thickness = 1,
   margin = 0,
