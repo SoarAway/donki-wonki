@@ -1,9 +1,9 @@
 import React from 'react';
-import { View, TouchableOpacity, Image, StyleSheet } from 'react-native';
+import { View, TouchableOpacity, StyleSheet } from 'react-native';
 
-const RouteIcon = require('../../assets/Route_Black.png');
-const HomeIcon = require('../../assets/Home_Black.png');
-const ChatIcon = require('../../assets/Chat_Conversation_Circle.png');
+import ChatIcon from '../../assets/Chat_Conversation_Circle.svg';
+import HomeIcon from '../../assets/Home_Black.svg';
+import RouteIcon from '../../assets/Route_Black.svg';
 
 interface NavBarProps {
     activeTab?: 'Route' | 'Home' | 'Community';
@@ -18,9 +18,10 @@ export const NavBar: React.FC<NavBarProps> = ({ activeTab = 'Home', onTabPress }
                 onPress={() => onTabPress?.('Route')}
             >
                 <View style={[styles.tab, activeTab === 'Route' && styles.activeTab]}>
-                    <Image
-                        source={RouteIcon}
-                        style={[styles.icon, { tintColor: activeTab === 'Route' ? '#FFFFFF' : '#000000' }]}
+                    <RouteIcon
+                        width={30}
+                        height={30}
+                        stroke={activeTab === 'Route' ? '#FFFFFF' : '#000000'}
                     />
                 </View>
             </TouchableOpacity>
@@ -30,9 +31,10 @@ export const NavBar: React.FC<NavBarProps> = ({ activeTab = 'Home', onTabPress }
                 onPress={() => onTabPress?.('Home')}
             >
                 <View style={[styles.tab, activeTab === 'Home' && styles.activeTab]}>
-                    <Image
-                        source={HomeIcon}
-                        style={[styles.icon, { tintColor: activeTab === 'Home' ? '#FFFFFF' : '#000000' }]}
+                    <HomeIcon
+                        width={30}
+                        height={30}
+                        stroke={activeTab === 'Home' ? '#FFFFFF' : '#000000'}
                     />
                 </View>
             </TouchableOpacity>
@@ -42,9 +44,10 @@ export const NavBar: React.FC<NavBarProps> = ({ activeTab = 'Home', onTabPress }
                 onPress={() => onTabPress?.('Community')}
             >
                 <View style={[styles.tab, activeTab === 'Community' && styles.activeTab]}>
-                    <Image
-                        source={ChatIcon}
-                        style={[styles.icon, { tintColor: activeTab === 'Community' ? '#FFFFFF' : '#000000' }]}
+                    <ChatIcon
+                        width={30}
+                        height={29}
+                        stroke={activeTab === 'Community' ? '#FFFFFF' : '#000000'}
                     />
                 </View>
             </TouchableOpacity>
@@ -87,10 +90,5 @@ const styles = StyleSheet.create({
         height: '90%',
         borderRadius: 50,
         boxShadow: '0px 4px 4px 0px rgba(0, 0, 0, 0.25)',
-    },
-    icon: {
-        width: 30,
-        height: 30,
-        resizeMode: 'contain',
     },
 });

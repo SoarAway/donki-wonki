@@ -1,9 +1,14 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { Button } from '../components/atoms/Button';
 import { NavBar } from '../components/molecules/NavBar';
 import { BaseScreen } from '../models/BaseScreen';
 import { colorTokens, radius, shadows, spacing, typography } from '../components/config';
+import { ReportCard } from '../components/molecules/ReportCard';
+import DislikeIcon from '../assets/Dislike.svg';
+import DislikeFilledIcon from '../assets/Dislike_Filled.svg';
+import LikeIcon from '../assets/Like.svg';
+import LikeFilledIcon from '../assets/Like_Filled.svg';
 
 interface Post {
     id: string;
@@ -13,11 +18,6 @@ interface Post {
     liked: boolean;
     disliked: boolean;
 }
-
-const LikeIcon = require('../assets/Like.png');
-const LikeFilledIcon = require('../assets/Like_Filled.png');
-const DislikeIcon = require('../assets/Dislike.png');
-const DislikeFilledIcon = require('../assets/Dislike_Filled.png');
 
 export default function Community({ navigation }: any) {
     const [posts] = useState<Post[]>([
@@ -87,30 +87,13 @@ export default function Community({ navigation }: any) {
                 showsVerticalScrollIndicator={false}
             >
                 {posts.map((post) => (
-                    <View key={post.id} style={styles.card}>
-                        {post.username ? (
-                            <Text style={styles.username}>{post.username}</Text>
-                        ) : null}
-                        <Text style={styles.content}>{post.content}</Text>
-
-                        <View style={styles.footer}>
-                            <View style={styles.actions}>
-                                <TouchableOpacity onPress={() => toggleLike(post.id)} style={styles.actionButton}>
-                                    <Image
-                                        source={post.liked ? LikeFilledIcon : LikeIcon}
-                                        style={styles.icon}
-                                    />
-                                </TouchableOpacity>
-                                <TouchableOpacity onPress={() => toggleDislike(post.id)} style={styles.actionButton}>
-                                    <Image
-                                        source={post.disliked ? DislikeFilledIcon : DislikeIcon}
-                                        style={styles.icon}
-                                    />
-                                </TouchableOpacity>
-                            </View>
-                            <Text style={styles.timestamp}>{post.timestamp}</Text>
-                        </View>
-                    </View>
+                    <ReportCard
+                        key={post.id}
+                        post={post}
+                        onLike={toggleLike}
+                        onDislike={toggleDislike}
+                        icons={{ LikeFilledIcon, LikeIcon, DislikeFilledIcon, DislikeIcon }}
+                    />
                 ))}
             </ScrollView>
             <NavBar

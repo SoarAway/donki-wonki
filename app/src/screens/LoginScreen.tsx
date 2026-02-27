@@ -4,15 +4,16 @@ import {
     Text,
     StyleSheet,
     Alert,
-    Image,
     TouchableOpacity,
     TextInput,
     ScrollView,
 } from 'react-native';
 import { BaseScreen } from '../models/BaseScreen';
 import { colorTokens, radius, spacing, typography } from '../components/config';
+import Logo from '../assets/Logo.svg';
 
-const logoImg = require('../assets/Logo.png');
+const LOGO_WIDTH = spacing[20] + spacing[2];
+const LOGO_HEIGHT = spacing[12] + spacing[3];
 
 interface LoginScreenProps {
     onLoginSuccess: (userId: string) => void;
@@ -40,7 +41,7 @@ export default function LoginScreen({ onLoginSuccess, onGoToRegister }: LoginScr
                 showsVerticalScrollIndicator={false}
             >
                 {/* Logo */}
-                <Image source={logoImg} style={styles.logo} />
+                <Logo width={LOGO_WIDTH} height={LOGO_HEIGHT} style={styles.logo} />
 
                 {/* Title */}
                 <Text style={styles.title}>Login to your{'\n'}Account</Text>
@@ -101,9 +102,6 @@ const styles = StyleSheet.create({
         paddingBottom: spacing[10],
     },
     logo: {
-        width: spacing[20] + spacing[2],
-        height: spacing[12] + spacing[3],
-        resizeMode: 'contain',
         marginBottom: spacing[6] + spacing[1],
     },
     title: {

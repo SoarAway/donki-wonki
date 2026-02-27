@@ -9,10 +9,10 @@ import {
     Alert,
     SafeAreaView,
     TextInput,
-    TouchableOpacity,
 } from 'react-native';
 import { Dropdown } from '../components/atoms/Dropdown';
 import { BackButton } from '../components/atoms/BackButton';
+import { Button } from '../components/atoms/Button';
 
 const LINES = ["Kelana Jaya Line", "Ampang Line", "Kajang Line", "KL Monorail"];
 const STATIONS = ["KL Sentral", "KLCC", "Bukit Bintang", "Masjid Jamek", "Titiwangsa"];
@@ -112,12 +112,14 @@ export default function Community_Report({ navigation }: any) {
                         </View>
                     </View>
                 </ScrollView>
-
+                
                 <View style={styles.submitWrapper}>
-                    <TouchableOpacity style={styles.submitButton} onPress={handleSubmit} activeOpacity={0.85}>
-                        <Text style={styles.submitText}>Submit</Text>
-                    </TouchableOpacity>
+                    <Button
+                        title="Submit"
+                        onPress={handleSubmit}
+                    />
                 </View>
+
             </KeyboardAvoidingView>
         </SafeAreaView>
     );
@@ -181,18 +183,5 @@ const styles = StyleSheet.create({
         paddingTop: 4,
         paddingBottom: 210,
         backgroundColor: '#FAFCFD',
-    },
-    submitButton: {
-        backgroundColor: '#2B308B',
-        borderRadius: 50,
-        paddingVertical: 13,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    submitText: {
-        color: '#FFFFFF',
-        fontSize: 17,
-        fontWeight: '600',
-        letterSpacing: 0.3,
     },
 });

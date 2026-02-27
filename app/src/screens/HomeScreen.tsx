@@ -1,10 +1,13 @@
 import React from 'react';
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import { Button } from '../components/atoms/Button';
+import Logo from '../assets/Logo.svg';
 import { NavBar } from '../components/molecules/NavBar';
 import { BaseScreen } from '../models/BaseScreen';
 import { colorTokens, radius, spacing, typography } from '../components/config';
+
+const LOGO_SIZE = spacing[20] + spacing[2];
 
 interface HomeScreenProps {
   apiStatus: string;
@@ -58,8 +61,8 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
       >
         <View style={styles.header}>
           <Text style={styles.welcomeText}>Welcome!!</Text>
-          <TouchableOpacity onPress={onLogout} activeOpacity={0.8}>
-            <Image source={require('../assets/Logo.png')} style={styles.logo} resizeMode="contain" />
+          <TouchableOpacity onPress={onLogout} activeOpacity={0.8} style={styles.logo}>
+            <Logo width={LOGO_SIZE} height={LOGO_SIZE} />
           </TouchableOpacity>
         </View>
 
@@ -140,8 +143,8 @@ const styles = StyleSheet.create({
     letterSpacing: typography.letterSpacing.tight,
   },
   logo: {
-    width: spacing[20] + spacing[2],
-    height: spacing[20] + spacing[2],
+    width: LOGO_SIZE,
+    height: LOGO_SIZE,
   },
   alertCard: {
     backgroundColor: colorTokens.error_background,
