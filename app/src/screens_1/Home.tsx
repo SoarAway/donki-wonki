@@ -7,6 +7,7 @@ import {
     ScrollView,
     Image,
 } from 'react-native';
+import { NavBar } from '../components/molecule/navBar';
 
 interface DisruptionAlert {
     id: string;
@@ -87,6 +88,7 @@ export default function Home() {
                     </View>
                 ))}
             </ScrollView>
+            <NavBar activeTab="Home" />
         </SafeAreaView>
     );
 }
@@ -102,7 +104,7 @@ const styles = StyleSheet.create({
     scrollContainer: {
         paddingHorizontal: 32,
         paddingTop: 100,
-        paddingBottom: 40,
+        paddingBottom: 120,
     },
 
     // Header

@@ -1,17 +1,14 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity } from 'react-native';
 import { Button } from '../components/atoms/Button';
-
-interface ScheduleEntry {
-    day: string;
-    time: string;
-}
+import { NavBar } from '../components/molecule/navBar';
 
 interface Route {
     id: string;
     name: string;
     path: string;
-    schedules: ScheduleEntry[];
+    time: string;
+    schedules: string[];
 }
 
 export default function RouteManagement({ navigation }: any) {
@@ -20,21 +17,15 @@ export default function RouteManagement({ navigation }: any) {
             id: '1',
             name: 'Work',
             path: 'LRT Bandar Puteri - LRT SS15',
-            schedules: [
-                { day: 'Monday', time: '7:00 AM' },
-                { day: 'Tuesday', time: '8:00 AM' },
-                { day: 'Wednesday', time: '8:30 AM' },
-            ],
+            time: '7:00 AM',
+            schedules: ['Monday', 'Tuesday', 'Wednesday'],
         },
         {
             id: '2',
             name: 'Home',
             path: 'LRT SS15 - LRT Bandar Puteri',
-            schedules: [
-                { day: 'Monday', time: '7:00 PM' },
-                { day: 'Tuesday', time: '8:00 PM' },
-                { day: 'Wednesday', time: '8:30 PM' },
-            ],
+            time: '8:00 PM',
+            schedules: ['Monday', 'Tuesday', 'Wednesday'],
         },
     ]);
 
@@ -54,11 +45,10 @@ export default function RouteManagement({ navigation }: any) {
                         <Text style={styles.routePath}>{route.path}</Text>
 
                         <View style={styles.scheduleList}>
-                            {route.schedules.map((entry, index) => (
-                                <Text key={index} style={styles.scheduleItem}>
-                                    {entry.day} {entry.time}
-                                </Text>
-                            ))}
+                            <Text style={styles.scheduleItem}>
+                                {route.schedules.join(', ')}
+                            </Text>
+                            <Text style={styles.scheduleItem}>{route.time}</Text>
                         </View>
 
                         <TouchableOpacity
@@ -77,6 +67,18 @@ export default function RouteManagement({ navigation }: any) {
                     />
                 </View>
             </ScrollView>
+            <NavBar
+                activeTab="Route"
+                onTabPress={(tab) => {
+                    if (tab === 'Home') {
+                        navigation.navigate('Home');
+                    } else if (tab === 'Route') {
+                        navigation.navigate('RouteManagement');
+                    } else if (tab === 'Community') {
+                        navigation.navigate('Community');
+                    }
+                }}
+            />
         </SafeAreaView>
     );
 }
@@ -156,10 +158,5 @@ const styles = StyleSheet.create({
         backgroundColor: '#2D3A9C',
         borderRadius: 50,
         height: 50,
-        elevation: 5,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
     },
 });

@@ -138,16 +138,11 @@ const styles = StyleSheet.create({
     loginBtn: {
         backgroundColor: '#2B308B',
         borderRadius: 50,
-        paddingVertical: 17,
+        paddingVertical: 15,
         alignItems: 'center',
         justifyContent: 'center',
         marginTop: 35,
         marginBottom: 28,
-        elevation: 3,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.2,
-        shadowRadius: 4,
     },
     loginBtnText: {
         color: '#FFFFFF',

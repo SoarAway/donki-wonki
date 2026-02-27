@@ -110,7 +110,7 @@ export default function AddRoute({ navigation }: any) {
             {/* Submit button pinned at bottom */}
             <View style={styles.bottomContainer}>
                 <Button
-                    title="Submit"
+                    title="Next"
                     onPress={handleSubmit}
                 />
             </View>
@@ -159,6 +159,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: 32,
         paddingBottom: 60,
         paddingTop: 10,
-        backgroundColor: '#F5F6FA',
+        backgroundColor: '#FAFCFD',
     },
 });

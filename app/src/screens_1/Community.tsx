@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity, Image } from 'react-native';
 import { Button } from '../components/atoms/Button';
+import { NavBar } from '../components/molecule/navBar';
 
 interface Post {
     id: string;
@@ -69,10 +70,10 @@ export default function Community({ navigation }: any) {
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.header}>
-                <Text style={styles.title}>Community</Text>
+                <Text style={styles.title}>Community Reports</Text>
                 <Button
                     title="+ Add Report"
-                    onPress={() => navigation.navigate('Reporting')}
+                    onPress={() => navigation.navigate('Community_Report')}
                     style={styles.reportButton}
                     textStyle={styles.reportButtonText}
                 />
@@ -110,6 +111,18 @@ export default function Community({ navigation }: any) {
                     </View>
                 ))}
             </ScrollView>
+            <NavBar
+                activeTab="Community"
+                onTabPress={(tab) => {
+                    if (tab === 'Home') {
+                        navigation.navigate('Home');
+                    } else if (tab === 'Route') {
+                        navigation.navigate('RouteManagement');
+                    } else if (tab === 'Community') {
+                        navigation.navigate('Community');
+                    }
+                }}
+            />
         </SafeAreaView>
     );
 }

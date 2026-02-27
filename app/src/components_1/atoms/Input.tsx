@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
         fontSize: 12,
         backgroundColor: '#F0F1F6',
         color: '#111111',
-        width: 350,
+        width: '100%',
         height: 44,
         textAlignVertical: 'center',
     },

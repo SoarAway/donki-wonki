@@ -5,7 +5,7 @@ import { Input } from '../components/atoms/Input';
 import { Dropdown } from '../components/atoms/Dropdown';
 import { BackButton } from '../components/atoms/BackButton';
 
-export default function Feedback() {
+export default function Noti_Report() {
     const [problemType, setProblemType] = useState('Select option');
     const [otherProblem, setOtherProblem] = useState('');
     const [description, setDescription] = useState('');
@@ -45,7 +45,7 @@ export default function Feedback() {
         <SafeAreaView style={styles.container}>
             <View style={styles.header}>
                 <BackButton onPress={() => console.log('Back pressed')} />
-                <Text style={styles.title}>Feedback Page</Text>
+                <Text style={styles.title}>Reporting</Text>
             </View>
 
 
@@ -88,7 +88,6 @@ export default function Feedback() {
                             <Button
                                 title="Submit"
                                 onPress={handleSubmit}
-                                style={styles.submitButton}
                             />
                         </View>
                     </View>
@@ -129,6 +128,7 @@ const styles = StyleSheet.create({
 
     formContainer: {
         width: '100%',
+        flex: 1,
     },
     textArea: {
         height: 120,
@@ -139,15 +139,8 @@ const styles = StyleSheet.create({
     },
 
     buttonContainer: {
-        marginTop: 24,
+        marginTop: 'auto',
         paddingBottom: 20,
-    },
-    submitButton: {
-        elevation: 5,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
     },
 });
 

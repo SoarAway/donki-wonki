@@ -85,9 +85,10 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         borderRadius: 10,
-        paddingHorizontal: 16,
+        paddingHorizontal: 12,
+        width: '100%',
         height: 44,
-        backgroundColor: '#E8EAEF',
+        backgroundColor: '#F0F1F6',
     },
     selectedText: {
         fontSize: 14,
@@ -96,10 +97,10 @@ const styles = StyleSheet.create({
     },
     placeholder: {
         color: '#AAAAAA',
-        fontStyle: 'normal',
+        fontStyle: 'italic',
     },
     arrowContainer: {
-        padding: 12,
+        padding: 8,
     },
     arrow: {
         fontSize: 12,
@@ -117,6 +118,13 @@ const styles = StyleSheet.create({
         zIndex: 10000,
         overflow: 'hidden',
         paddingVertical: 6,
+        // Elevation for Android
+        elevation: 8,
+        // Shadow for iOS
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.15,
+        shadowRadius: 8,
     },
     scrollView: {
         maxHeight: 200,

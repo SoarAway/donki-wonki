@@ -18,7 +18,7 @@ const LINES = ["Kelana Jaya Line", "Ampang Line", "Kajang Line", "KL Monorail"];
 const STATIONS = ["KL Sentral", "KLCC", "Bukit Bintang", "Masjid Jamek", "Titiwangsa"];
 const INCIDENT_TYPES = ["Breakdown", "Delay", "Overcrowded", "Accident", "Others"];
 
-export default function Reporting({ navigation }: any) {
+export default function Community_Report({ navigation }: any) {
     const [line, setLine] = useState('');
     const [station, setStation] = useState('');
     const [incidentType, setIncidentType] = useState('');
@@ -100,7 +100,9 @@ export default function Reporting({ navigation }: any) {
                         <View style={styles.fieldWrapper}>
                             <Text style={styles.label}>Description:</Text>
                             <TextInput
-                                style={styles.textArea}
+                                style={[styles.textArea, { fontStyle: description ? 'normal' : 'italic' }]}
+                                placeholder="Description"
+                                placeholderTextColor="#AAAAAA"
                                 value={description}
                                 onChangeText={setDescription}
                                 multiline
@@ -124,7 +126,7 @@ export default function Reporting({ navigation }: any) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#F0F2FB',
+        backgroundColor: '#FAFCFD',
     },
     header: {
         flexDirection: 'row',
@@ -158,7 +160,7 @@ const styles = StyleSheet.create({
         marginBottom: 8,
     },
     input: {
-        backgroundColor: '#E8EAEF',
+        backgroundColor: '#F0F1F6',
         borderRadius: 12,
         paddingHorizontal: 16,
         paddingVertical: 14,
@@ -166,7 +168,7 @@ const styles = StyleSheet.create({
         color: '#0D0D0D',
     },
     textArea: {
-        backgroundColor: '#E8EAEF',
+        backgroundColor: '#F0F1F6',
         borderRadius: 14,
         paddingHorizontal: 16,
         paddingVertical: 14,
@@ -178,7 +180,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 32,
         paddingTop: 4,
         paddingBottom: 210,
-        backgroundColor: '#F0F2FB',
+        backgroundColor: '#FAFCFD',
     },
     submitButton: {
         backgroundColor: '#2B308B',
