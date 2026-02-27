@@ -90,6 +90,82 @@ export interface NearestStationResponse {
   user_location: UserLocation;
 }
 
+export interface BaseResponse {
+  status: string;
+  message: string;
+}
+
+export interface RouteScheduleRequest {
+  email: string;
+  departing_location: string;
+  destination_location: string;
+  day_of_week: string;
+  time: string;
+  departing_station: string;
+  destination_station: string;
+  route_desc: string;
+}
+
+export interface EditRouteRequest extends RouteScheduleRequest {
+  route_id: string;
+}
+
+export interface DeleteRouteRequest {
+  email: string;
+  route_id: string;
+}
+
+export interface AddScheduleRequest {
+  user_id: string;
+  route_id: string;
+  day_of_week: string;
+  time_from: string;
+  time_to: string;
+}
+
+export interface RouteIdResponse extends BaseResponse {
+  route_id: string;
+}
+
+export interface ScheduleIdResponse extends BaseResponse {
+  schedule_id: string;
+}
+
+export interface RouteRecord {
+  [key: string]: unknown;
+}
+
+export interface RoutesListResponse extends BaseResponse {
+  routes: RouteRecord[];
+}
+
+export interface SpecificRouteResponse extends BaseResponse {
+  route: RouteRecord;
+}
+
+export interface NextUpcomingRouteResponse extends BaseResponse {
+  route: RouteRecord;
+}
+
+export interface SendReportRequest {
+  line: string;
+  station: string;
+  incident_type: string;
+  description: string;
+}
+
+export interface ReportIdResponse extends BaseResponse {
+  report_id: string;
+}
+
+export interface ReportRecord {
+  [key: string]: unknown;
+}
+
+export interface TopReportsResponse extends BaseResponse {
+  reports: ReportRecord[];
+}
+
 export type IncidentSource = 'reddit' | 'twitter' | 'user_report';
 export type IncidentType =
   | 'delay'

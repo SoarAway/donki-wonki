@@ -1,19 +1,32 @@
-import {get, post} from './apiClient';
+import {del, get, post, put} from './apiClient';
 import type {
+  AddScheduleRequest,
   AutocompleteResponse,
   BatchIncidentExtractionRequest,
   BatchIncidentExtractionResponse,
+  BaseResponse,
+  DeleteRouteRequest,
+  EditRouteRequest,
   GetUserByEmailResponse,
   HealthResponse,
   IncidentExtractionRequest,
   IncidentExtractionResponse,
   LoginUserRequest,
   LoginUserResponse,
+  NextUpcomingRouteResponse,
   NearestStationRequest,
   NearestStationResponse,
+  ReportIdResponse,
   RegisterUserRequest,
   RegisterUserResponse,
+  RouteIdResponse,
+  RouteScheduleRequest,
+  RoutesListResponse,
+  ScheduleIdResponse,
   SendTokenResponse,
+  SendReportRequest,
+  SpecificRouteResponse,
+  TopReportsResponse,
 } from './types';
 
 const BASE_API_ENDPOINT = '/api/v1';
@@ -89,6 +102,43 @@ export const autocompleteLocation = (query: string) =>
  */
 export const nearestStation = (request: NearestStationRequest) =>
   post<NearestStationResponse>(`${BASE_API_ENDPOINT}/locations/nearest-station`, request);
+
+export const createRoute = (request: RouteScheduleRequest) =>
+  post<RouteIdResponse>(`${BASE_API_ENDPOINT}/route/create`, request);
+
+export const editRoute = (request: EditRouteRequest) =>
+  put<RouteIdResponse>(`${BASE_API_ENDPOINT}/route/edit`, request);
+
+export const deleteRoute = (request: DeleteRouteRequest) =>
+  del<BaseResponse>(`${BASE_API_ENDPOINT}/route/delete`, request);
+
+export const getRoutesByEmail = (email: string) =>
+  get<RoutesListResponse>(
+    `${BASE_API_ENDPOINT}/route/all-by-email?email=${encodeURIComponent(email)}`,
+  );
+
+export const getRoutesByUserId = (userId: string) =>
+  get<RoutesListResponse>(
+    `${BASE_API_ENDPOINT}/route/by-user-id?user_id=${encodeURIComponent(userId)}`,
+  );
+
+export const getNextUpcomingRoute = (userEmail: string) =>
+  get<NextUpcomingRouteResponse>(
+    `${BASE_API_ENDPOINT}/route/next-upcoming?email=${encodeURIComponent(userEmail)}`,
+  );
+
+export const getSpecificRoute = (email: string, routeId: string) =>
+  get<SpecificRouteResponse>(
+    `${BASE_API_ENDPOINT}/route/specific?email=${encodeURIComponent(email)}&route_id=${encodeURIComponent(routeId)}`,
+  );
+
+export const addSchedule = (request: AddScheduleRequest) =>
+  post<ScheduleIdResponse>(`${BASE_API_ENDPOINT}/route/add-schedule`, request);
+
+export const sendReport = (request: SendReportRequest) =>
+  post<ReportIdResponse>(`${BASE_API_ENDPOINT}/report/send`, request);
+
+export const getTopReports = () => get<TopReportsResponse>(`${BASE_API_ENDPOINT}/report/top3`);
 
 /**
  * Extracts one incident from a single text input.
