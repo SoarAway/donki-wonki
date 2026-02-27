@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import {
     View,
     Text,
@@ -27,6 +27,8 @@ export default function AddRoute({ navigation }: any) {
     const [label, setLabel] = useState('');
     const [startPoint, setStartPoint] = useState('');
     const [destPoint, setDestPoint] = useState('');
+    const [departingStation, setDepartingStation] = useState('');
+    const [destinationStation, setDestinationStation] = useState('');
     const [selectedDays, setSelectedDays] = useState<string[]>([]);
     const [time, setTime] = useState<TimeValue>({ hour: '08', minute: '00', period: 'AM' });
 
@@ -44,6 +46,93 @@ export default function AddRoute({ navigation }: any) {
         });
         Alert.alert('Success', 'Route added successfully!');
         if (navigation) navigation.goBack();
+    };
+
+    const handleSubmit = async () => {
+        const email = await getUserId();
+        if (!email) {
+            Alert.alert('Error', 'Please login again.');
+            return;
+        }
+
+        const days = expandDays(selectedDays);
+        if (!label || !startPoint || !destPoint || !departingStation || !destinationStation) {
+            Alert.alert('Error', 'Please fill in all route fields.');
+            return;
+        }
+        if (days.length === 0) {
+            Alert.alert('Error', 'Please select at least one day.');
+            return;
+        }
+
+        const firstDay = days[0];
+        const firstSlot = (timeSlots[firstDay] || [])[0];
+        if (!firstSlot?.from) {
+            Alert.alert('Error', 'Please provide at least one "From" time.');
+            return;
+        }
+
+        try {
+            setSubmitting(true);
+            const routeResponse = routeId || editRouteId
+                ? await editRoute({
+                    email,
+                    route_id: routeId || editRouteId,
+                    departing_location: startPoint,
+                    destination_location: destPoint,
+                    day_of_week: days.join(','),
+                    time: firstSlot.from,
+                    departing_station: departingStation,
+                    destination_station: destinationStation,
+                    route_desc: label,
+                })
+                : await createRoute({
+                    email,
+                    departing_location: startPoint,
+                    destination_location: destPoint,
+                    day_of_week: firstDay,
+                    time: firstSlot.from,
+                    departing_station: departingStation,
+                    destination_station: destinationStation,
+                    route_desc: label,
+                });
+
+            const savedRouteId = String(routeResponse.route_id);
+            if (!savedRouteId) {
+                throw new Error('Route ID missing in response.');
+            }
+            setRouteId(savedRouteId);
+
+            const user = await getUserByEmail(email);
+            const userId = user.user.id;
+
+            for (const day of days) {
+                const slots = timeSlots[day] || [];
+                for (let i = 0; i < slots.length; i += 1) {
+                    const slot = slots[i];
+                    if (!slot.from || !slot.to) {
+                        continue;
+                    }
+                    if (day === firstDay && i === 0) {
+                        continue;
+                    }
+                    await addRouteSchedule({
+                        user_id: userId,
+                        route_id: savedRouteId,
+                        day_of_week: day,
+                        time_from: slot.from,
+                        time_to: slot.to,
+                    });
+                }
+            }
+
+            Alert.alert('Success', routeId || editRouteId ? 'Route updated.' : 'Route created.');
+        } catch (error) {
+            const message = error instanceof Error ? error.message : 'Failed to save route.';
+            Alert.alert('Error', message);
+        } finally {
+            setSubmitting(false);
+        }
     };
 
     return (
@@ -85,6 +174,18 @@ export default function AddRoute({ navigation }: any) {
                         onChangeText={setDestPoint}
                         onSelect={setDestPoint}
                         containerStyle={{ zIndex: 2000 }}
+                    />
+                    <Input
+                        label="Departing Station Code:"
+                        placeholder="Example: KJ1"
+                        value={departingStation}
+                        onChangeText={setDepartingStation}
+                    />
+                    <Input
+                        label="Destination Station Code:"
+                        placeholder="Example: KJ5"
+                        value={destinationStation}
+                        onChangeText={setDestinationStation}
                     />
 
                     {/* Day — multi-select tag dropdown */}

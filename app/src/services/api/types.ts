@@ -131,3 +131,84 @@ export interface BatchIncidentExtractionResponse {
   processed_count: number;
   failed_count: number;
 }
+
+export interface RouteRequest {
+  email: string;
+  departing_location: string;
+  destination_location: string;
+  day_of_week: string;
+  time: string;
+  departing_station: string;
+  destination_station: string;
+  route_desc: string;
+}
+
+export interface EditRouteRequest extends RouteRequest {
+  route_id: string;
+}
+
+export interface DeleteRouteRequest {
+  email: string;
+  route_id: string;
+}
+
+export interface AddScheduleRequest {
+  user_id: string;
+  route_id: string;
+  day_of_week: string;
+  time_from: string;
+  time_to: string;
+}
+
+export interface RouteIdResponse {
+  status: string;
+  message: string;
+  route_id: string;
+}
+
+export interface ScheduleIdResponse {
+  status: string;
+  message: string;
+  schedule_id: string;
+}
+
+export interface RouteRecord {
+  [key: string]: unknown;
+}
+
+export interface RoutesListResponse {
+  status: string;
+  message: string;
+  routes: RouteRecord[];
+}
+
+export interface NextUpcomingRouteResponse {
+  status: string;
+  message: string;
+  route: RouteRecord;
+}
+
+export interface SpecificRouteResponse {
+  status: string;
+  message: string;
+  route: RouteRecord;
+}
+
+export interface SendReportRequest {
+  line: string;
+  station: string;
+  incident_type: string;
+  description: string;
+}
+
+export interface ReportIdResponse {
+  status: string;
+  message: string;
+  report_id: string;
+}
+
+export interface TopReportsResponse {
+  status: string;
+  message: string;
+  reports: RouteRecord[];
+}

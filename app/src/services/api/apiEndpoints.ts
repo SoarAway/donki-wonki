@@ -1,8 +1,11 @@
-import {get, post} from './apiClient';
+import {del, get, post, put} from './apiClient';
 import type {
+  AddScheduleRequest,
   AutocompleteResponse,
   BatchIncidentExtractionRequest,
   BatchIncidentExtractionResponse,
+  DeleteRouteRequest,
+  EditRouteRequest,
   GetUserByEmailResponse,
   HealthResponse,
   IncidentExtractionRequest,
@@ -11,9 +14,18 @@ import type {
   LoginUserResponse,
   NearestStationRequest,
   NearestStationResponse,
+  NextUpcomingRouteResponse,
+  ReportIdResponse,
   RegisterUserRequest,
   RegisterUserResponse,
+  RouteIdResponse,
+  RouteRequest,
+  RoutesListResponse,
   SendTokenResponse,
+  SendReportRequest,
+  SpecificRouteResponse,
+  TopReportsResponse,
+  ScheduleIdResponse,
 } from './types';
 
 const BASE_API_ENDPOINT = '/api/v1';
@@ -130,3 +142,39 @@ export const processIncident = ({text, source = 'reddit', save = true}: ProcessI
     )}&save=${save}`,
     {},
   );
+
+export const createRoute = (request: RouteRequest) =>
+  post<RouteIdResponse>(`${BASE_API_ENDPOINT}/route/create`, request);
+
+export const editRoute = (request: EditRouteRequest) =>
+  put<RouteIdResponse>(`${BASE_API_ENDPOINT}/route/edit`, request);
+
+export const deleteRoute = (request: DeleteRouteRequest) =>
+  del<{status: string; message: string}>(`${BASE_API_ENDPOINT}/route/delete`, request);
+
+export const getRoutesByEmail = (email: string) =>
+  get<RoutesListResponse>(`${BASE_API_ENDPOINT}/route/all-by-email?email=${encodeURIComponent(email)}`);
+
+export const getRoutesByUserId = (userId: string) =>
+  get<RoutesListResponse>(`${BASE_API_ENDPOINT}/route/by-user-id?user_id=${encodeURIComponent(userId)}`);
+
+export const getNextUpcomingRoute = (email: string, timestamp?: number) => {
+  const qs = timestamp === undefined
+    ? `email=${encodeURIComponent(email)}`
+    : `email=${encodeURIComponent(email)}&timestamp=${timestamp}`;
+  return get<NextUpcomingRouteResponse>(`${BASE_API_ENDPOINT}/route/next-upcoming?${qs}`);
+};
+
+export const getSpecificRoute = (email: string, routeId: string) =>
+  get<SpecificRouteResponse>(
+    `${BASE_API_ENDPOINT}/route/specific?email=${encodeURIComponent(email)}&route_id=${encodeURIComponent(routeId)}`,
+  );
+
+export const addRouteSchedule = (request: AddScheduleRequest) =>
+  post<ScheduleIdResponse>(`${BASE_API_ENDPOINT}/route/add-schedule`, request);
+
+export const sendReport = (request: SendReportRequest) =>
+  post<ReportIdResponse>(`${BASE_API_ENDPOINT}/report/send`, request);
+
+export const getTop3Reports = () =>
+  get<TopReportsResponse>(`${BASE_API_ENDPOINT}/report/top3`);

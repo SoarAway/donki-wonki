@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import React, { useCallback, useState } from 'react';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 import { Button } from '../components/atoms/Button';
 import { NavBar } from '../components/molecules/NavBar';
 import { BaseScreen } from '../models/BaseScreen';
@@ -57,6 +58,13 @@ export default function RouteManagement({ navigation }: any) {
                             style={styles.editButton}
                         >
                             <Text style={styles.editText}>edit</Text>
+                        </TouchableOpacity>
+
+                        <TouchableOpacity
+                            onPress={() => handleDelete(route.id)}
+                            style={styles.deleteButton}
+                        >
+                            <Text style={styles.deleteText}>delete</Text>
                         </TouchableOpacity>
                     </View>
                 ))}
@@ -141,9 +149,20 @@ const styles = StyleSheet.create({
         right: 18,
         bottom: 14,
     },
+    deleteButton: {
+        position: 'absolute',
+        right: 20,
+        top: 15,
+    },
     editText: {
         fontSize: typography.sizes.sm,
         color: colorTokens.secondary_accent,
+        textDecorationLine: 'underline',
+        fontStyle: 'italic',
+    },
+    deleteText: {
+        fontSize: 14,
+        color: '#B14444',
         textDecorationLine: 'underline',
         fontStyle: 'italic',
     },
