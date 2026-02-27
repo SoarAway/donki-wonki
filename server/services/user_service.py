@@ -89,6 +89,7 @@ def register_user(user_in: RegisterUserRequest) -> UserResponse:
         "date_of_birth": dob,
         "created_at": now,
         "last_modified": now,
+        "device_token": user_in.device_token,
     }
 
     doc_id = str(uuid4())

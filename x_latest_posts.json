@@ -1,82 +1,92 @@
 [
     {
         "id": 1,
-        "timestamp": "2026-02-13T08:31:48.000Z",
+        "timestamp": "2025-04-16T01:51:28.000Z",
         "is_reply": false,
-        "text": "*DPP (CBD) - Daerah Pusat Perniagaan\nSila rancang perjalanan anda. Terima kasih kerana menggunakan pengangkutan awam.\n\n**",
-        "has_media": false,
-        "engagement": "1 reply, 588 views"
+        "is_pinned": true,
+        "text": "Saluran sokongan X kami kini fokus pada kemas kini mengenai perkhidmatan dan pengumuman.  Hubungi kami melalui saluran lain untuk bantuan!  ______  Our X support channel is now focused on service updates and announcements.  Reach us through other channels for support! #RapidKL",
+        "has_media": true,
+        "stats": "55 replies, 10 reposts, 47 likes, 18 bookmarks, 538507 views"
     },
     {
         "id": 2,
-        "timestamp": "2026-02-13T08:31:48.000Z",
+        "timestamp": "2026-02-25T10:32:35.000Z",
         "is_reply": false,
-        "text": "Kelana Jaya Line: 3 mins\nAmpang/Sri Petaling Line: 3 mins *CBD / Non CBD: 6 mins\nMonorail: 7 mins\nKajang MRT Line: 4 mins\nPutrajaya MRT Line: 4 mins\n\n*CBD – Central Business District\nPlease plan your journey accordingly. Thank you for using our services.",
+        "is_pinned": false,
+        "text": "Kemas Kini Laluan Kelana Jaya:   Tren telah dikeluarkan daripada perkhidmatan di Stesen KLCC akibat gangguan teknikal.   Ini akan menyebabkan perubahan kekerapan tren buat sementara waktu dan ianya akan selaras secara automatik.",
         "has_media": false,
-        "engagement": "591 views"
+        "stats": "4 replies, 15 reposts, 8 likes, 1 bookmark, 4788 views"
     },
     {
         "id": 3,
-        "timestamp": "2026-02-12T22:00:05.000Z",
+        "timestamp": "2026-02-25T10:32:35.000Z",
         "is_reply": false,
-        "text": "Kemas Kini Kekerapan Tren / Rail Frequency Updates (7:00 AM - 9.30 AM)\n\nLaluan Kelana Jaya: 3 minit\nLaluan Ampang/Sri Petaling: 3 minit *DPP/ 6 minit Bukan DPP\nLaluan Monorel: 8 minit\nLaluan Kajang: 4 minit\nLaluan Putrajaya: 4 minit",
+        "is_pinned": false,
+        "text": "Kami memohon maaf atas sebarang kesulitan. ** Kelana Jaya Line Update:   Train has been taken out of service at KLCC Station due to a technical disruption.   This will temporarily affect train frequency, which will be automatically adjusted.",
         "has_media": false,
-        "engagement": "1 reply, 1 like, 981 views"
+        "stats": "1 reply, 1 like, 2073 views"
     },
     {
         "id": 4,
-        "timestamp": "2026-02-12T22:00:06.000Z",
+        "timestamp": "2026-02-25T10:32:36.000Z",
         "is_reply": false,
-        "text": "*DPP (CBD) - Daerah Pusat Perniagaan\n\nSila rancang perjalanan anda. Terima kasih kerana menggunakan pengangkutan awam.",
+        "is_pinned": false,
+        "text": "We apologize for any inconvenience caused.",
         "has_media": false,
-        "engagement": "1 reply, 884 views"
+        "stats": "1 repost, 1 like, 1888 views"
     },
     {
         "id": 5,
-        "timestamp": "2026-02-12T22:00:06.000Z",
+        "timestamp": "2026-02-25T10:26:24.000Z",
         "is_reply": false,
-        "text": "Kelana Jaya Line: 3 mins\nAmpang/Sri Petaling Line: 3 mins *CBD / Non CBD: 6 mins\nMonorail: 8 mins\nKajang MRT Line: 4 mins\nPutrajaya MRT Line: 4 mins\n\n*CBD – Central Business District\n\nPlease plan your journey accordingly. Thank you for using our services.",
+        "is_pinned": false,
+        "text": "Kemas Kini Laluan Kelana Jaya:   Tren telah dikeluarkan daripada perkhidmatan di Stesen Ara Damansara akibat gangguan teknikal.   Ini akan menyebabkan perubahan kekerapan tren buat sementara waktu dan ianya akan selaras secara automatik.",
         "has_media": false,
-        "engagement": "904 views"
+        "stats": "3 replies, 4 reposts, 6 likes, 1 bookmark, 3033 views"
     },
     {
         "id": 6,
-        "timestamp": "2024-11-18T02:20:36.000Z",
+        "timestamp": "2026-02-25T10:26:24.000Z",
         "is_reply": false,
-        "text": "Your bag must love the seat, but don’t forget —there might be someone around who needs it more. Let’s be considerate when using public transport okay? \n#RapidKL",
-        "has_media": true,
-        "engagement": "324 replies, 7740 reposts, 14926 likes, 357 bookmarks, 1087590 views"
+        "is_pinned": false,
+        "text": "Kami memohon maaf atas sebarang kesulitan. ** Kelana Jaya Line Update:   Train has been taken out of service at Ara Damansara Station due to a technical disruption.   This will temporarily affect train frequency, which will be automatically adjusted.",
+        "has_media": false,
+        "stats": "2 replies, 1 like, 1621 views"
     },
     {
         "id": 7,
-        "timestamp": "2021-05-24T13:05:18.000Z",
+        "timestamp": "2026-02-25T09:41:20.000Z",
         "is_reply": false,
-        "text": "Kelana Jaya Line Update: Ladies and gentlemen, we regret to inform that LRT Kelana Jaya line is experiencing an incident, specifically trains number 40 and 81. \n\nOur team is mobilising help and rescue assistance right now. Please stay calm and follow instructions.",
+        "is_pinned": false,
+        "text": "Kemas Kini Laluan Kelana Jaya:   Tren telah dikeluarkan daripada perkhidmatan di Stesen Gombak dan Putra Heights akibat gangguan teknikal.   Ini akan menyebabkan perubahan kekerapan tren buat sementara waktu dan ianya akan selaras secara automatik.",
         "has_media": false,
-        "engagement": "166 replies, 11999 reposts, 7074 likes, 100 bookmarks"
+        "stats": "2 replies, 17 reposts, 8 likes, 1 bookmark, 5293 views"
     },
     {
         "id": 8,
-        "timestamp": "2023-05-19T10:32:58.000Z",
+        "timestamp": "2026-02-25T09:41:21.000Z",
         "is_reply": false,
-        "text": "Hi bapok, We will share this matter with the bus operation team for further improvement. Apologies for the inconvenience caused. -Melati",
+        "is_pinned": false,
+        "text": "Kami memohon maaf atas sebarang kesulitan. ** Kelana Jaya Line Update:   Trains have been taken out of service at Gombak and Putra Heights Station due to a technical disruption.   This will temporarily affect train frequency, which will be automatically adjusted.",
         "has_media": false,
-        "engagement": "96 replies, 7206 reposts, 6865 likes, 279 bookmarks, 1586044 views"
+        "stats": "1 reply, 1 repost, 2 likes, 2423 views"
     },
     {
         "id": 9,
-        "timestamp": "2022-07-19T04:35:23.000Z",
+        "timestamp": "2026-02-25T09:32:22.000Z",
         "is_reply": false,
-        "text": "Tak pernah pula kami sediakan air panas untuk makan megi dalam tren kami. Dah makan, tak pakai pelitup muka pula. Untuk keselesaan anda, ada sebab kami melarang penumpang untuk makan dan minum di dalam tren.\n#rapidkl #tegursebabsayang",
-        "has_media": true,
-        "engagement": "667 replies, 4876 reposts, 6027 likes, 181 bookmarks"
+        "is_pinned": false,
+        "text": "Kemas Kini Laluan Kelana Jaya:   Tren telah dikeluarkan daripada perkhidmatan di Stesen Kelana Jaya dan Subang Alam akibat gangguan teknikal.   Ini akan menyebabkan perubahan kekerapan tren buat sementara waktu dan ianya akan selaras secara automatik.",
+        "has_media": false,
+        "stats": "5 replies, 38 reposts, 32 likes, 2 bookmarks, 10677 views"
     },
     {
         "id": 10,
-        "timestamp": "2023-12-09T11:38:00.000Z",
+        "timestamp": "2026-02-25T09:32:22.000Z",
         "is_reply": false,
-        "text": "Hi bij, Maaf atas kelewatan. Dari semakan next bas akan gerak jam  2040. Trip sebelum ni dah bergerak jam 1900. Pada masa ini hanya sebuah bas beroperasi. Maaf atas kesulitan. - Melati",
+        "is_pinned": false,
+        "text": "Kami memohon maaf atas sebarang kesulitan. **",
         "has_media": false,
-        "engagement": "36 replies, 4649 reposts, 5517 likes, 252 bookmarks, 1528665 views"
+        "stats": "1 reply, 2 reposts, 3 likes, 2982 views"
     }
 ]
