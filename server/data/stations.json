@@ -1,0 +1,32 @@
+[
+  {
+    "name": "MRT Kajang",
+    "line": "MRT Kajang Line",
+    "latitude": 2.9936,
+    "longitude": 101.7879
+  },
+  {
+    "name": "MRT Cochrane",
+    "line": "MRT Kajang Line",
+    "latitude": 3.1329,
+    "longitude": 101.7232
+  },
+  {
+    "name": "LRT Bangsar",
+    "line": "LRT Kelana Jaya Line",
+    "latitude": 3.1285,
+    "longitude": 101.6789
+  },
+  {
+    "name": "KL Sentral",
+    "line": "KTM/LRT/MRT Interchange",
+    "latitude": 3.1343,
+    "longitude": 101.6864
+  },
+  {
+    "name": "MRT Sungai Buloh",
+    "line": "MRT Kajang Line",
+    "latitude": 3.2054,
+    "longitude": 101.5824
+  }
+]
