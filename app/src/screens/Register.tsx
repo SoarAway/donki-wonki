@@ -13,7 +13,12 @@ import {
 import { Button } from '../components/atoms/Button';
 import { Input } from '../components/atoms/Input';
 
-export default function Register() {
+interface RegisterProps {
+    onRegisterSuccess: (userId: string) => void;
+    onBackToLogin: () => void;
+}
+
+export default function Register({ onRegisterSuccess, onBackToLogin }: RegisterProps) {
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [dob, setDob] = useState('');
@@ -83,7 +88,7 @@ export default function Register() {
             return;
         }
         console.log('Register attempt:', email);
-        Alert.alert('Register Success', `Welcome, ${name}!`);
+        onRegisterSuccess(email.trim().toLowerCase());
     };
 
     return (
@@ -166,7 +171,7 @@ export default function Register() {
                 {/* Login link */}
                 <View style={styles.loginRow}>
                     <Text style={styles.loginText}>Already have an account? </Text>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={onBackToLogin}>
                         <Text style={styles.loginLink}>Login Here</Text>
                     </TouchableOpacity>
                 </View>

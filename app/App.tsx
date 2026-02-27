@@ -39,6 +39,10 @@ type MainTabParamList = {
 type AppStackParamList = {
   MainTabs: undefined;
   AddRoute: undefined;
+  AddRoute2 : undefined; 
+  NotificationDetail: undefined; 
+  RouteManagement: undefined;
+  RouteStatus: undefined;
 };
 
 type RootParamList = {

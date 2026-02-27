@@ -14,7 +14,12 @@ import {
 
 const logoImg = require('../assets/Logo.png');
 
-export default function LoginScreen({ navigation }: any) {
+interface LoginScreenProps {
+    onLoginSuccess: (userId: string) => void;
+    onGoToRegister: () => void;
+}
+
+export default function LoginScreen({ onLoginSuccess, onGoToRegister }: LoginScreenProps) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
@@ -24,13 +29,7 @@ export default function LoginScreen({ navigation }: any) {
             return;
         }
         console.log('Login attempt:', email);
-        Alert.alert('Login Success', `Welcome back, ${email}!`);
-    };
-
-    const handleRegisterPress = () => {
-        if (navigation) {
-            navigation.navigate('Register');
-        }
+        onLoginSuccess(email.trim().toLowerCase());
     };
 
     return (
@@ -84,7 +83,7 @@ export default function LoginScreen({ navigation }: any) {
                 {/* Register row */}
                 <View style={styles.registerRow}>
                     <Text style={styles.registerText}>Don't have an account yet? </Text>
-                    <TouchableOpacity onPress={handleRegisterPress}>
+                    <TouchableOpacity onPress={onGoToRegister}>
                         <Text style={styles.registerLink}>Register Now</Text>
                     </TouchableOpacity>
                 </View>
