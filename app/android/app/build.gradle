@@ -79,6 +79,11 @@ android {
 }
 
 dependencies {
+    implementation(project(':react-native-firebase_app'))
+    implementation(project(':react-native-firebase_auth'))
+    implementation(project(':react-native-firebase_firestore'))
+    implementation(project(':react-native-firebase_messaging'))
+
     // Import the Firebase BoM
     implementation(platform("com.google.firebase:firebase-bom:34.9.0"))
 
