@@ -1,7 +1,14 @@
 import { Platform } from 'react-native';
 
 export const fontFamilies = {
-  sans: Platform.select({ ios: 'System', android: 'Roboto', default: 'System' }),
+  sans: Platform.select({ios: 'Inter-Regular', android: 'Inter-Regular', default: 'Inter-Regular'}),
+  sansMedium: Platform.select({ios: 'Inter-Medium', android: 'Inter-Medium', default: 'Inter-Medium'}),
+  sansSemibold: Platform.select({
+    ios: 'Inter-SemiBold',
+    android: 'Inter-SemiBold',
+    default: 'Inter-SemiBold',
+  }),
+  sansBold: Platform.select({ios: 'Inter-Bold', android: 'Inter-Bold', default: 'Inter-Bold'}),
   serif: Platform.select({ ios: 'Georgia', android: 'serif', default: 'serif' }),
   mono: Platform.select({ ios: 'Courier New', android: 'monospace', default: 'monospace' }),
 };
