@@ -37,12 +37,17 @@ def autocomplete(query: str = Query(..., min_length=2, description="Address inpu
     responses=ERROR_RESPONSES,
 )
 def nearest_station(payload: NearestStationRequest) -> NearestStationResponse:
-    """Return nearest rail station from either place_id or direct coordinates."""
+    """Return nearest stations for departure and destination place IDs."""
     try:
-        result = resolve_nearest_station(
-            place_id=payload.place_id,
-            latitude=payload.latitude,
-            longitude=payload.longitude,
+        destination_result = resolve_nearest_station(
+            place_id=payload.destination_place_id,
+            latitude=None,
+            longitude=None,
+        )
+        departure_result = resolve_nearest_station(
+            place_id=payload.departure_place_id,
+            latitude=None,
+            longitude=None,
         )
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc))
@@ -51,9 +56,8 @@ def nearest_station(payload: NearestStationRequest) -> NearestStationResponse:
 
     return NearestStationResponse(
         status="success",
-        message="Nearest station calculated",
-        nearest_station=result["nearest_station"],
-        station_line=result.get("station_line"),
-        distance_km=result["distance_km"],
-        user_location=result["user_location"],
+        message="Nearest stations calculated",
+        destination_nearest_station=destination_result["nearest_station"],
+        departure_nearest_station=departure_result["nearest_station"],
+        station_line=destination_result.get("station_line"),
     )
