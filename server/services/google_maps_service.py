@@ -144,3 +144,11 @@ def resolve_nearest_station(
         raise ValueError("Missing coordinates for nearest station lookup")
 
     return find_nearest_station(latitude=latitude, longitude=longitude)
+
+
+def resolve_nearest_station_by_place_id(place_id: str) -> dict[str, Any]:
+    """Resolve nearest station from a required Google place_id."""
+    if not place_id:
+        raise ValueError("place_id is required for nearest station lookup")
+    latitude, longitude = geocode_place_id(place_id)
+    return find_nearest_station(latitude=latitude, longitude=longitude)

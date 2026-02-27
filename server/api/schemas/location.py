@@ -1,4 +1,4 @@
-from pydantic import BaseModel, model_validator
+from pydantic import BaseModel, Field
 
 from api.schemas.base import BaseResponse
 
@@ -15,20 +15,21 @@ class AutocompleteResponse(BaseResponse):
 
 
 class NearestStationRequest(BaseModel):
-    destination_place_id: str | None = None
-    departure_place_id: str | None = None
+    departure_place_id: str
+    destination_place_id: str
 
-    # Validate that both destination_place_id and departure_place_id are provided, else raise ValueError
-    @model_validator(mode="after")
-    def validate_location_input(self) -> "NearestStationRequest":
-        has_destination = bool(self.destination_place_id)
-        has_departure = bool(self.departure_place_id)
-        if not has_destination or not has_departure:
-            raise ValueError("Provide both destination_place_id and departure_place_id")
-        return self
+
+class UserLocation(BaseModel):
+    latitude: float
+    longitude: float
 
 
 class NearestStationResponse(BaseResponse):
-    destination_nearest_station: str 
     departure_nearest_station: str
-    station_line: str | None = None
+    destination_nearest_station: str
+    departure_station_line: str | None = None
+    destination_station_line: str | None = None
+    departure_distance_km: float = Field(..., ge=0)
+    destination_distance_km: float = Field(..., ge=0)
+    departure_user_location: UserLocation
+    destination_user_location: UserLocation
