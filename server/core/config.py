@@ -17,7 +17,7 @@ class Settings(BaseSettings):
     FIREBASE_CREDENTIALS_PATH: str = os.path.join(BASE_DIR, "firebaseServiceAccountKey.json")
 
     GEMINI_API_KEY: str | None = None
-    GEMINI_MODEL: str = "gemini-1.5-flash"
+    GEMINI_MODEL: str = "gemini-2.5-flash"
     GEMINI_MAX_RETRIES: int = 3
     GEMINI_TIMEOUT_SECONDS: int = 30
     GEMINI_MIN_CONFIDENCE: float = 0.7
