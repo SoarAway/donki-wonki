@@ -1,8 +1,10 @@
 import React from 'react';
-import { Image, SafeAreaView, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
 import { Button } from '../components/atoms/Button';
 import { NavBar } from '../components/molecules/NavBar';
+import { BaseScreen } from '../models/BaseScreen';
+import { colorTokens, radius, spacing, typography } from '../components/config';
 
 interface HomeScreenProps {
   apiStatus: string;
@@ -48,7 +50,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
   ];
 
   return (
-    <SafeAreaView style={styles.container}>
+    <BaseScreen style={styles.container}>
       <ScrollView
         style={styles.scrollView}
         contentContainerStyle={styles.scrollContainer}
@@ -82,6 +84,20 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
           </View>
         ))}
 
+        <Text style={styles.sectionTitle}>System Status</Text>
+        <View style={styles.statusCard}>
+          <Text style={styles.statusText}>API: {apiStatus}</Text>
+          <Text style={styles.statusText}>Notification permission: {permissionStatus}</Text>
+          <Text style={styles.statusText}>Token: {tokenPreview}</Text>
+          <Text style={styles.statusText}>Latest alert: {lastForegroundMessage}</Text>
+        </View>
+
+        <View style={styles.actions}>
+          <Button title="Manage Routes" onPress={onGoToRoutes} />
+          <Button title="Open Community" onPress={onGoToCommunity} />
+          <Button title="Logout" onPress={onLogout} />
+        </View>
+
       </ScrollView>
 
       <NavBar
@@ -94,114 +110,114 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
           }
         }}
       />
-    </SafeAreaView>
+    </BaseScreen>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#FAFCFD',
+    backgroundColor: colorTokens.background_default,
   },
   scrollView: {
     flex: 1,
   },
   scrollContainer: {
-    paddingHorizontal: 32,
-    paddingTop: 100,
-    paddingBottom: 120,
+    paddingHorizontal: spacing[8],
+    paddingTop: spacing[24],
+    paddingBottom: spacing[24] + spacing[6],
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 28,
+    marginBottom: spacing[6] + spacing[1],
   },
   welcomeText: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    color: '#000000',
-    letterSpacing: -0.5,
+    fontSize: typography.sizes['4xl'],
+    fontWeight: typography.weights.bold,
+    color: colorTokens.text_primary,
+    letterSpacing: typography.letterSpacing.tight,
   },
   logo: {
-    width: 90,
-    height: 90,
+    width: spacing[20] + spacing[2],
+    height: spacing[20] + spacing[2],
   },
   alertCard: {
-    backgroundColor: '#FFE4E4',
-    borderRadius: 14,
-    padding: 16,
-    marginBottom: 28,
+    backgroundColor: colorTokens.error_background,
+    borderRadius: radius.lg + 2,
+    padding: spacing[4],
+    marginBottom: spacing[6] + spacing[1],
   },
   alertTitleRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 6,
+    marginBottom: spacing[1] + 2,
   },
   alertIcon: {
-    fontSize: 18,
+    fontSize: typography.sizes.lg,
     marginRight: 8,
   },
   alertTitle: {
-    fontSize: 15,
-    fontWeight: 'bold',
-    color: '#000000',
+    fontSize: typography.sizes.sm + 1,
+    fontWeight: typography.weights.bold,
+    color: colorTokens.text_primary,
     flexShrink: 1,
   },
   alertMessage: {
-    fontSize: 13,
-    color: '#333333',
-    marginBottom: 8,
-    lineHeight: 18,
+    fontSize: typography.sizes.xs + 1,
+    color: colorTokens.text_secondary,
+    marginBottom: spacing[2],
+    lineHeight: typography.lineHeights.sm - 2,
   },
   alertTimestamp: {
-    fontSize: 12,
-    color: '#CC2222',
+    fontSize: typography.sizes.xs,
+    color: colorTokens.error_text,
     textAlign: 'right',
     fontStyle: 'italic',
   },
   sectionTitle: {
-    fontSize: 22,
-    fontWeight: 'bold',
-    color: '#000000',
-    marginBottom: 16,
-    letterSpacing: -0.3,
+    fontSize: typography.sizes['2xl'] - 2,
+    fontWeight: typography.weights.bold,
+    color: colorTokens.text_primary,
+    marginBottom: spacing[4],
+    letterSpacing: typography.letterSpacing.tight,
   },
   routeCard: {
-    backgroundColor: '#F0F1F6',
-    borderRadius: 16,
-    padding: 20,
-    marginBottom: 16,
+    backgroundColor: colorTokens.surface_muted,
+    borderRadius: radius.xl,
+    padding: spacing[5],
+    marginBottom: spacing[4],
   },
   routeName: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#000000',
-    marginBottom: 4,
+    fontSize: typography.sizes.lg,
+    fontWeight: typography.weights.bold,
+    color: colorTokens.text_primary,
+    marginBottom: spacing[1],
   },
   routePath: {
-    fontSize: 14,
-    color: '#333333',
-    marginBottom: 6,
+    fontSize: typography.sizes.sm,
+    color: colorTokens.text_secondary,
+    marginBottom: spacing[1] + 2,
   },
   routeSchedule: {
-    fontSize: 14,
-    color: '#2B5FC1',
+    fontSize: typography.sizes.sm,
+    color: colorTokens.link,
     fontStyle: 'italic',
   },
   statusCard: {
-    backgroundColor: '#F2F4FF',
-    borderRadius: 14,
-    padding: 16,
-    marginBottom: 16,
+    backgroundColor: colorTokens.surface_soft,
+    borderRadius: radius.lg + 2,
+    padding: spacing[4],
+    marginBottom: spacing[4],
   },
   statusText: {
-    fontSize: 13,
-    color: '#222222',
-    marginBottom: 6,
+    fontSize: typography.sizes.xs + 1,
+    color: colorTokens.text_strong,
+    marginBottom: spacing[1] + 2,
   },
   actions: {
-    gap: 10,
-    marginBottom: 8,
+    gap: spacing[2] + 2,
+    marginBottom: spacing[2],
   },
 });

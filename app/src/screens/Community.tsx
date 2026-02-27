@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Image } from 'react-native';
 import { Button } from '../components/atoms/Button';
 import { NavBar } from '../components/molecules/NavBar';
+import { BaseScreen } from '../models/BaseScreen';
+import { colorTokens, radius, shadows, spacing, typography } from '../components/config';
 
 interface Post {
     id: string;
@@ -68,7 +70,7 @@ export default function Community({ navigation }: any) {
     };
 
     return (
-        <SafeAreaView style={styles.container}>
+        <BaseScreen style={styles.container}>
             <View style={styles.header}>
                 <Text style={styles.title}>Community Reports</Text>
                 <Button
@@ -123,59 +125,55 @@ export default function Community({ navigation }: any) {
                     }
                 }}
             />
-        </SafeAreaView>
+        </BaseScreen>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#FAFCFD',
+        backgroundColor: colorTokens.background_default,
     },
     header: {
-        paddingHorizontal: 32,
-        paddingTop: 90,
-        paddingBottom: 30,
-        gap: 16,
+        paddingHorizontal: spacing[8],
+        paddingTop: spacing[24] - spacing[2],
+        paddingBottom: spacing[6] + spacing[1],
+        gap: spacing[4],
     },
     title: {
-        fontSize: 32,
-        fontWeight: 'bold',
-        color: '#000000',
-        letterSpacing: -1,
+        fontSize: typography.sizes['4xl'] - 4,
+        fontWeight: typography.weights.bold,
+        color: colorTokens.text_primary,
+        letterSpacing: typography.letterSpacing.tight,
     },
     scrollView: {
         flex: 1,
     },
     scrollContainer: {
-        paddingHorizontal: 32,
-        paddingBottom: 120,
+        paddingHorizontal: spacing[8],
+        paddingBottom: spacing[24] + spacing[6],
     },
     card: {
-        backgroundColor: '#F2F4FF',
-        borderRadius: 14,
-        padding: 18,
-        marginBottom: 14,
+        backgroundColor: colorTokens.surface_soft,
+        borderRadius: radius.lg + 2,
+        padding: spacing[4] + 2,
+        marginBottom: spacing[4] - 2,
         borderWidth: 0.5,
-        borderColor: '#D8DAE8',
-        shadowColor: '#000000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.05,
-        shadowRadius: 6,
-        elevation: 2,
+        borderColor: colorTokens.border_subtle,
+        ...shadows.sm,
     },
     username: {
-        fontSize: 13,
-        color: '#555555',
+        fontSize: typography.sizes.xs + 1,
+        color: colorTokens.text_muted,
         fontStyle: 'italic',
-        marginBottom: 8,
+        marginBottom: spacing[2],
     },
     content: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        color: '#000000',
-        lineHeight: 25,
-        marginBottom: 14,
+        fontSize: typography.sizes.lg,
+        fontWeight: typography.weights.bold,
+        color: colorTokens.text_primary,
+        lineHeight: typography.lineHeights.lg - 3,
+        marginBottom: spacing[4] - 2,
     },
     footer: {
         flexDirection: 'row',
@@ -187,7 +185,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     actionButton: {
-        marginRight: 18,
+        marginRight: spacing[4] + 2,
     },
     icon: {
         width: 22,
@@ -195,14 +193,15 @@ const styles = StyleSheet.create({
         resizeMode: 'contain',
     },
     timestamp: {
-        fontSize: 11,
-        color: '#AAAAAA',
+        fontSize: typography.sizes.xs - 1,
+        color: colorTokens.text_subtle,
         fontStyle: 'italic',
     },
     reportButton: {
-        backgroundColor: '#F0F1F6',
+        backgroundColor: colorTokens.surface_muted,
+        borderRadius: radius.full,
     },
     reportButtonText: {
-        color: '#5A81FA',
+        color: colorTokens.secondary_accent,
     },
 });

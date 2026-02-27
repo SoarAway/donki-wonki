@@ -4,13 +4,13 @@ import {
     Text,
     StyleSheet,
     Alert,
-    KeyboardAvoidingView,
-    Platform,
     Image,
     TouchableOpacity,
     TextInput,
     ScrollView,
 } from 'react-native';
+import { BaseScreen } from '../models/BaseScreen';
+import { colorTokens, radius, spacing, typography } from '../components/config';
 
 const logoImg = require('../assets/Logo.png');
 
@@ -33,10 +33,7 @@ export default function LoginScreen({ onLoginSuccess, onGoToRegister }: LoginScr
     };
 
     return (
-        <KeyboardAvoidingView
-            style={styles.container}
-            behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-        >
+        <BaseScreen style={styles.container} keyboardAvoiding>
             <ScrollView
                 contentContainerStyle={styles.scrollContent}
                 keyboardShouldPersistTaps="handled"
@@ -88,65 +85,65 @@ export default function LoginScreen({ onLoginSuccess, onGoToRegister }: LoginScr
                     </TouchableOpacity>
                 </View>
             </ScrollView>
-        </KeyboardAvoidingView>
+        </BaseScreen>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#F1F0F6',
+        backgroundColor: colorTokens.background_default,
     },
     scrollContent: {
         flexGrow: 1,
-        paddingHorizontal: 32,
-        paddingTop: 125,
-        paddingBottom: 40,
+        paddingHorizontal: spacing[8],
+        paddingTop: spacing[24] + spacing[6] + 1,
+        paddingBottom: spacing[10],
     },
     logo: {
-        width: 90,
-        height: 60,
+        width: spacing[20] + spacing[2],
+        height: spacing[12] + spacing[3],
         resizeMode: 'contain',
-        marginBottom: 28,
+        marginBottom: spacing[6] + spacing[1],
     },
     title: {
-        fontSize: 32,
-        fontWeight: '800',
-        color: '#111111',
-        lineHeight: 40,
-        marginBottom: 36,
+        fontSize: typography.sizes['4xl'] - 4,
+        fontWeight: typography.weights.bold,
+        color: colorTokens.text_dark,
+        lineHeight: typography.lineHeights['4xl'],
+        marginBottom: spacing[8] + spacing[1],
     },
     fieldGroup: {
-        marginBottom: 20,
+        marginBottom: spacing[5],
     },
     label: {
-        fontSize: 15,
-        fontWeight: '500',
-        color: '#111111',
-        marginBottom: 8,
+        fontSize: typography.sizes.sm + 1,
+        fontWeight: typography.weights.medium,
+        color: colorTokens.text_dark,
+        marginBottom: spacing[2],
     },
     input: {
-        backgroundColor: '#E8E8EF',
-        borderRadius: 14,
-        paddingHorizontal: 18,
-        paddingVertical: 16,
-        fontSize: 14,
-        color: '#111111',
+        backgroundColor: colorTokens.surface_muted,
+        borderRadius: radius.lg + 2,
+        paddingHorizontal: spacing[4] + 2,
+        paddingVertical: spacing[4],
+        fontSize: typography.sizes.sm,
+        color: colorTokens.text_dark,
         width: '100%',
     },
     loginBtn: {
-        backgroundColor: '#2B308B',
-        borderRadius: 50,
-        paddingVertical: 15,
+        backgroundColor: colorTokens.primary_accent,
+        borderRadius: radius.full,
+        paddingVertical: spacing[4] - 1,
         alignItems: 'center',
         justifyContent: 'center',
-        marginTop: 35,
-        marginBottom: 28,
+        marginTop: spacing[8] + spacing[1],
+        marginBottom: spacing[6] + spacing[1],
     },
     loginBtnText: {
-        color: '#FFFFFF',
-        fontSize: 16,
-        fontWeight: '700',
+        color: colorTokens.white,
+        fontSize: typography.sizes.base,
+        fontWeight: typography.weights.bold,
     },
     registerRow: {
         flexDirection: 'row',
@@ -155,14 +152,14 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap',
     },
     registerText: {
-        fontSize: 14,
-        color: '#000000',
+        fontSize: typography.sizes.sm,
+        color: colorTokens.text_primary,
         fontStyle: 'italic',
     },
     registerLink: {
-        fontSize: 14,
-        color: '#2B308B',
-        fontWeight: '700',
+        fontSize: typography.sizes.sm,
+        color: colorTokens.primary_accent,
+        fontWeight: typography.weights.bold,
         fontStyle: 'italic',
         textDecorationLine: 'underline',
     },

@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, SafeAreaView, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { Button } from '../components/atoms/Button';
 import { NavBar } from '../components/molecules/NavBar';
+import { BaseScreen } from '../models/BaseScreen';
+import { colorTokens, radius, shadows, spacing, typography } from '../components/config';
 
 interface Route {
     id: string;
@@ -30,7 +32,7 @@ export default function RouteManagement({ navigation }: any) {
     ]);
 
     return (
-        <SafeAreaView style={styles.container}>
+        <BaseScreen style={styles.container}>
             <View style={styles.header}>
                 <Text style={styles.title}>Route Management</Text>
             </View>
@@ -78,65 +80,61 @@ export default function RouteManagement({ navigation }: any) {
                     }
                 }}
             />
-        </SafeAreaView>
+        </BaseScreen>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#FAFCFD',
+        backgroundColor: colorTokens.background_default,
     },
     header: {
-        paddingHorizontal: 32,
-        paddingTop: 100,
-        paddingBottom: 20,
+        paddingHorizontal: spacing[8],
+        paddingTop: spacing[24],
+        paddingBottom: spacing[5],
     },
     title: {
-        fontSize: 27,
-        fontWeight: 'bold',
-        color: '#000000',
-        letterSpacing: -0.5,
+        fontSize: typography.sizes['3xl'] - 3,
+        fontWeight: typography.weights.bold,
+        color: colorTokens.text_primary,
+        letterSpacing: typography.letterSpacing.tight,
     },
     scrollView: {
         flex: 1,
     },
     scrollContainer: {
-        paddingHorizontal: 32,
-        paddingTop: 8,
-        paddingBottom: 36,
+        paddingHorizontal: spacing[8],
+        paddingTop: spacing[2],
+        paddingBottom: spacing[10] - spacing[1],
     },
     card: {
-        backgroundColor: '#F2F4FF',
-        borderRadius: 16,
-        padding: 20,
-        marginBottom: 18,
-        shadowColor: '#4A5080',
-        shadowOffset: { width: 0, height: 6 },
-        shadowOpacity: 0.18,
-        shadowRadius: 14,
-        elevation: 6,
+        backgroundColor: colorTokens.surface_soft,
+        borderRadius: radius.xl,
+        padding: spacing[5],
+        marginBottom: spacing[4] + 2,
+        ...shadows.md,
         position: 'relative',
     },
     routeName: {
-        fontSize: 22,
-        fontWeight: 'bold',
-        color: '#000000',
-        marginBottom: 6,
+        fontSize: typography.sizes['2xl'] - 2,
+        fontWeight: typography.weights.bold,
+        color: colorTokens.text_primary,
+        marginBottom: spacing[1] + 2,
     },
     routePath: {
-        fontSize: 14,
-        color: '#333333',
-        marginBottom: 10,
+        fontSize: typography.sizes.sm,
+        color: colorTokens.text_secondary,
+        marginBottom: spacing[2] + 2,
     },
     scheduleList: {
-        marginBottom: 24,
+        marginBottom: spacing[6],
     },
     scheduleItem: {
-        fontSize: 14,
-        color: '#2B5FC1',
+        fontSize: typography.sizes.sm,
+        color: colorTokens.secondary_accent,
         fontStyle: 'italic',
-        lineHeight: 22,
+        lineHeight: typography.lineHeights.lg - 6,
     },
     editButton: {
         position: 'absolute',
@@ -144,18 +142,18 @@ const styles = StyleSheet.create({
         bottom: 14,
     },
     editText: {
-        fontSize: 14,
-        color: '#2B5FC1',
+        fontSize: typography.sizes.sm,
+        color: colorTokens.secondary_accent,
         textDecorationLine: 'underline',
         fontStyle: 'italic',
     },
     bottomContainer: {
-        paddingTop: 8,
-        paddingBottom: 20,
+        paddingTop: spacing[2],
+        paddingBottom: spacing[5],
     },
     addRouteButton: {
-        backgroundColor: '#2D3A9C',
-        borderRadius: 50,
-        height: 50,
+        backgroundColor: colorTokens.primary_accent,
+        borderRadius: radius.full,
+        height: spacing[12] + 2,
     },
 });

@@ -4,12 +4,13 @@ import {
     Text,
     StyleSheet,
     ScrollView,
-    SafeAreaView,
     Alert,
 } from 'react-native';
 import { BackButton } from '../components/atoms/BackButton';
 import { Dropdown } from '../components/atoms/Dropdown';
 import { Button } from '../components/atoms/Button';
+import { BaseScreen } from '../models/BaseScreen';
+import { colorTokens, radius, spacing, typography } from '../components/config';
 
 const STATIONS = ['KL Sentral', 'KLCC', 'Bukit Bintang', 'Masjid Jamek', 'Titiwangsa'];
 
@@ -35,7 +36,7 @@ export default function AddRoute_2({ navigation, route }: any) {
     };
 
     return (
-        <SafeAreaView style={styles.safeArea}>
+        <BaseScreen style={styles.safeArea}>
             <View style={styles.header}>
                 <BackButton onPress={() => navigation && navigation.goBack()} />
             </View>
@@ -96,67 +97,66 @@ export default function AddRoute_2({ navigation, route }: any) {
             <View style={styles.bottomContainer}>
                 <Button title="Submit" onPress={handleSubmit} />
             </View>
-        </SafeAreaView>
+        </BaseScreen>
     );
 }
 
 const styles = StyleSheet.create({
     safeArea: {
         flex: 1,
-        backgroundColor: '#FAFCFD',
+        backgroundColor: colorTokens.background_default,
     },
     header: {
-        paddingHorizontal: 32,
-        paddingTop: 100,
-        paddingBottom: 10,
+        paddingHorizontal: spacing[8],
+        paddingTop: spacing[24],
+        paddingBottom: spacing[2] + 2,
     },
     scrollView: {
         flex: 1,
     },
     container: {
-        paddingHorizontal: 32,
-        paddingTop: 16,
-        paddingBottom: 20,
+        paddingHorizontal: spacing[8],
+        paddingTop: spacing[4],
+        paddingBottom: spacing[5],
     },
     dropdownWrapper: {
         position: 'relative',
     },
     summaryTitle: {
-        fontSize: 15,
-        fontWeight: '500',
-        color: '#0D0D0D',
-        marginTop: 8,
-        marginBottom: 12,
+        fontSize: typography.sizes.sm + 1,
+        fontWeight: typography.weights.medium,
+        color: colorTokens.text_primary_soft,
+        marginTop: spacing[2],
+        marginBottom: spacing[3],
     },
     summaryCard: {
-        backgroundColor: '#F0F1F6',
-        borderRadius: 14,
-        paddingVertical: 18,
-        paddingHorizontal: 20,
-        gap: 8,
-        width: 337,
+        backgroundColor: colorTokens.surface_muted,
+        borderRadius: radius.lg + 2,
+        paddingVertical: spacing[4] + 2,
+        paddingHorizontal: spacing[5],
+        gap: spacing[2],
     },
     summaryRow: {
-        fontSize: 14,
-        color: '#0D0D0D',
-        lineHeight: 22,
+        fontSize: typography.sizes.sm,
+        color: colorTokens.text_primary_soft,
+        lineHeight: typography.lineHeights.lg - 6,
     },
     summaryKey: {
         fontWeight: '700',
-        color: '#0D0D0D',
+        color: colorTokens.text_primary_soft,
     },
     summaryValue: {
         fontWeight: '400',
-        color: '#0D0D0D',
+        color: colorTokens.text_primary_soft,
     },
     bottomContainer: {
         position: 'absolute',
         bottom: 0,
         left: 0,
         right: 0,
-        paddingHorizontal: 32,
-        paddingBottom: 60,
-        paddingTop: 10,
-        backgroundColor: '#FAFCFD',
+        paddingHorizontal: spacing[8],
+        paddingBottom: spacing[12] + spacing[3],
+        paddingTop: spacing[2] + 2,
+        backgroundColor: colorTokens.background_default,
     },
 });

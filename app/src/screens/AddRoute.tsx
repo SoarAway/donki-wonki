@@ -4,7 +4,6 @@ import {
     Text,
     StyleSheet,
     ScrollView,
-    SafeAreaView,
     Alert,
 } from 'react-native';
 import { BackButton } from '../components/atoms/BackButton';
@@ -13,6 +12,8 @@ import { Button } from '../components/atoms/Button';
 import { AutocompleteInput } from '../components/atoms/AutoCompleteInput';
 import { TagDropdown } from '../components/atoms/Tag';
 import { Time } from '../components/atoms/Time';
+import { BaseScreen } from '../models/BaseScreen';
+import { colorTokens, radius, spacing, typography } from '../components/config';
 
 const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 
@@ -46,7 +47,7 @@ export default function AddRoute({ navigation }: any) {
     };
 
     return (
-        <SafeAreaView style={styles.safeArea}>
+        <BaseScreen style={styles.safeArea}>
             <View style={styles.header}>
                 <BackButton onPress={() => navigation && navigation.goBack()} />
                 <Text style={styles.title}>Create Route</Text>
@@ -114,41 +115,41 @@ export default function AddRoute({ navigation }: any) {
                     onPress={handleSubmit}
                 />
             </View>
-        </SafeAreaView>
+        </BaseScreen>
     );
 }
 
 const styles = StyleSheet.create({
     safeArea: {
         flex: 1,
-        backgroundColor: '#FAFCFD',
+        backgroundColor: colorTokens.background_default,
     },
     scrollView: {
         flex: 1,
     },
     container: {
-        paddingHorizontal: 32,
-        paddingTop: 10,
-        paddingBottom: 20,
+        paddingHorizontal: spacing[8],
+        paddingTop: spacing[2] + 2,
+        paddingBottom: spacing[5],
     },
     header: {
         flexDirection: 'row',
         alignItems: 'center',
-        paddingHorizontal: 32,
-        paddingTop: 90,
-        paddingBottom: 25,
+        paddingHorizontal: spacing[8],
+        paddingTop: spacing[24] - spacing[2],
+        paddingBottom: spacing[6] + 1,
     },
     title: {
-        fontSize: 27,
-        fontWeight: 'bold',
-        color: '#0D0D0D',
-        marginLeft: 8,
+        fontSize: typography.sizes['3xl'] - 3,
+        fontWeight: typography.weights.bold,
+        color: colorTokens.text_primary_soft,
+        marginLeft: spacing[2],
     },
     formSection: {
         width: '100%',
     },
     timeSectionWrapper: {
-        marginTop: 10,
+        marginTop: spacing[2] + 2,
         zIndex: 0,
     },
     bottomContainer: {
@@ -156,9 +157,11 @@ const styles = StyleSheet.create({
         bottom: 0,
         left: 0,
         right: 0,
-        paddingHorizontal: 32,
-        paddingBottom: 60,
-        paddingTop: 10,
-        backgroundColor: '#FAFCFD',
+        paddingHorizontal: spacing[8],
+        paddingBottom: spacing[12] + spacing[3],
+        paddingTop: spacing[2] + 2,
+        backgroundColor: colorTokens.background_default,
+        borderTopLeftRadius: radius.lg,
+        borderTopRightRadius: radius.lg,
     },
 });

@@ -4,14 +4,14 @@ import {
     Text,
     StyleSheet,
     Alert,
-    KeyboardAvoidingView,
-    Platform,
     ScrollView,
     Image,
     TouchableOpacity,
 } from 'react-native';
 import { Button } from '../components/atoms/Button';
 import { Input } from '../components/atoms/Input';
+import { BaseScreen } from '../models/BaseScreen';
+import { colorTokens, radius, spacing, typography } from '../components/config';
 
 interface RegisterProps {
     onRegisterSuccess: (userId: string) => void;
@@ -92,10 +92,7 @@ export default function Register({ onRegisterSuccess, onBackToLogin }: RegisterP
     };
 
     return (
-        <KeyboardAvoidingView
-            behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-            style={styles.container}
-        >
+        <BaseScreen style={styles.container} keyboardAvoiding>
             <ScrollView
                 contentContainerStyle={styles.scrollContainer}
                 showsVerticalScrollIndicator={false}
@@ -176,64 +173,64 @@ export default function Register({ onRegisterSuccess, onBackToLogin }: RegisterP
                     </TouchableOpacity>
                 </View>
             </ScrollView>
-        </KeyboardAvoidingView>
+        </BaseScreen>
     );
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#FAFCFD',
+        backgroundColor: colorTokens.background_default,
     },
     scrollContainer: {
         flexGrow: 1,
-        paddingHorizontal: 32,
-        paddingTop: 120,
-        paddingBottom: 40,
+        paddingHorizontal: spacing[8],
+        paddingTop: spacing[24] + spacing[6],
+        paddingBottom: spacing[10],
     },
     logo: {
-        width: 90,
-        height: 50,
-        marginBottom: 20,
+        width: spacing[20] + spacing[2],
+        height: spacing[12] + 2,
+        marginBottom: spacing[5],
     },
     title: {
-        fontSize: 30,
-        fontWeight: 'bold',
-        color: '#111111',
-        marginBottom: 21,
-        lineHeight: 42,
+        fontSize: typography.sizes['3xl'],
+        fontWeight: typography.weights.bold,
+        color: colorTokens.text_dark,
+        marginBottom: spacing[5] + 1,
+        lineHeight: typography.lineHeights['3xl'] + 6,
     },
     button: {
-        marginTop: 32,
-        borderRadius: 50,
+        marginTop: spacing[8],
+        borderRadius: radius.full,
     },
     loginRow: {
         flexDirection: 'row',
         justifyContent: 'center',
-        marginTop: 16,
+        marginTop: spacing[4],
         alignItems: 'center',
     },
     loginText: {
-        fontSize: 13,
-        color: '#555555',
+        fontSize: typography.sizes.xs + 1,
+        color: colorTokens.text_muted,
         fontStyle: 'italic',
     },
     loginLink: {
-        fontSize: 13,
-        color: '#2B308B',
+        fontSize: typography.sizes.xs + 1,
+        color: colorTokens.primary_accent,
         fontStyle: 'italic',
         textDecorationLine: 'underline',
-        fontWeight: '600',
+        fontWeight: typography.weights.semibold,
     },
     inputError: {
         borderWidth: 1,
-        borderColor: '#D32F2F',
-        backgroundColor: '#FFF5F5',
+        borderColor: colorTokens.error_main,
+        backgroundColor: colorTokens.error_background_soft,
     },
     errorText: {
-        color: '#D32F2F',
-        fontSize: 11,
+        color: colorTokens.error_main,
+        fontSize: typography.sizes.xs - 1,
         marginTop: -10,
-        marginBottom: 8,
+        marginBottom: spacing[2],
     },
 });
