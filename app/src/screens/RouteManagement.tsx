@@ -19,8 +19,23 @@ const pickString = (source: Record<string, unknown>, keys: string[]): string | n
     return null;
 };
 
+const pickIdentifier = (source: Record<string, unknown>, keys: string[]): string | null => {
+    for (const key of keys) {
+        const value = source[key];
+        if (typeof value === 'string' && value.trim().length > 0) {
+            return value.trim();
+        }
+        if (typeof value === 'number' && Number.isFinite(value)) {
+            return String(value);
+        }
+    }
+    return null;
+};
+
 const toCardData = (routeRecord: Record<string, unknown>, index: number): RouteCardData => {
-    const routeId = pickString(routeRecord, ['route_id', 'id', 'routeId']) ?? `route-${index + 1}`;
+    const routeId =
+      pickIdentifier(routeRecord, ['route_id', 'routeId', 'id', '_id', 'routeID']) ??
+      `__missing__-${index + 1}`;
     const routeName = pickString(routeRecord, ['route_desc', 'description', 'label', 'name']) ?? `Route ${index + 1}`;
     const departingStation = pickString(routeRecord, ['departing_station', 'departingStation']) ?? '';
     const departingLocation = pickString(routeRecord, ['departing_location', 'departingLocation']) ?? '';
@@ -94,6 +109,14 @@ export default function RouteManagement({ navigation }: any) {
         ]);
     };
 
+    const handleOpenEdit = (routeId: string) => {
+        if (routeId.startsWith('__missing__')) {
+            Alert.alert('Error', 'This route is missing a valid route ID from API response.');
+            return;
+        }
+        navigation.navigate('EditRoute', {routeId});
+    };
+
     return (
         <BaseScreen style={styles.container}>
             <View style={styles.header}>
@@ -108,7 +131,7 @@ export default function RouteManagement({ navigation }: any) {
                     <RouteCard
                         key={route.id}
                         route={route}
-                        onPress={routeId => navigation.navigate('EditRoute', {routeId})}
+                        onPress={handleOpenEdit}
                         onDelete={handleDeleteRoute}
                     />
                 ))}

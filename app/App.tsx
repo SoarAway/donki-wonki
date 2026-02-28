@@ -18,11 +18,12 @@ import Register from './src/screens/Register';
 import { HomeScreen } from './src/screens/HomeScreen';
 import Community from './src/screens/Community';
 import RouteManagement from './src/screens/RouteManagement';
-import Reporting from './src/screens/Reporting';
+import Reporting from './src/screens/CommunityReport';
 import Feedback from './src/screens/Feedback';
 import AddRoute from './src/screens/AddRoute';
 import AddRoute_2 from './src/screens/AddRoute2';
 import EditRoute from './src/screens/EditRoute';
+import RouteStatus from './src/screens/RouteStatus';
 import { clearUserId, getUserId, saveUserId } from './src/services/authStorage';
 
 type AuthStackParamList = {
@@ -99,6 +100,7 @@ const MainTabsNavigator: React.FC<MainTabsNavigatorProps> = ({
       {({ navigation }) => (
         <HomeScreen
           userEmail={userEmail}
+          onGoToRouteStatus={() => navigation.navigate('RouteStatus')}
           onGoToRoutes={() => navigation.navigate('RouteManagement')}
           onGoToCommunity={() => navigation.navigate('Community')}
           onLogout={onLogout}
@@ -126,6 +128,7 @@ const AppStackNavigator: React.FC<AppStackNavigatorProps> = props => (
     <AppStack.Screen name="AddRoute" component={AddRoute} />
     <AppStack.Screen name="AddRoute2" component={AddRoute_2} />
     <AppStack.Screen name="EditRoute" component={EditRoute} />
+    <AppStack.Screen name="RouteStatus" component={RouteStatus} />
   </AppStack.Navigator>
 );
 
@@ -258,7 +261,7 @@ function App() {
       setLastForegroundMessage(`${title}: ${body}`);
       setBannerTitle(title);
       setBannerMessage(body);
-      setBannerVisible(true);
+      setBannerVisible(false);
     });
 
     return () => {

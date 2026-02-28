@@ -12,7 +12,7 @@ import {colorTokens, spacing, typography} from '../components/config';
 import {BaseScreen} from '../models/BaseScreen';
 import {editRoute, getSpecificRoute, nearestStation} from '../services/api/apiEndpoints';
 import {getUserId} from '../services/authStorage';
-import {matchStationOption, stationOptions} from '../utils/stations';
+import {matchStationOption, resolveStationCode, stationOptions} from '../utils/stationCatalog';
 
 const DAYS = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
 
@@ -190,7 +190,12 @@ export default function EditRoute({navigation, route}: any) {
 
       try {
         const response = await getSpecificRoute(email, routeIdParam);
-        const routeData = response.route as Record<string, unknown>;
+        const rawRouteData = response.route as Record<string, unknown>;
+        const routeDataCandidate = rawRouteData.route;
+        const routeData =
+          routeDataCandidate && typeof routeDataCandidate === 'object'
+            ? (routeDataCandidate as Record<string, unknown>)
+            : rawRouteData;
 
         if (!active) {
           return;
@@ -206,8 +211,9 @@ export default function EditRoute({navigation, route}: any) {
         const apiDestinationStation = pickString(routeData, ['destination_station', 'destinationStation']);
         setDepartingStation(matchStationOption(apiDepartureStation) ?? apiDepartureStation);
         setDestinationStation(matchStationOption(apiDestinationStation) ?? apiDestinationStation);
-      } catch {
-        Alert.alert('Error', 'Unable to load route details.');
+      } catch (error) {
+        const message = error instanceof Error ? error.message : 'Unable to load route details.';
+        Alert.alert('Error', message);
         navigation.goBack();
       }
     };
@@ -263,6 +269,13 @@ export default function EditRoute({navigation, route}: any) {
     const dayOfWeek = selectedDays[0];
     const hour24 = to24Hour(time.hour, time.period);
     const timeValue = `${hour24}:${String(time.minute).padStart(2, '0')}:00`;
+    const departingStationCode = resolveStationCode(departingStation);
+    const destinationStationCode = resolveStationCode(destinationStation);
+
+    if (!departingStationCode || !destinationStationCode) {
+      Alert.alert('Error', 'Please select stations from the station list.');
+      return;
+    }
 
     try {
       await editRoute({
@@ -272,15 +285,16 @@ export default function EditRoute({navigation, route}: any) {
         destination_location: destinationLocation,
         day_of_week: dayOfWeek,
         time: timeValue,
-        departing_station: departingStation,
-        destination_station: destinationStation,
+        departing_station: departingStationCode,
+        destination_station: destinationStationCode,
         route_desc: label,
       });
 
       Alert.alert('Success', 'Route updated successfully.');
       navigation.goBack();
-    } catch {
-      Alert.alert('Error', 'Failed to update route. Please try again.');
+    } catch (error) {
+      const message = error instanceof Error ? error.message : 'Failed to update route.';
+      Alert.alert('Error', message);
     }
   };
 

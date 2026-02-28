@@ -13,20 +13,20 @@ import { BaseScreen } from '../models/BaseScreen';
 import { colorTokens, radius, spacing, typography } from '../components/config';
 import { createRoute, nearestStation } from '../services/api/apiEndpoints';
 import { getUserId } from '../services/authStorage';
-import { matchStationOption, stationOptions } from '../utils/stations';
+import { matchStationOption, resolveStationCode, stationOptions } from '../utils/stationCatalog';
 
 export default function AddRoute_2({ navigation, route }: any) {
     const params = route?.params ?? {};
 
-    const label = params.label ?? 'Home';
-    const departureLocation = params.departureLocation ?? 'Sunway University';
-    const destinationLocation = params.destinationLocation ?? 'SS15';
+    const label = params.label ?? '';
+    const departureLocation = params.departureLocation ?? '';
+    const destinationLocation = params.destinationLocation ?? '';
     const departurePlaceId = params.departurePlaceId ?? '';
     const destinationPlaceId = params.destinationPlaceId ?? '';
     const selectedDays: string[] = Array.isArray(params.selectedDays)
       ? params.selectedDays
-      : ['Monday', 'Wednesday', 'Friday'];
-    const time = params.time ?? { hour: '05', minute: '00', period: 'PM' };
+      : [];
+    const time = params.time ?? { hour: '08', minute: '00', period: 'AM' };
 
     const [startStation, setStartStation] = useState('');
     const [destinationStation, setDestinationStation] = useState('');
@@ -46,12 +46,12 @@ export default function AddRoute_2({ navigation, route }: any) {
                 });
                 if (active) {
                     setStartStation(
-                      matchStationOption(response.departure_nearest_station) ??
-                        response.departure_nearest_station,
+                        matchStationOption(response.departure_nearest_station) ??
+                          response.departure_nearest_station,
                     );
                     setDestinationStation(
-                      matchStationOption(response.destination_nearest_station) ??
-                        response.destination_nearest_station,
+                        matchStationOption(response.destination_nearest_station) ??
+                          response.destination_nearest_station,
                     );
                 }
             } catch {
@@ -93,6 +93,13 @@ export default function AddRoute_2({ navigation, route }: any) {
         const dayOfWeek = selectedDays[0] ?? 'Monday';
         const hour24 = to24Hour(time.hour, time.period);
         const timeValue = `${hour24}:${String(time.minute).padStart(2, '0')}:00`;
+        const departingStationCode = resolveStationCode(startStation);
+        const destinationStationCode = resolveStationCode(destinationStation);
+
+        if (!departingStationCode || !destinationStationCode) {
+            Alert.alert('Error', 'Please select stations from the station list.');
+            return;
+        }
 
         try {
             await createRoute({
@@ -101,8 +108,8 @@ export default function AddRoute_2({ navigation, route }: any) {
                 destination_location: destinationLocation,
                 day_of_week: dayOfWeek,
                 time: timeValue,
-                departing_station: startStation,
-                destination_station: destinationStation,
+                departing_station: departingStationCode,
+                destination_station: destinationStationCode,
                 route_desc: label,
             });
 
@@ -111,8 +118,9 @@ export default function AddRoute_2({ navigation, route }: any) {
                 navigation.goBack();
                 navigation.goBack();
             }
-        } catch {
-            Alert.alert('Error', 'Failed to submit route. Please try again.');
+        } catch (error) {
+            const message = error instanceof Error ? error.message : 'Failed to submit route.';
+            Alert.alert('Error', message);
         }
     };
 
@@ -152,19 +160,19 @@ export default function AddRoute_2({ navigation, route }: any) {
                 <View style={styles.summaryCard}>
                     <Text style={styles.summaryRow}>
                         <Text style={styles.summaryKey}>Label: </Text>
-                        <Text style={styles.summaryValue}>{label}</Text>
+                        <Text style={styles.summaryValue}>{label || '-'}</Text>
                     </Text>
                     <Text style={styles.summaryRow}>
                         <Text style={styles.summaryKey}>Departure Location: </Text>
-                        <Text style={styles.summaryValue}>{departureLocation}</Text>
+                        <Text style={styles.summaryValue}>{departureLocation || '-'}</Text>
                     </Text>
                     <Text style={styles.summaryRow}>
                         <Text style={styles.summaryKey}>Destination location: </Text>
-                        <Text style={styles.summaryValue}>{destinationLocation}</Text>
+                        <Text style={styles.summaryValue}>{destinationLocation || '-'}</Text>
                     </Text>
                     <Text style={styles.summaryRow}>
                         <Text style={styles.summaryKey}>Day: </Text>
-                        <Text style={styles.summaryValue}>{selectedDays.join(', ')}</Text>
+                        <Text style={styles.summaryValue}>{selectedDays.length > 0 ? selectedDays.join(', ') : '-'}</Text>
                     </Text>
                     <Text style={styles.summaryRow}>
                         <Text style={styles.summaryKey}>Time: </Text>

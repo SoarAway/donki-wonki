@@ -38,13 +38,21 @@ export default function AddRoute({ navigation }: any) {
             return;
         }
 
+        if (!departurePlaceId || !destinationPlaceId) {
+            Alert.alert(
+                'Error',
+                'Please select both departure and destination from autocomplete suggestions.',
+            );
+            return;
+        }
+
         if (navigation) {
             navigation.navigate('AddRoute2', {
                 label,
                 departureLocation: startPoint,
                 destinationLocation: destPoint,
-                departurePlaceId,
-                destinationPlaceId,
+                departurePlaceId: departurePlaceId,
+                destinationPlaceId: destinationPlaceId,
                 selectedDays,
                 time,
             });
@@ -77,7 +85,10 @@ export default function AddRoute({ navigation }: any) {
                         label="Departure Location:"
                         placeholder="Choose a departure location"
                         value={startPoint}
-                        onChangeText={setStartPoint}
+                        onChangeText={text => {
+                            setStartPoint(text);
+                            setDeparturePlaceId('');
+                        }}
                         onSelect={setStartPoint}
                         onSelectSuggestion={suggestion => setDeparturePlaceId(suggestion.place_id)}
                         containerStyle={{ zIndex: 3000 }}
@@ -88,7 +99,10 @@ export default function AddRoute({ navigation }: any) {
                         label="Destination Location:"
                         placeholder="Choose a destination location"
                         value={destPoint}
-                        onChangeText={setDestPoint}
+                        onChangeText={text => {
+                            setDestPoint(text);
+                            setDestinationPlaceId('');
+                        }}
                         onSelect={setDestPoint}
                         onSelectSuggestion={suggestion => setDestinationPlaceId(suggestion.place_id)}
                         containerStyle={{ zIndex: 2000 }}
