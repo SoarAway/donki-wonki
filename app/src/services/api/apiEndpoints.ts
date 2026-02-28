@@ -2,15 +2,11 @@ import {del, get, post, put} from './apiClient';
 import type {
   AddScheduleRequest,
   AutocompleteResponse,
-  BatchIncidentExtractionRequest,
-  BatchIncidentExtractionResponse,
   BaseResponse,
   DeleteRouteRequest,
   EditRouteRequest,
   GetUserByEmailResponse,
   HealthResponse,
-  IncidentExtractionRequest,
-  IncidentExtractionResponse,
   LoginUserRequest,
   LoginUserResponse,
   NextUpcomingRouteResponse,
@@ -139,44 +135,3 @@ export const sendReport = (request: SendReportRequest) =>
   post<ReportIdResponse>(`${BASE_API_ENDPOINT}/report/send`, request);
 
 export const getTopReports = () => get<TopReportsResponse>(`${BASE_API_ENDPOINT}/report/top3`);
-
-/**
- * Extracts one incident from a single text input.
- * @param request Incident extraction payload.
- * @returns Incident classification and extracted details.
- * Request: `IncidentExtractionRequest`.
- * Response: `IncidentExtractionResponse`.
- */
-export const extractIncident = (request: IncidentExtractionRequest) =>
-  post<IncidentExtractionResponse>(`${BASE_API_ENDPOINT}/incidents/extract`, request);
-
-/**
- * Extracts incidents from a batch of text inputs.
- * @param request Batch extraction payload.
- * @returns Batch extraction results with processed/failed counts.
- * Request: `BatchIncidentExtractionRequest`.
- * Response: `BatchIncidentExtractionResponse`.
- */
-export const extractIncidentsBatch = (request: BatchIncidentExtractionRequest) =>
-  post<BatchIncidentExtractionResponse>(`${BASE_API_ENDPOINT}/incidents/extract/batch`, request);
-
-interface ProcessIncidentParams {
-  text: string;
-  source?: string;
-  save?: boolean;
-}
-
-/**
- * Runs extraction, validation, and optional persistence for one social post.
- * @param params Query payload with text, source, and save flag.
- * @returns Incident extraction pipeline result.
- * Request: query params `{ text, source, save }`.
- * Response: `IncidentExtractionResponse`.
- */
-export const processIncident = ({text, source = 'reddit', save = true}: ProcessIncidentParams) =>
-  post<IncidentExtractionResponse>(
-    `${BASE_API_ENDPOINT}/incidents/process?text=${encodeURIComponent(text)}&source=${encodeURIComponent(
-      source,
-    )}&save=${save}`,
-    {},
-  );
