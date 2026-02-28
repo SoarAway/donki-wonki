@@ -77,7 +77,6 @@ The frontend is intentionally lightweight. All detection, AI reasoning, and rout
 Notifications are handled using:
 
 - Firebase Cloud Messaging  
-- Notifee  
 
 ---
 
@@ -87,7 +86,7 @@ Built using:
 
 - FastAPI  
 - Python  
-- Hosted on Render  
+- Hosted live on Render[[https://donki-wonki.onrender.com  ]]
 
 The backend:
 
@@ -98,6 +97,14 @@ The backend:
 - Dispatches notifications
 
 Centralizing logic in the backend ensures scalability and clean separation of concerns.
+
+### 🌐 Live Backend Deployment
+
+Production API is deployed on Render:
+👉 https://donki-wonki.onrender.com  
+
+Health check endpoint:
+👉 https://donki-wonki.onrender.com/health  
 
 ---
 
@@ -186,7 +193,7 @@ Deployment:
 - Push to server → Dev environment on Render
 - Push to main → Production deployment
 
-Documentation merges are automated to ensure consistency.
+Documentation merges to main are automated to ensure consistency.
 
 ---
 
