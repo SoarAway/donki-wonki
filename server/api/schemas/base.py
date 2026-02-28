@@ -21,5 +21,7 @@ ERROR_RESPONSES: dict[int | str, dict[str, Any]] = {
     "422": {"model": ErrorResponse, "description": "Validation error"},
     "501": {"model": ErrorResponse, "description": "Not implemented"},
     "503": {"model": ErrorResponse, "description": "Service unavailable"},
+    "409": {"model": ErrorResponse, "description": "Conflict"},
+    "422": {"model": ErrorResponse, "description": "Validation error"},
     "500": {"model": ErrorResponse, "description": "Internal server error"},
 }
