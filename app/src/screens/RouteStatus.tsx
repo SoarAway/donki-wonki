@@ -44,11 +44,11 @@ export default function RouteStatus({ navigation }: RouteStatusProps) {
 
                     {/* Disruption message */}
                     <Text style={styles.disruptionText}>
-                        Disruption in Kelana Jaya line due to LRT rosak
+                        A train has been taken out of service at KLCC station due to technical disruption. 
                     </Text>
 
                     {/* Reported time */}
-                    <Text style={styles.reportedTime}>Reported Time: 3:45PM</Text>
+                    <Text style={styles.reportedTime}>Predicted End Time: 4:10PM</Text>
 
                     {/* Divider */}
                     <View style={styles.divider} />

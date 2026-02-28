@@ -33,9 +33,6 @@ export const ReportCard: React.FC<ReportCardProps> = ({ post, onLike, onDislike,
 
   return (
     <View style={styles.card}>
-      {post.username && (
-        <Text style={styles.username}>{post.username}</Text>
-      )}
       
       <Text style={styles.content}>{post.content}</Text>
 

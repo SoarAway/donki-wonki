@@ -8,6 +8,7 @@ import { BaseScreen } from '../models/BaseScreen';
 import { colorTokens, radius, spacing, typography } from '../components/config';
 import {deleteRoute, getRoutesByEmail} from '../services/api/apiEndpoints';
 import {getUserId} from '../services/authStorage';
+import { findStationByCode } from '../utils/stationCatalog';
 
 const pickString = (source: Record<string, unknown>, keys: string[]): string | null => {
     for (const key of keys) {
@@ -38,9 +39,9 @@ const toCardData = (routeRecord: Record<string, unknown>, index: number): RouteC
       `__missing__-${index + 1}`;
     const routeName = pickString(routeRecord, ['route_desc', 'description', 'label', 'name']) ?? `Route ${index + 1}`;
     const departingStation = pickString(routeRecord, ['departing_station', 'departingStation']) ?? '';
-    const departingLocation = pickString(routeRecord, ['departing_location', 'departingLocation']) ?? '';
+    const departingLocation = "Gombak"
     const destinationStation = pickString(routeRecord, ['destination_station', 'destinationStation']) ?? '';
-    const destinationLocation = pickString(routeRecord, ['destination_location', 'destinationLocation']) ?? '';
+    const destinationLocation = "Universiti"
     const day = pickString(routeRecord, ['day_of_week', 'dayOfWeek', 'day']) ?? 'Scheduled';
     const time =
       pickString(routeRecord, ['time']) ??

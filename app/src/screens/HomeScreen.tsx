@@ -11,6 +11,7 @@ const LOGO_SIZE = spacing[20] + spacing[2];
 
 interface HomeScreenProps {
   userEmail: string;
+  onGoToRouteStatus: () => void;
   onGoToRoutes: () => void;
   onGoToCommunity: () => void;
   onLogout: () => void;
@@ -18,6 +19,7 @@ interface HomeScreenProps {
 
 export const HomeScreen: React.FC<HomeScreenProps> = ({
   userEmail,
+  onGoToRouteStatus,
   onGoToRoutes,
   onGoToCommunity,
   onLogout,
@@ -64,9 +66,9 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
 
         const routeName = pickString(routeData, ['description']) ?? 'Upcoming Route';
         const departingStation = pickString(routeData, ['departingStation']) ?? 'LRT';
-        const departingLocation = pickString(routeData, ['departingLocation']) ?? 'LRT';
+        const departingLocation = "Gombak"
         const destinationStation = pickString(routeData, ['destinationStation']) ?? 'LRT';
-        const destinationLocation = pickString(routeData, ['destinationLocation']) ?? 'LRT';
+        const destinationLocation = "Universiti" 
         const day = pickString(routeData, ['dayOfWeek', 'day']) ?? 'Scheduled';
         const timeFrom = pickString(routeData, ['timeFrom', 'departureTime']) ?? 'N/A';
         const timeTo = pickString(routeData, ['timeTo', 'arrivalTime']) ?? 'N/A';
@@ -100,12 +102,14 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
         showsVerticalScrollIndicator={false}
       >
         <View style={styles.header}>
-          <Text style={styles.welcomeText}>Welcome!!</Text>
+          <TouchableOpacity onPress={onGoToRouteStatus} activeOpacity={0.8}>
+            <Text style={styles.welcomeText}>Welcome!!</Text>
+          </TouchableOpacity>
           <TouchableOpacity onPress={onLogout} activeOpacity={0.8} style={styles.logo}>
             <Logo width={LOGO_SIZE} height={LOGO_SIZE} />
           </TouchableOpacity>
         </View>
-
+{/* 
         {disruptions.map(alert => (
           <View key={alert.id} style={styles.alertCard}>
             <View style={styles.alertTitleRow}>
@@ -115,7 +119,7 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
             <Text style={styles.alertMessage}>{alert.message}</Text>
             <Text style={styles.alertTimestamp}>{alert.timestamp}</Text>
           </View>
-        ))}
+        ))} */}
 
         <Text style={styles.sectionTitle}>Upcoming Route</Text>
 
