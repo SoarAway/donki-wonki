@@ -1,7 +1,7 @@
 # 🚆 On The Way  
 ## Predictive Rail Disruption Intelligence for Klang Valley
 
-**"Don't get stuck. Decide before you leave."**
+**"Don't get stuck. Get Notified."**
 
 On The Way is an AI-powered early warning system for Klang Valley rail commuters.  
 Instead of discovering delays after arriving at the station, users receive personalized disruption alerts 15 to 30 minutes before official announcements are typically released.
@@ -107,8 +107,8 @@ Health check endpoint:
 👉 https://donki-wonki.onrender.com/health  
 
 ---
-
-# 🤖 AI Prediction Engine
+# Implementation Logic
+## 🤖 AI Prediction Engine
 
 The AI layer is powered by the Gemini API.
 
@@ -125,7 +125,7 @@ This enables early detection before official operator announcements.
 
 ---
 
-# 🚦 Alert Mechanism Logic
+## 🚦 Alert Mechanism Logic
 
 The alert lifecycle follows a structured chronological model:
 
@@ -148,7 +148,7 @@ This ensures commuters do not rely on outdated resolution estimates.
 
 ---
 
-# 🗺️ Route Intelligence
+## 🗺️ Route Intelligence
 
 Route registration uses the Google Maps API to:
 
@@ -165,7 +165,7 @@ This simplified heuristic allows fast computation without heavy routing APIs whi
 
 ---
 
-# 🗄️ Database & Authentication
+## 🗄️ Database & Authentication
 
 Implemented using Firebase Firestore.
 
@@ -248,7 +248,7 @@ On The Way aims to evolve from a disruption alert system into a fully intelligen
 - Reinfrocement learning for alert personalization
 - Google calendar integration
 - Transparent alert chronology timeline
-- 
+
 --
 # Team Donki Wonki
 - Tan Yi Jie
