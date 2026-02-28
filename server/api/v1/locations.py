@@ -56,5 +56,5 @@ def nearest_station(payload: NearestStationRequest) -> NearestStationResponse:
         departure_distance_km=departure_result["distance_km"],
         destination_distance_km=destination_result["distance_km"],
         departure_user_location=departure_result["user_location"],
-        distination_user_location=destination_result["user_location"],
+        destination_user_location=destination_result["user_location"],
     )
