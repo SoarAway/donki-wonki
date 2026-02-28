@@ -7,7 +7,7 @@ from api.schemas.location import (
     NearestStationRequest,
     NearestStationResponse,
 )
-from services.google_maps_service import autocomplete_locations, resolve_nearest_station
+from services.google_maps_service import autocomplete_locations, resolve_nearest_station_by_place_id
 
 router = APIRouter()
 
@@ -37,13 +37,10 @@ def autocomplete(query: str = Query(..., min_length=2, description="Address inpu
     responses=ERROR_RESPONSES,
 )
 def nearest_station(payload: NearestStationRequest) -> NearestStationResponse:
-    """Return nearest rail station from either place_id or direct coordinates."""
+    """Return nearest rail stations for departure and destination place IDs."""
     try:
-        result = resolve_nearest_station(
-            place_id=payload.place_id,
-            latitude=payload.latitude,
-            longitude=payload.longitude,
-        )
+        departure_result = resolve_nearest_station_by_place_id(place_id=payload.departure_place_id)
+        destination_result = resolve_nearest_station_by_place_id(place_id=payload.destination_place_id)
     except ValueError as exc:
         raise HTTPException(status_code=400, detail=str(exc))
     except RuntimeError as exc:
@@ -51,9 +48,13 @@ def nearest_station(payload: NearestStationRequest) -> NearestStationResponse:
 
     return NearestStationResponse(
         status="success",
-        message="Nearest station calculated",
-        nearest_station=result["nearest_station"],
-        station_line=result.get("station_line"),
-        distance_km=result["distance_km"],
-        user_location=result["user_location"],
+        message="Nearest stations calculated",
+        departure_nearest_station=departure_result["nearest_station"],
+        destination_nearest_station=destination_result["nearest_station"],
+        departure_station_line=departure_result.get("station_line"),
+        destination_station_line=destination_result.get("station_line"),
+        departure_distance_km=departure_result["distance_km"],
+        destination_distance_km=destination_result["distance_km"],
+        departure_user_location=departure_result["user_location"],
+        destination_user_location=destination_result["user_location"],
     )

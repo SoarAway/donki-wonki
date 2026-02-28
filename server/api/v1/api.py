@@ -1,9 +1,11 @@
 from fastapi import APIRouter
 
-from api.v1 import alerts, incidents, locations, users
+from api.v1 import alerts, incidents, locations, report, route, users
 
 api_router = APIRouter()
 api_router.include_router(alerts.router, prefix="/alerts", tags=["alerts"])
-api_router.include_router(incidents.router, prefix="/incidents", tags=["incidents"])
+# api_router.include_router(incidents.router, prefix="/incidents", tags=["incidents"])
 api_router.include_router(locations.router, prefix="/locations", tags=["locations"])
 api_router.include_router(users.router, prefix="/users", tags=["users"])
+api_router.include_router(route.router, prefix="/route", tags=["route"])
+api_router.include_router(report.router, prefix="/report", tags=["report"])
