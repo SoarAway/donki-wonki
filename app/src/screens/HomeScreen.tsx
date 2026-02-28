@@ -1,7 +1,6 @@
 import React from 'react';
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-import { Button } from '../components/atoms/Button';
 import Logo from '../assets/Logo.svg';
 import { NavBar } from '../components/molecules/NavBar';
 import { BaseScreen } from '../models/BaseScreen';
@@ -12,10 +11,6 @@ const LOGO_SIZE = spacing[20] + spacing[2];
 
 interface HomeScreenProps {
   userEmail: string;
-  apiStatus: string;
-  permissionStatus: string;
-  tokenPreview: string;
-  lastForegroundMessage: string;
   onGoToRoutes: () => void;
   onGoToCommunity: () => void;
   onLogout: () => void;
@@ -23,10 +18,6 @@ interface HomeScreenProps {
 
 export const HomeScreen: React.FC<HomeScreenProps> = ({
   userEmail,
-  apiStatus,
-  permissionStatus,
-  tokenPreview,
-  lastForegroundMessage,
   onGoToRoutes,
   onGoToCommunity,
   onLogout,
@@ -247,20 +238,5 @@ const styles = StyleSheet.create({
     fontSize: typography.sizes.sm,
     color: colorTokens.link,
     fontStyle: 'italic',
-  },
-  statusCard: {
-    backgroundColor: colorTokens.surface_soft,
-    borderRadius: radius.lg + 2,
-    padding: spacing[4],
-    marginBottom: spacing[4],
-  },
-  statusText: {
-    fontSize: typography.sizes.xs + 1,
-    color: colorTokens.text_strong,
-    marginBottom: spacing[1] + 2,
-  },
-  actions: {
-    gap: spacing[2] + 2,
-    marginBottom: spacing[2],
   },
 });

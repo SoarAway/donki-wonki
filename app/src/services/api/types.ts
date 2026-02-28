@@ -71,9 +71,8 @@ export interface AutocompleteResponse {
 }
 
 export interface NearestStationRequest {
-  place_id?: string | null;
-  latitude?: number | null;
-  longitude?: number | null;
+  departure_place_id: string;
+  destination_place_id: string;
 }
 
 export interface UserLocation {
@@ -84,10 +83,14 @@ export interface UserLocation {
 export interface NearestStationResponse {
   status: string;
   message: string;
-  nearest_station: string;
-  station_line?: string | null;
-  distance_km: number;
-  user_location: UserLocation;
+  departure_nearest_station: string;
+  destination_nearest_station: string;
+  departure_station_line?: string | null;
+  destination_station_line?: string | null;
+  departure_distance_km: number;
+  destination_distance_km: number;
+  departure_user_location: UserLocation;
+  destination_user_location: UserLocation;
 }
 
 export interface BaseResponse {

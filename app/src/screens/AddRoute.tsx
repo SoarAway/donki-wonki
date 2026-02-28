@@ -27,6 +27,8 @@ export default function AddRoute({ navigation }: any) {
     const [label, setLabel] = useState('');
     const [startPoint, setStartPoint] = useState('');
     const [destPoint, setDestPoint] = useState('');
+    const [departurePlaceId, setDeparturePlaceId] = useState('');
+    const [destinationPlaceId, setDestinationPlaceId] = useState('');
     const [selectedDays, setSelectedDays] = useState<string[]>([]);
     const [time, setTime] = useState<TimeValue>({ hour: '08', minute: '00', period: 'AM' });
 
@@ -35,15 +37,18 @@ export default function AddRoute({ navigation }: any) {
             Alert.alert('Error', 'Please fill in all required fields.');
             return;
         }
-        console.log('Route submitted:', {
-            label,
-            startPoint,
-            destPoint,
-            days: selectedDays,
-            time: `${time.hour}:${time.minute} ${time.period}`,
-        });
-        Alert.alert('Success', 'Route added successfully!');
-        if (navigation) navigation.goBack();
+
+        if (navigation) {
+            navigation.navigate('AddRoute2', {
+                label,
+                departureLocation: startPoint,
+                destinationLocation: destPoint,
+                departurePlaceId,
+                destinationPlaceId,
+                selectedDays,
+                time,
+            });
+        }
     };
 
     return (
@@ -74,6 +79,7 @@ export default function AddRoute({ navigation }: any) {
                         value={startPoint}
                         onChangeText={setStartPoint}
                         onSelect={setStartPoint}
+                        onSelectSuggestion={suggestion => setDeparturePlaceId(suggestion.place_id)}
                         containerStyle={{ zIndex: 3000 }}
                     />
 
@@ -84,6 +90,7 @@ export default function AddRoute({ navigation }: any) {
                         value={destPoint}
                         onChangeText={setDestPoint}
                         onSelect={setDestPoint}
+                        onSelectSuggestion={suggestion => setDestinationPlaceId(suggestion.place_id)}
                         containerStyle={{ zIndex: 2000 }}
                     />
 
@@ -106,15 +113,17 @@ export default function AddRoute({ navigation }: any) {
 
                 {/* Spacer so content clears the fixed button */}
                 <View style={{ height: 100 }} />
+
+                
+                {/* Submit button pinned at bottom */}
+                <View style={styles.bottomContainer}>
+                    <Button
+                        title="Next"
+                        onPress={handleSubmit}
+                    />
+                </View>
             </ScrollView>
 
-            {/* Submit button pinned at bottom */}
-            <View style={styles.bottomContainer}>
-                <Button
-                    title="Save"
-                    onPress={handleSubmit}
-                />
-            </View>
         </BaseScreen>
     );
 }

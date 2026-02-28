@@ -21,6 +21,8 @@ import RouteManagement from './src/screens/RouteManagement';
 import Reporting from './src/screens/Reporting';
 import Feedback from './src/screens/Feedback';
 import AddRoute from './src/screens/AddRoute';
+import AddRoute_2 from './src/screens/AddRoute2';
+import EditRoute from './src/screens/EditRoute';
 import { clearUserId, getUserId, saveUserId } from './src/services/authStorage';
 
 type AuthStackParamList = {
@@ -40,6 +42,7 @@ type AppStackParamList = {
   MainTabs: undefined;
   AddRoute: undefined;
   AddRoute2 : undefined; 
+  EditRoute: {routeId: string};
   NotificationDetail: undefined; 
   RouteManagement: undefined;
   RouteStatus: undefined;
@@ -78,19 +81,11 @@ const linking: LinkingOptions<RootParamList> = {
 
 interface MainTabsNavigatorProps {
   userEmail: string;
-  apiStatus: string;
-  permissionStatus: string;
-  tokenPreview: string;
-  lastForegroundMessage: string;
   onLogout: () => void;
 }
 
 const MainTabsNavigator: React.FC<MainTabsNavigatorProps> = ({
   userEmail,
-  apiStatus,
-  permissionStatus,
-  tokenPreview,
-  lastForegroundMessage,
   onLogout,
 }) => (
   <MainTabs.Navigator
@@ -104,10 +99,6 @@ const MainTabsNavigator: React.FC<MainTabsNavigatorProps> = ({
       {({ navigation }) => (
         <HomeScreen
           userEmail={userEmail}
-          apiStatus={apiStatus}
-          permissionStatus={permissionStatus}
-          tokenPreview={tokenPreview}
-          lastForegroundMessage={lastForegroundMessage}
           onGoToRoutes={() => navigation.navigate('RouteManagement')}
           onGoToCommunity={() => navigation.navigate('Community')}
           onLogout={onLogout}
@@ -133,6 +124,8 @@ const AppStackNavigator: React.FC<AppStackNavigatorProps> = props => (
       {() => <MainTabsNavigator {...props} />}
     </AppStack.Screen>
     <AppStack.Screen name="AddRoute" component={AddRoute} />
+    <AppStack.Screen name="AddRoute2" component={AddRoute_2} />
+    <AppStack.Screen name="EditRoute" component={EditRoute} />
   </AppStack.Navigator>
 );
 
@@ -163,10 +156,10 @@ const AuthStackNavigator: React.FC<AuthStackNavigatorProps> = ({ onLoginSuccess 
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
-  const [permissionStatus, setPermissionStatus] = React.useState('Checking...');
-  const [tokenPreview, setTokenPreview] = React.useState('Pending...');
-  const [lastForegroundMessage, setLastForegroundMessage] = React.useState('No message yet.');
-  const [apiStatus, setApiStatus] = React.useState('Waking server...');
+  const [, setPermissionStatus] = React.useState('Checking...');
+  const [, setTokenPreview] = React.useState('Pending...');
+  const [, setLastForegroundMessage] = React.useState('No message yet.');
+  const [, setApiStatus] = React.useState('Waking server...');
   const [globalLoading, setGlobalLoading] = React.useState(false);
   const [bannerVisible, setBannerVisible] = React.useState(false);
   const [bannerTitle, setBannerTitle] = React.useState('');
@@ -281,10 +274,6 @@ function App() {
         {!authReady ? null : isAuthenticated ? (
           <AppStackNavigator
             userEmail={userId ?? ''}
-            apiStatus={apiStatus}
-            permissionStatus={permissionStatus}
-            tokenPreview={tokenPreview}
-            lastForegroundMessage={lastForegroundMessage}
             onLogout={async () => {
               await clearUserId();
               setUserId(null);

@@ -1,35 +1,98 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import React, {useCallback, useEffect, useState} from 'react';
+import {Alert, ScrollView, StyleSheet, Text, View} from 'react-native';
+
 import { Button } from '../components/atoms/Button';
 import { NavBar } from '../components/molecules/NavBar';
+import {RouteCard, type RouteCardData} from '../components/molecules/RouteCard';
 import { BaseScreen } from '../models/BaseScreen';
-import { colorTokens, radius, shadows, spacing, typography } from '../components/config';
+import { colorTokens, radius, spacing, typography } from '../components/config';
+import {deleteRoute, getRoutesByEmail} from '../services/api/apiEndpoints';
+import {getUserId} from '../services/authStorage';
 
-interface Route {
-    id: string;
-    name: string;
-    path: string;
-    time: string;
-    schedules: string[];
-}
+const pickString = (source: Record<string, unknown>, keys: string[]): string | null => {
+    for (const key of keys) {
+        const value = source[key];
+        if (typeof value === 'string' && value.trim().length > 0) {
+            return value.trim();
+        }
+    }
+    return null;
+};
+
+const toCardData = (routeRecord: Record<string, unknown>, index: number): RouteCardData => {
+    const routeId = pickString(routeRecord, ['route_id', 'id', 'routeId']) ?? `route-${index + 1}`;
+    const routeName = pickString(routeRecord, ['route_desc', 'description', 'label', 'name']) ?? `Route ${index + 1}`;
+    const departingStation = pickString(routeRecord, ['departing_station', 'departingStation']) ?? '';
+    const departingLocation = pickString(routeRecord, ['departing_location', 'departingLocation']) ?? '';
+    const destinationStation = pickString(routeRecord, ['destination_station', 'destinationStation']) ?? '';
+    const destinationLocation = pickString(routeRecord, ['destination_location', 'destinationLocation']) ?? '';
+    const day = pickString(routeRecord, ['day_of_week', 'dayOfWeek', 'day']) ?? 'Scheduled';
+    const time =
+      pickString(routeRecord, ['time']) ??
+      [pickString(routeRecord, ['time_from', 'timeFrom']) ?? 'N/A', pickString(routeRecord, ['time_to', 'timeTo']) ?? ''].filter(Boolean).join(' - ');
+
+    const departure = [departingStation, departingLocation].filter(Boolean).join(' ');
+    const destination = [destinationStation, destinationLocation].filter(Boolean).join(' ');
+
+    return {
+        id: routeId,
+        name: routeName,
+        path: departure && destination ? `${departure} - ${destination}` : 'Route details unavailable',
+        time: `${day} ${time}`,
+    };
+};
 
 export default function RouteManagement({ navigation }: any) {
-    const [routes] = useState<Route[]>([
-        {
-            id: '1',
-            name: 'Work',
-            path: 'LRT Bandar Puteri - LRT SS15',
-            time: '7:00 AM',
-            schedules: ['Monday', 'Tuesday', 'Wednesday'],
-        },
-        {
-            id: '2',
-            name: 'Home',
-            path: 'LRT SS15 - LRT Bandar Puteri',
-            time: '8:00 PM',
-            schedules: ['Monday', 'Tuesday', 'Wednesday'],
-        },
-    ]);
+    const [routes, setRoutes] = useState<RouteCardData[]>([]);
+    const [userEmail, setUserEmail] = useState('');
+
+    const loadRoutes = useCallback(async () => {
+        const email = await getUserId();
+        if (!email) {
+            setUserEmail('');
+            setRoutes([]);
+            return;
+        }
+
+        setUserEmail(email);
+
+        const response = await getRoutesByEmail(email);
+        const records = Array.isArray(response.routes) ? response.routes : [];
+        setRoutes(records.map((record, index) => toCardData(record as Record<string, unknown>, index)));
+    }, []);
+
+    useEffect(() => {
+        loadRoutes();
+        const unsubscribe = navigation.addListener('focus', loadRoutes);
+        return unsubscribe;
+    }, [navigation, loadRoutes]);
+
+    const handleDeleteRoute = (routeId: string) => {
+        Alert.alert('Delete Route', 'Are you sure you want to delete this route?', [
+            {text: 'Cancel', style: 'cancel'},
+            {
+                text: 'Delete',
+                style: 'destructive',
+                onPress: async () => {
+                    if (!userEmail) {
+                        Alert.alert('Error', 'No signed-in user found. Please log in again.');
+                        return;
+                    }
+
+                    try {
+                        await deleteRoute({
+                            email: userEmail,
+                            route_id: routeId,
+                        });
+                        await loadRoutes();
+                        Alert.alert('Success', 'Route deleted successfully.');
+                    } catch {
+                        Alert.alert('Error', 'Failed to delete route. Please try again.');
+                    }
+                },
+            },
+        ]);
+    };
 
     return (
         <BaseScreen style={styles.container}>
@@ -42,23 +105,12 @@ export default function RouteManagement({ navigation }: any) {
                 contentContainerStyle={styles.scrollContainer}
             >
                 {routes.map((route) => (
-                    <View key={route.id} style={styles.card}>
-                        <Text style={styles.routeName}>{route.name}</Text>
-                        <Text style={styles.routePath}>{route.path}</Text>
-
-                        <View style={styles.scheduleList}>
-                            <Text style={styles.scheduleItem}>
-                            </Text>
-                            <Text style={styles.scheduleItem}>{route.time}</Text>
-                        </View>
-
-                        <TouchableOpacity
-                            onPress={() => navigation.navigate('AddRoute', { routeId: route.id })}
-                            style={styles.editButton}
-                        >
-                            <Text style={styles.editText}>edit</Text>
-                        </TouchableOpacity>
-                    </View>
+                    <RouteCard
+                        key={route.id}
+                        route={route}
+                        onPress={routeId => navigation.navigate('EditRoute', {routeId})}
+                        onDelete={handleDeleteRoute}
+                    />
                 ))}
                 <View style={styles.bottomContainer}>
                     <Button
@@ -107,45 +159,6 @@ const styles = StyleSheet.create({
         paddingHorizontal: spacing[8],
         paddingTop: spacing[2],
         paddingBottom: spacing[10] - spacing[1],
-    },
-    card: {
-        backgroundColor: colorTokens.surface_soft,
-        borderRadius: radius.xl,
-        padding: spacing[5],
-        marginBottom: spacing[4] + 2,
-        ...shadows.md,
-        position: 'relative',
-    },
-    routeName: {
-        fontSize: typography.sizes['2xl'] - 2,
-        fontWeight: typography.weights.bold,
-        color: colorTokens.text_primary,
-        marginBottom: spacing[1] + 2,
-    },
-    routePath: {
-        fontSize: typography.sizes.sm,
-        color: colorTokens.text_secondary,
-        marginBottom: spacing[2] + 2,
-    },
-    scheduleList: {
-        marginBottom: spacing[6],
-    },
-    scheduleItem: {
-        fontSize: typography.sizes.sm,
-        color: colorTokens.secondary_accent,
-        fontStyle: 'italic',
-        lineHeight: typography.lineHeights.lg - 6,
-    },
-    editButton: {
-        position: 'absolute',
-        right: 18,
-        bottom: 14,
-    },
-    editText: {
-        fontSize: typography.sizes.sm,
-        color: colorTokens.secondary_accent,
-        textDecorationLine: 'underline',
-        fontStyle: 'italic',
     },
     bottomContainer: {
         paddingTop: spacing[2],
