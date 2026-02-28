@@ -63,7 +63,7 @@ export const ReportCard: React.FC<ReportCardProps> = ({ post, onLike, onDislike,
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: colorTokens.white,
+    backgroundColor: colorTokens.surface_soft,
     borderRadius: radius.lg,
     padding: spacing[4],
     marginVertical: spacing[2],
@@ -71,14 +71,16 @@ const styles = StyleSheet.create({
     ...shadows.sm,
   },
   username: {
-    fontSize: typography.sizes.base,
-    fontWeight: typography.weights.bold,
+    fontSize: typography.sizes.xs,
+    fontWeight: typography.weights.regular,
     color: colorTokens.text_primary,
     marginBottom: spacing[1] + 2,
+    fontStyle: 'italic',
   },
   content: {
-    fontSize: typography.sizes.sm,
+    fontSize: typography.sizes.base,
     color: colorTokens.text_secondary,
+    fontWeight: typography.weights.bold,
     lineHeight: typography.lineHeights.base - spacing[1],
     marginBottom: spacing[3],
   },
@@ -100,5 +102,6 @@ const styles = StyleSheet.create({
   timestamp: {
     fontSize: typography.sizes.xs,
     color: colorTokens.text_subtle,
+    fontStyle: 'italic',
   },
 });

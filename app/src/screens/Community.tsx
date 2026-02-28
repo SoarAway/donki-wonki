@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import React, {useCallback, useEffect, useState} from 'react';
+import {Alert, ScrollView, StyleSheet, Text, View} from 'react-native';
 import { Button } from '../components/atoms/Button';
 import { NavBar } from '../components/molecules/NavBar';
 import { BaseScreen } from '../models/BaseScreen';
-import { colorTokens, radius, shadows, spacing, typography } from '../components/config';
+import { colorTokens, radius, spacing, typography } from '../components/config';
 import { ReportCard } from '../components/molecules/ReportCard';
 import DislikeIcon from '../assets/Dislike.svg';
 import DislikeFilledIcon from '../assets/Dislike_Filled.svg';
 import LikeIcon from '../assets/Like.svg';
 import LikeFilledIcon from '../assets/Like_Filled.svg';
+import {getTopReports} from '../services/api/apiEndpoints';
 
 interface Post {
     id: string;
@@ -20,53 +21,114 @@ interface Post {
 }
 
 export default function Community({ navigation }: any) {
-    const [posts] = useState<Post[]>([
-        {
-            id: '1',
-            username: '@xxhannnn',
-            content: 'LRT Kelana Jaya Breakdown. Already wait for 40 minutes!',
-            timestamp: '4 mins ago',
-            liked: false,
-            disliked: false,
-        },
-        {
-            id: '2',
-            username: '@xxhannnn',
-            content: 'LRT Kelana Jaya Breakdown. Already wait for 40 minutes!',
-            timestamp: '4 mins ago',
-            liked: false,
-            disliked: false,
-        },
-        {
-            id: '3',
-            username: '@xxhannnn',
-            content: 'LRT Kelana Jaya Breakdown. Already wait for 40 minutes!',
-            timestamp: '4 mins ago',
-            liked: false,
-            disliked: false,
-        },
-    ]);
+    const [posts, setPosts] = useState<Post[]>([]);
 
-    const [, setPostsState] = useState(posts); // Used to trigger re-renders for likes
+    const pickString = (source: Record<string, unknown>, keys: string[]): string | null => {
+      for (const key of keys) {
+        const value = source[key];
+        if (typeof value === 'string' && value.trim().length > 0) {
+          return value.trim();
+        }
+      }
+      return null;
+    };
+
+    const formatTimestamp = (raw: string | null): string => {
+      if (!raw) {
+        return 'Just now';
+      }
+
+      const date = new Date(raw);
+      if (Number.isNaN(date.getTime())) {
+        return raw;
+      }
+
+      const diffMs = Date.now() - date.getTime();
+      const diffMinutes = Math.max(1, Math.floor(diffMs / 60000));
+      if (diffMinutes < 60) {
+        return `${diffMinutes} min${diffMinutes > 1 ? 's' : ''} ago`;
+      }
+
+      const diffHours = Math.floor(diffMinutes / 60);
+      if (diffHours < 24) {
+        return `${diffHours} hour${diffHours > 1 ? 's' : ''} ago`;
+      }
+
+      const diffDays = Math.floor(diffHours / 24);
+      return `${diffDays} day${diffDays > 1 ? 's' : ''} ago`;
+    };
+
+    const loadTopReports = useCallback(async () => {
+      try {
+        const response = await getTopReports();
+        const records = Array.isArray(response.reports) ? response.reports : [];
+        const mappedPosts = records.map((record, index) => {
+          const report = record as Record<string, unknown>;
+          const line = pickString(report, ['line', 'line_name']) ?? 'Unknown Line';
+          const station = pickString(report, ['station', 'station_name']) ?? 'Unknown Station';
+          const incidentType =
+            pickString(report, ['incident_type', 'incidentType', 'type']) ?? 'Incident';
+          const description = pickString(report, ['description', 'content']) ?? 'No details available';
+          const username = pickString(report, ['username', 'reporter', 'user']) ?? '@community';
+          const timestamp = formatTimestamp(
+            pickString(report, ['created_at', 'timestamp', 'reported_at', 'datetime']),
+          );
+          const reportId = pickString(report, ['report_id', 'id']) ?? `top-report-${index + 1}`;
+
+          return {
+            id: reportId,
+            username: username.startsWith('@') ? username : `@${username}`,
+            content: `${line} - ${station}\n${incidentType}: ${description}`,
+            timestamp,
+            liked: false,
+            disliked: false,
+          } satisfies Post;
+        });
+        setPosts(mappedPosts);
+      } catch {
+        Alert.alert('Error', 'Unable to load top community reports right now.');
+        setPosts([]);
+      }
+    }, []);
+
+    useEffect(() => {
+      loadTopReports();
+      const unsubscribe = navigation.addListener('focus', loadTopReports);
+      return unsubscribe;
+    }, [navigation, loadTopReports]);
 
     const toggleLike = (id: string) => {
-        const post = posts.find(p => p.id === id);
-        if (post) {
-            const newLiked = !post.liked;
-            post.liked = newLiked;
-            if (newLiked) post.disliked = false;
-            setPostsState([...posts]);
-        }
+        setPosts(prevPosts =>
+          prevPosts.map(post => {
+            if (post.id !== id) {
+              return post;
+            }
+
+            const liked = !post.liked;
+            return {
+              ...post,
+              liked,
+              disliked: liked ? false : post.disliked,
+            };
+          }),
+        );
     };
 
     const toggleDislike = (id: string) => {
-        const post = posts.find(p => p.id === id);
-        if (post) {
-            const newDisliked = !post.disliked;
-            post.disliked = newDisliked;
-            if (newDisliked) post.liked = false;
-            setPostsState([...posts]);
-        }
+        setPosts(prevPosts =>
+          prevPosts.map(post => {
+            if (post.id !== id) {
+              return post;
+            }
+
+            const disliked = !post.disliked;
+            return {
+              ...post,
+              disliked,
+              liked: disliked ? false : post.liked,
+            };
+          }),
+        );
     };
 
     return (
@@ -86,15 +148,19 @@ export default function Community({ navigation }: any) {
                 contentContainerStyle={styles.scrollContainer}
                 showsVerticalScrollIndicator={false}
             >
-                {posts.map((post) => (
-                    <ReportCard
-                        key={post.id}
-                        post={post}
-                        onLike={toggleLike}
-                        onDislike={toggleDislike}
-                        icons={{ LikeFilledIcon, LikeIcon, DislikeFilledIcon, DislikeIcon }}
-                    />
-                ))}
+                {posts.length === 0 ? (
+                  <Text style={styles.emptyState}>No top reports available yet.</Text>
+                ) : (
+                  posts.map((post) => (
+                      <ReportCard
+                          key={post.id}
+                          post={post}
+                          onLike={toggleLike}
+                          onDislike={toggleDislike}
+                          icons={{ LikeFilledIcon, LikeIcon, DislikeFilledIcon, DislikeIcon }}
+                      />
+                  ))
+                )}
             </ScrollView>
             <NavBar
                 activeTab="Community"
@@ -136,49 +202,12 @@ const styles = StyleSheet.create({
         paddingHorizontal: spacing[8],
         paddingBottom: spacing[24] + spacing[6],
     },
-    card: {
-        backgroundColor: colorTokens.surface_soft,
-        borderRadius: radius.lg + 2,
-        padding: spacing[4] + 2,
-        marginBottom: spacing[4] - 2,
-        borderWidth: 0.5,
-        borderColor: colorTokens.border_subtle,
-        ...shadows.sm,
-    },
-    username: {
-        fontSize: typography.sizes.xs + 1,
-        color: colorTokens.text_muted,
-        fontStyle: 'italic',
-        marginBottom: spacing[2],
-    },
-    content: {
-        fontSize: typography.sizes.lg,
-        fontWeight: typography.weights.bold,
-        color: colorTokens.text_primary,
-        lineHeight: typography.lineHeights.lg - 3,
-        marginBottom: spacing[4] - 2,
-    },
-    footer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    },
-    actions: {
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-    actionButton: {
-        marginRight: spacing[4] + 2,
-    },
-    icon: {
-        width: 22,
-        height: 22,
-        resizeMode: 'contain',
-    },
-    timestamp: {
-        fontSize: typography.sizes.xs - 1,
-        color: colorTokens.text_subtle,
-        fontStyle: 'italic',
+    emptyState: {
+      marginHorizontal: spacing[4],
+      marginTop: spacing[6],
+      textAlign: 'center',
+      color: colorTokens.text_muted,
+      fontSize: typography.sizes.sm,
     },
     reportButton: {
         backgroundColor: colorTokens.surface_muted,

@@ -13,6 +13,8 @@ import {
 import { Dropdown } from '../components/atoms/Dropdown';
 import { BackButton } from '../components/atoms/BackButton';
 import { Button } from '../components/atoms/Button';
+import { AlertDialog } from '../components/molecules/AlertDialog';
+import { sendReport } from '../services/api/apiEndpoints';
 
 const LINES = ["Kelana Jaya Line", "Ampang Line", "Kajang Line", "KL Monorail"];
 const STATIONS = ["KL Sentral", "KLCC", "Bukit Bintang", "Masjid Jamek", "Titiwangsa"];
@@ -24,8 +26,27 @@ export default function Community_Report({ navigation }: any) {
     const [incidentType, setIncidentType] = useState('');
     const [otherIncident, setOtherIncident] = useState('');
     const [description, setDescription] = useState('');
+    const [dialogVisible, setDialogVisible] = useState(false);
+    const [dialogTitle, setDialogTitle] = useState('');
+    const [dialogMessage, setDialogMessage] = useState('');
+    const [navigateAfterDialog, setNavigateAfterDialog] = useState(false);
 
-    const handleSubmit = () => {
+    const showDialog = (title: string, message: string, shouldNavigate = false) => {
+        setDialogTitle(title);
+        setDialogMessage(message);
+        setNavigateAfterDialog(shouldNavigate);
+        setDialogVisible(true);
+    };
+
+    const handleDialogClose = () => {
+        setDialogVisible(false);
+        if (navigateAfterDialog && navigation) {
+            navigation.navigate('Community');
+        }
+        setNavigateAfterDialog(false);
+    };
+
+    const handleSubmit = async () => {
         if (!line || !station || !incidentType || !description) {
             Alert.alert('Error', 'Please fill in all required fields');
             return;
@@ -38,10 +59,17 @@ export default function Community_Report({ navigation }: any) {
 
         const finalIncidentType = incidentType === 'Others' ? otherIncident : incidentType;
 
-        console.log('Report submitted:', { line, station, incidentType: finalIncidentType, description });
-
-        Alert.alert('Success', 'Report submitted successfully. Thank you for your feedback!');
-        if (navigation) navigation.navigate('Community');
+        try {
+            await sendReport({
+                line,
+                station,
+                incident_type: finalIncidentType,
+                description,
+            });
+            showDialog('Success', 'Report submitted successfully. Thank you for your feedback!', true);
+        } catch {
+            showDialog('Error', 'Failed to submit report. Please try again.');
+        }
     };
 
     return (
@@ -121,6 +149,13 @@ export default function Community_Report({ navigation }: any) {
                 </View>
 
             </KeyboardAvoidingView>
+
+            <AlertDialog
+                visible={dialogVisible}
+                title={dialogTitle}
+                message={dialogMessage}
+                onClose={handleDialogClose}
+            />
         </SafeAreaView>
     );
 }
