@@ -2,8 +2,11 @@ import React from 'react';
 import { View, TouchableOpacity, StyleSheet } from 'react-native';
 
 import ChatIcon from '../../assets/Chat_Conversation_Circle.svg';
+import ChatIconWhite from '../../assets/Chat_Conversation_Circle_White.svg';
 import HomeIcon from '../../assets/Home_Black.svg';
+import HomeIconWhite from '../../assets/Home_White.svg';
 import RouteIcon from '../../assets/Route_Black.svg';
+import RouteIconWhite from '../../assets/Route_White.svg';
 
 interface NavBarProps {
     activeTab?: 'Route' | 'Home' | 'Community';
@@ -18,11 +21,11 @@ export const NavBar: React.FC<NavBarProps> = ({ activeTab = 'Home', onTabPress }
                 onPress={() => onTabPress?.('Route')}
             >
                 <View style={[styles.tab, activeTab === 'Route' && styles.activeTab]}>
-                    <RouteIcon
-                        width={30}
-                        height={30}
-                        stroke={activeTab === 'Route' ? '#FFFFFF' : '#000000'}
-                    />
+                    {activeTab === 'Route' ? (
+                        <RouteIconWhite width={30} height={30} />
+                    ) : (
+                        <RouteIcon width={30} height={30} />
+                    )}
                 </View>
             </TouchableOpacity>
 
@@ -31,11 +34,11 @@ export const NavBar: React.FC<NavBarProps> = ({ activeTab = 'Home', onTabPress }
                 onPress={() => onTabPress?.('Home')}
             >
                 <View style={[styles.tab, activeTab === 'Home' && styles.activeTab]}>
-                    <HomeIcon
-                        width={30}
-                        height={30}
-                        stroke={activeTab === 'Home' ? '#FFFFFF' : '#000000'}
-                    />
+                    {activeTab === 'Home' ? (
+                        <HomeIconWhite width={30} height={30} />
+                    ) : (
+                        <HomeIcon width={30} height={30} />
+                    )}
                 </View>
             </TouchableOpacity>
 
@@ -44,11 +47,11 @@ export const NavBar: React.FC<NavBarProps> = ({ activeTab = 'Home', onTabPress }
                 onPress={() => onTabPress?.('Community')}
             >
                 <View style={[styles.tab, activeTab === 'Community' && styles.activeTab]}>
-                    <ChatIcon
-                        width={30}
-                        height={29}
-                        stroke={activeTab === 'Community' ? '#FFFFFF' : '#000000'}
-                    />
+                    {activeTab === 'Community' ? (
+                        <ChatIconWhite width={30} height={29} />
+                    ) : (
+                        <ChatIcon width={30} height={29} />
+                    )}
                 </View>
             </TouchableOpacity>
         </View>
