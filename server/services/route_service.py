@@ -298,7 +298,12 @@ def get_next_upcoming_route(email: str, timestamp: float) -> dict[str, Any] | No
     current_day = dt.strftime("%A")
     current_time_str = dt.strftime("%H:%M")
 
-    routes = get_all_routes_by_email(email)
+    user = get_user_by_email(email)
+    user_id = user.get("id") if user else None
+    if not isinstance(user_id, str) or not user_id:
+        return None
+
+    routes = get_user_routes_with_schedules(user_id)
     if not routes:
         return None
 
