@@ -1,8 +1,7 @@
 import datetime
-from typing import Any
 
 from fastapi import APIRouter, HTTPException, Query
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, Field
 
 from api.schemas.base import BaseResponse, ERROR_RESPONSES
 from services.route_service import (
@@ -64,15 +63,44 @@ class ScheduleIdResponse(BaseResponse):
 
 
 class RoutesListResponse(BaseResponse):
-    routes: list[dict[str, Any]]
+    routes: list["RouteListItem"]
+
+
+class RouteListItem(BaseModel):
+    id: str
+    departingLocation: str
+    destinationLocation: str
+    departingStation: str
+    destinationStation: str
+    description: str
+    createdAt: datetime.datetime | None = None
+    updatedAt: datetime.datetime | None = None
+    dayOfWeek: list[str] = Field(default_factory=list)
+    timeFrom: str | None = None
+    timeTo: str | None = None
 
 
 class NextUpcomingRouteResponse(BaseResponse):
-    route: dict[str, Any]
+    route: "NextUpcomingRouteItem"
 
 
 class SpecificRouteResponse(BaseResponse):
-    route: dict[str, Any]
+    route: RouteListItem
+
+
+class NextUpcomingRouteItem(BaseModel):
+    routeId: str
+    scheduleId: str
+    departingLocation: str
+    destinationLocation: str
+    departingStation: str
+    destinationStation: str
+    description: str
+    dayOfWeek: str
+    timeFrom: str
+    timeTo: str
+    createdAt: datetime.datetime | None = None
+    updatedAt: datetime.datetime | None = None
 
 
 @router.post(
@@ -156,7 +184,7 @@ def get_routes_by_email_endpoint(
     return RoutesListResponse(
         status="success",
         message="Routes fetched successfully",
-        routes=routes,
+        routes=[RouteListItem(**route) for route in routes],
     )
 
 
@@ -172,7 +200,7 @@ def get_routes_by_user_id_endpoint(
     return RoutesListResponse(
         status="success",
         message="Routes fetched successfully",
-        routes=routes,
+        routes=[RouteListItem(**route) for route in routes],
     )
 
 
@@ -197,7 +225,7 @@ def get_next_upcoming_route_endpoint(
     return NextUpcomingRouteResponse(
         status="success",
         message="Upcoming route fetched successfully",
-        route=route,
+        route=NextUpcomingRouteItem(**route),
     )
 
 
@@ -217,7 +245,7 @@ def get_specific_route_endpoint(
     return SpecificRouteResponse(
         status="success",
         message="Route fetched successfully",
-        route=route,
+        route=RouteListItem(**route),
     )
 
 
