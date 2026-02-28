@@ -1,63 +1,54 @@
 import React from 'react';
-import { Image, View, StyleSheet } from 'react-native';
-import { colors } from '../config';
-import { Text } from './Text';
+import { StyleSheet, Text, View, type StyleProp, type ViewStyle } from 'react-native';
+
+import { colorTokens, radius, spacing, typography } from '../config';
 
 export interface AvatarProps {
-  source?: { uri: string };
-  name?: string; // For fallback initials
+  name?: string;
   size?: number;
+  style?: StyleProp<ViewStyle>;
 }
 
-/**
- * User avatar that renders an image when provided, otherwise fallback initials.
- */
-export const Avatar: React.FC<AvatarProps> = ({ source, name, size = 40 }) => {
-  const borderRadius = size / 2;
+const getInitials = (name?: string): string => {
+  if (!name) return '?';
+  const parts = name
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean);
+  if (parts.length === 0) return '?';
+  if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
+  return `${parts[0][0]}${parts[1][0]}`.toUpperCase();
+};
 
-  if (source) {
-    return (
-      <Image
-        source={source}
-        style={[
-          styles.image,
-          { width: size, height: size, borderRadius },
-        ]}
-      />
-    );
-  }
-
-  // Fallback to initials
-  const initials = name
-    ? name
-      .split(' ')
-      .slice(0, 2)
-      .map((n) => n[0])
-      .join('')
-      .toUpperCase()
-    : '?';
+export const Avatar: React.FC<AvatarProps> = ({ name, size = spacing[10], style }) => {
+  const initials = getInitials(name);
 
   return (
     <View
       style={[
-        styles.initialsContainer,
-        { width: size, height: size, borderRadius },
+        styles.base,
+        {
+          width: size,
+          height: size,
+          borderRadius: radius.full,
+        },
+        style,
       ]}
     >
-      <Text weight="bold" color="primary.700" style={{ fontSize: size * 0.4 }}>
-        {initials}
-      </Text>
+      <Text style={styles.initials}>{initials}</Text>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  image: {
-    backgroundColor: colors.neutral[200],
-  },
-  initialsContainer: {
-    backgroundColor: colors.primary[100],
+  base: {
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: colorTokens.surface_soft,
+  },
+  initials: {
+    fontSize: typography.sizes.sm,
+    fontWeight: typography.weights.semibold,
+    color: colorTokens.text_primary,
   },
 });

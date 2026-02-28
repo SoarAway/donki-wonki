@@ -1,7 +1,7 @@
 import React from 'react';
 import { Animated, Easing, StyleSheet } from 'react-native';
 import { Text } from '../components/atoms/Text';
-import { colors, radius, spacing } from '../components/config';
+import {colorTokens, radius, spacing} from '../components/config';
 import { BaseScreen } from '../models/BaseScreen';
 
 export interface LandingPageProps {
@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: colors.background.default,
+    backgroundColor: colorTokens.background_default,
     paddingHorizontal: spacing[6],
   },
   orbPrimary: {
@@ -158,7 +158,7 @@ const styles = StyleSheet.create({
     width: spacing[24] * 2,
     height: spacing[24] * 2,
     borderRadius: radius.full,
-    backgroundColor: colors.primary[100],
+    backgroundColor: colorTokens.secondary_accent,
     top: spacing[6],
     left: -spacing[6],
   },
@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
     width: spacing[20] * 2,
     height: spacing[20] * 2,
     borderRadius: radius.full,
-    backgroundColor: colors.secondary[100],
+    backgroundColor: colorTokens.error_background,
     bottom: spacing[8],
     right: -spacing[8],
   },
@@ -175,7 +175,7 @@ const styles = StyleSheet.create({
     width: spacing[16] * 2,
     height: spacing[16] * 2,
     borderRadius: radius.full,
-    backgroundColor: colors.primary[600],
+    backgroundColor: colorTokens.primary_accent,
     alignItems: 'center',
     justifyContent: 'center',
     marginBottom: spacing[6],

@@ -1,5 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
+import { autocompleteLocation } from '../../services/api/apiEndpoints';
+
+interface AutocompleteSuggestion {
+    place_id: string;
+    description: string;
+}
 
 interface AutocompleteInputProps {
     label: string;
@@ -7,6 +13,7 @@ interface AutocompleteInputProps {
     value: string;
     onChangeText: (text: string) => void;
     onSelect: (value: string) => void;
+    onSelectSuggestion?: (suggestion: AutocompleteSuggestion) => void;
     containerStyle?: any;
 }
 
@@ -16,15 +23,16 @@ export const AutocompleteInput: React.FC<AutocompleteInputProps> = ({
     value,
     onChangeText,
     onSelect,
+    onSelectSuggestion,
     containerStyle
 }) => {
-    const [suggestions, setSuggestions] = useState<string[]>([]);
+    const [suggestions, setSuggestions] = useState<AutocompleteSuggestion[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const [showSuggestions, setShowSuggestions] = useState(false);
 
     useEffect(() => {
         const fetchSuggestions = async () => {
-            if (value.length < 3) {
+            if (value.length < 2) {
                 setSuggestions([]);
                 setShowSuggestions(false);
                 return;
@@ -35,37 +43,14 @@ export const AutocompleteInput: React.FC<AutocompleteInputProps> = ({
             if (showSuggestions) {
                 setIsLoading(true);
                 try {
-                    const response = await fetch(
-                        `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(value)}&limit=5&addressdetails=1`,
-                        {
-                            headers: {
-                                'User-Agent': 'DonkiWonkiApp/1.0',
-                            },
+                    const response = await autocompleteLocation(value);
+                    const uniqueSuggestions = response.suggestions.reduce<AutocompleteSuggestion[]>((acc, item) => {
+                        if (!acc.some(existing => existing.place_id === item.place_id)) {
+                            acc.push({ place_id: item.place_id, description: item.description });
                         }
-                    );
-                    const data = await response.json();
-                    if (Array.isArray(data)) {
-                        const results = data.map((item: any) => {
-                            const addr = item.address;
-                            if (!addr) return item.display_name;
-
-                            // Components represent increasing administrative levels
-                            // We want: [Place Name/Road], [Area/City], [State]
-                            const main = addr.amenity || addr.building || addr.shop || addr.office || addr.leisure || addr.highway || addr.road || '';
-                            const area = addr.suburb || addr.city_district || addr.neighbourhood || addr.city || addr.town || addr.village || '';
-                            const state = addr.state || addr.county || '';
-
-                            // Filter out empty parts and join them
-                            const simplified = [main, area, state]
-                                .filter(part => part.length > 0)
-                                .join(', ');
-
-                            return simplified || item.display_name;
-                        });
-                        // Ensure uniqueness
-                        const uniqueResults = Array.from(new Set(results));
-                        setSuggestions(uniqueResults);
-                    }
+                        return acc;
+                    }, []);
+                    setSuggestions(uniqueSuggestions);
                 } catch (error) {
                     console.error('Error fetching suggestions:', error);
                     setSuggestions([]);
@@ -84,8 +69,11 @@ export const AutocompleteInput: React.FC<AutocompleteInputProps> = ({
         setShowSuggestions(true);
     };
 
-    const handleSelect = (item: string) => {
-        onSelect(item);
+    const handleSelect = (item: AutocompleteSuggestion) => {
+        onSelect(item.description);
+        if (onSelectSuggestion) {
+            onSelectSuggestion(item);
+        }
         setSuggestions([]);
         setShowSuggestions(false);
     };
@@ -97,14 +85,14 @@ export const AutocompleteInput: React.FC<AutocompleteInputProps> = ({
                 <TextInput
                     style={styles.input}
                     placeholder={placeholder}
-                    placeholderTextColor="#999"
-                    value={value}
-                    onChangeText={handleTextChange}
-                    onFocus={() => {
-                        if (value.length >= 3) {
-                            setShowSuggestions(true);
-                        }
-                    }}
+                        placeholderTextColor="#999"
+                        value={value}
+                        onChangeText={handleTextChange}
+                        onFocus={() => {
+                            if (value.length >= 2) {
+                                setShowSuggestions(true);
+                            }
+                        }}
                 />
                 {isLoading ? (
                     <ActivityIndicator size="small" color="#1256A7" style={styles.loader} />
@@ -112,7 +100,7 @@ export const AutocompleteInput: React.FC<AutocompleteInputProps> = ({
                     <TouchableOpacity
                         style={styles.arrowContainer}
                         onPress={() => {
-                            if (value.length >= 3) {
+                            if (value.length >= 2) {
                                 setShowSuggestions(!showSuggestions);
                             }
                         }}
@@ -128,14 +116,14 @@ export const AutocompleteInput: React.FC<AutocompleteInputProps> = ({
                         keyboardShouldPersistTaps="always"
                         nestedScrollEnabled={true}
                     >
-                        {suggestions.map((item, index) => (
+                        {suggestions.map(item => (
                             <TouchableOpacity
-                                key={index}
+                                key={item.place_id}
                                 style={styles.suggestionItem}
                                 onPress={() => handleSelect(item)}
                             >
                                 <Text style={styles.suggestionText} numberOfLines={2}>
-                                    {item}
+                                    {item.description}
                                 </Text>
                             </TouchableOpacity>
                         ))}
@@ -154,27 +142,25 @@ const styles = StyleSheet.create({
         zIndex: 1,
     },
     label: {
-        fontSize: 16,
-        fontWeight: '600',
+        fontSize: 15,
+        fontWeight: '500',
         marginBottom: 8,
         color: '#000000',
     },
     inputWrapper: {
         flexDirection: 'row',
         alignItems: 'center',
-        borderRadius: 12,
-        backgroundColor: '#FFFFFF',
-        elevation: 8,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 4,
+        borderRadius: 10,
+        backgroundColor: '#F0F1F6',
     },
     input: {
         flex: 1,
         padding: 12,
-        fontSize: 14,
+        fontSize: 12,
         color: '#000000',
+        paddingHorizontal: 16,
+        width: 350,
+        height: 44,
     },
     loader: {
         marginRight: 10,

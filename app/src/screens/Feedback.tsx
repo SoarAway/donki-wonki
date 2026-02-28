@@ -5,6 +5,7 @@ import { Input } from '../components/atoms/Input';
 import { Dropdown } from '../components/atoms/Dropdown';
 import { BackButton } from '../components/atoms/BackButton';
 import { BaseScreen } from '../models/BaseScreen';
+import { colorTokens, shadows, spacing, typography } from '../components/config';
 
 interface FeedbackProps {
     navigation?: {
@@ -92,7 +93,7 @@ export default function Feedback({ navigation }: FeedbackProps) {
 
             <View style={styles.bottomContainer}>
                 <Button
-                    label="Submit"
+                    title="Submit"
                     onPress={handleSubmit}
                     style={styles.submitButton}
                 />
@@ -107,7 +108,7 @@ export default function Feedback({ navigation }: FeedbackProps) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#F7F9FC',
+        backgroundColor: colorTokens.background_default,
     },
     flexContainer: {
         flex: 1,
@@ -115,33 +116,33 @@ const styles = StyleSheet.create({
     header: {
         flexDirection: 'row',
         alignItems: 'center',
-        paddingHorizontal: 20,
-        paddingTop: 100,
-        paddingBottom: 10,
+        paddingHorizontal: spacing[5],
+        paddingTop: spacing[24],
+        paddingBottom: spacing[2] + 2,
     },
     title: {
-        fontSize: 32,
-        fontWeight: 'bold',
-        color: '#000000',
-        marginLeft: 5,
+        fontSize: typography.sizes['4xl'] - 4,
+        fontWeight: typography.weights.bold,
+        color: colorTokens.text_primary,
+        marginLeft: spacing[1] + 1,
     },
 
 
     scrollContainer: {
         flexGrow: 1,
-        padding: 20,
-        paddingBottom: 120,
+        padding: spacing[5],
+        paddingBottom: spacing[24] + spacing[6],
     },
 
     formContainer: {
         width: '100%',
     },
     textArea: {
-        height: 120,
+        height: spacing[20],
         textAlignVertical: 'top',
         fontStyle: 'italic',
-        paddingHorizontal: 15,
-        paddingTop: 15,
+        paddingHorizontal: spacing[4] - 1,
+        paddingTop: spacing[4] - 1,
     },
 
     bottomContainer: {
@@ -149,16 +150,12 @@ const styles = StyleSheet.create({
         bottom: 0,
         left: 0,
         right: 0,
-        paddingHorizontal: 20,
-        paddingBottom: 60,
+        paddingHorizontal: spacing[5],
+        paddingBottom: spacing[12] + spacing[3],
         backgroundColor: 'transparent',
     },
     submitButton: {
-        elevation: 5,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
+        ...shadows.md,
     },
 });
 

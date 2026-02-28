@@ -1,4 +1,19 @@
 pluginManagement { 
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+    }
+    resolutionStrategy {
+        eachPlugin {
+            if (requested.id.id == "com.android.application" || requested.id.id == "com.android.library") {
+                useVersion("8.4.0")
+            }
+            if (requested.id.id == "org.jetbrains.kotlin.android" || requested.id.id == "org.jetbrains.kotlin.jvm") {
+                useVersion("2.1.20")
+            }
+        }
+    }
     includeBuild("../../node_modules/@react-native/gradle-plugin")
 }
 plugins { 
@@ -9,3 +24,15 @@ extensions.configure(com.facebook.react.ReactSettingsExtension){ ex -> ex.autoli
 rootProject.name = 'DonkiWonkiApp'
 include ':app'
 includeBuild('../../node_modules/@react-native/gradle-plugin')
+
+include ':react-native-firebase_app'
+project(':react-native-firebase_app').projectDir = new File(rootProject.projectDir, '../../node_modules/@react-native-firebase/app/android')
+
+include ':react-native-firebase_auth'
+project(':react-native-firebase_auth').projectDir = new File(rootProject.projectDir, '../../node_modules/@react-native-firebase/auth/android')
+
+include ':react-native-firebase_firestore'
+project(':react-native-firebase_firestore').projectDir = new File(rootProject.projectDir, '../../node_modules/@react-native-firebase/firestore/android')
+
+include ':react-native-firebase_messaging'
+project(':react-native-firebase_messaging').projectDir = new File(rootProject.projectDir, '../../node_modules/@react-native-firebase/messaging/android')

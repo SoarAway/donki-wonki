@@ -1,10 +1,13 @@
-// Defines shared types for API responses (aligned with backend OpenAPI spec)
-
 export interface HealthResponse {
   [key: string]: string;
 }
 
-// /api/v1/users/sendToken types
+export interface ErrorResponse {
+  error: string;
+  message: string;
+  details?: unknown;
+}
+
 export interface SendTokenRequest {
   token: string;
 }
@@ -13,20 +16,22 @@ export interface SendTokenResponse {
   status: string;
   message: string;
   token: string;
-  notification_id: string | null;
+  notification_id?: string | null;
 }
 
 export interface RegisterUserRequest {
   email: string;
   username: string;
   password: string;
+  date_of_birth?: string | null;
+  device_token?: string | null;
 }
 
 export interface UserResponse {
   id: string;
   email: string;
   username: string;
-  is_active: boolean;
+  is_active?: boolean;
 }
 
 export interface RegisterUserResponse {
@@ -35,9 +40,131 @@ export interface RegisterUserResponse {
   user: UserResponse;
 }
 
-// Error response
-export interface ErrorResponse {
-  error: string;
+export interface LoginUserRequest {
+  email: string;
+  password: string;
+}
+
+export interface LoginUserResponse {
+  status: string;
   message: string;
-  details?: any;
+  email: string;
+}
+
+export interface GetUserByEmailResponse {
+  status: string;
+  message: string;
+  user: UserResponse;
+}
+
+export interface AutocompleteSuggestion {
+  place_id: string;
+  main_text: string;
+  secondary_text?: string | null;
+  description: string;
+}
+
+export interface AutocompleteResponse {
+  status: string;
+  message: string;
+  suggestions: AutocompleteSuggestion[];
+}
+
+export interface NearestStationRequest {
+  departure_place_id: string;
+  destination_place_id: string;
+}
+
+export interface UserLocation {
+  latitude: number;
+  longitude: number;
+}
+
+export interface NearestStationResponse {
+  status: string;
+  message: string;
+  departure_nearest_station: string;
+  destination_nearest_station: string;
+  departure_station_line?: string | null;
+  destination_station_line?: string | null;
+  departure_distance_km: number;
+  destination_distance_km: number;
+  departure_user_location: UserLocation;
+  destination_user_location: UserLocation;
+}
+
+export interface BaseResponse {
+  status: string;
+  message: string;
+}
+
+export interface RouteScheduleRequest {
+  email: string;
+  departing_location: string;
+  destination_location: string;
+  day_of_week: string;
+  time: string;
+  departing_station: string;
+  destination_station: string;
+  route_desc: string;
+}
+
+export interface EditRouteRequest extends RouteScheduleRequest {
+  route_id: string;
+}
+
+export interface DeleteRouteRequest {
+  email: string;
+  route_id: string;
+}
+
+export interface AddScheduleRequest {
+  user_id: string;
+  route_id: string;
+  day_of_week: string;
+  time_from: string;
+  time_to: string;
+}
+
+export interface RouteIdResponse extends BaseResponse {
+  route_id: string;
+}
+
+export interface ScheduleIdResponse extends BaseResponse {
+  schedule_id: string;
+}
+
+export interface RouteRecord {
+  [key: string]: unknown;
+}
+
+export interface RoutesListResponse extends BaseResponse {
+  routes: RouteRecord[];
+}
+
+export interface SpecificRouteResponse extends BaseResponse {
+  route: RouteRecord;
+}
+
+export interface NextUpcomingRouteResponse extends BaseResponse {
+  route: RouteRecord;
+}
+
+export interface SendReportRequest {
+  line: string;
+  station: string;
+  incident_type: string;
+  description: string;
+}
+
+export interface ReportIdResponse extends BaseResponse {
+  report_id: string;
+}
+
+export interface ReportRecord {
+  [key: string]: unknown;
+}
+
+export interface TopReportsResponse extends BaseResponse {
+  reports: ReportRecord[];
 }

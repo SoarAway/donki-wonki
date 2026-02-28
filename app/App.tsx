@@ -1,6 +1,5 @@
 import React from 'react';
 import { Alert, StatusBar, useColorScheme } from 'react-native';
-import { SafeAreaProvider } from 'react-native-safe-area-context';
 import { NavigationContainer, type LinkingOptions } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -19,9 +18,13 @@ import Register from './src/screens/Register';
 import { HomeScreen } from './src/screens/HomeScreen';
 import Community from './src/screens/Community';
 import RouteManagement from './src/screens/RouteManagement';
-import Reporting from './src/screens/Reporting';
+import Reporting from './src/screens/CommunityReport';
 import Feedback from './src/screens/Feedback';
 import AddRoute from './src/screens/AddRoute';
+import AddRoute_2 from './src/screens/AddRoute2';
+import EditRoute from './src/screens/EditRoute';
+import RouteStatus from './src/screens/RouteStatus';
+import { clearUserId, getUserId, saveUserId } from './src/services/authStorage';
 
 type AuthStackParamList = {
   Login: undefined;
@@ -39,6 +42,11 @@ type MainTabParamList = {
 type AppStackParamList = {
   MainTabs: undefined;
   AddRoute: undefined;
+  AddRoute2 : undefined; 
+  EditRoute: {routeId: string};
+  NotificationDetail: undefined; 
+  RouteManagement: undefined;
+  RouteStatus: undefined;
 };
 
 type RootParamList = {
@@ -53,7 +61,7 @@ const MainTabs = createBottomTabNavigator<MainTabParamList>();
 const AppStack = createNativeStackNavigator<AppStackParamList>();
 
 const linking: LinkingOptions<RootParamList> = {
-  prefixes: ['donkiwonki://', 'https://donkiwonki.app'],
+  prefixes: ['donkiwonki://', 'https://prod-on-the-way.onrender.com'],
   config: {
     screens: {
       Login: 'login',
@@ -73,33 +81,29 @@ const linking: LinkingOptions<RootParamList> = {
 };
 
 interface MainTabsNavigatorProps {
-  apiStatus: string;
-  permissionStatus: string;
-  tokenPreview: string;
-  lastForegroundMessage: string;
+  userEmail: string;
+  onLogout: () => void;
 }
 
 const MainTabsNavigator: React.FC<MainTabsNavigatorProps> = ({
-  apiStatus,
-  permissionStatus,
-  tokenPreview,
-  lastForegroundMessage,
+  userEmail,
+  onLogout,
 }) => (
   <MainTabs.Navigator
     screenOptions={{
       headerShown: false,
       tabBarHideOnKeyboard: true,
+      tabBarStyle: { display: 'none' }
     }}
   >
     <MainTabs.Screen name="Home" options={{ title: 'Home' }}>
       {({ navigation }) => (
         <HomeScreen
-          apiStatus={apiStatus}
-          permissionStatus={permissionStatus}
-          tokenPreview={tokenPreview}
-          lastForegroundMessage={lastForegroundMessage}
+          userEmail={userEmail}
+          onGoToRouteStatus={() => navigation.navigate('RouteStatus')}
           onGoToRoutes={() => navigation.navigate('RouteManagement')}
           onGoToCommunity={() => navigation.navigate('Community')}
+          onLogout={onLogout}
         />
       )}
     </MainTabs.Screen>
@@ -122,11 +126,14 @@ const AppStackNavigator: React.FC<AppStackNavigatorProps> = props => (
       {() => <MainTabsNavigator {...props} />}
     </AppStack.Screen>
     <AppStack.Screen name="AddRoute" component={AddRoute} />
+    <AppStack.Screen name="AddRoute2" component={AddRoute_2} />
+    <AppStack.Screen name="EditRoute" component={EditRoute} />
+    <AppStack.Screen name="RouteStatus" component={RouteStatus} />
   </AppStack.Navigator>
 );
 
 interface AuthStackNavigatorProps {
-  onLoginSuccess: () => void;
+  onLoginSuccess: (userId: string) => void;
 }
 
 const AuthStackNavigator: React.FC<AuthStackNavigatorProps> = ({ onLoginSuccess }) => (
@@ -152,15 +159,17 @@ const AuthStackNavigator: React.FC<AuthStackNavigatorProps> = ({ onLoginSuccess 
 
 function App() {
   const isDarkMode = useColorScheme() === 'dark';
-  const [permissionStatus, setPermissionStatus] = React.useState('Checking...');
-  const [tokenPreview, setTokenPreview] = React.useState('Pending...');
-  const [lastForegroundMessage, setLastForegroundMessage] = React.useState('No message yet.');
-  const [apiStatus, setApiStatus] = React.useState('Waking server...');
+  const [, setPermissionStatus] = React.useState('Checking...');
+  const [, setTokenPreview] = React.useState('Pending...');
+  const [, setLastForegroundMessage] = React.useState('No message yet.');
+  const [, setApiStatus] = React.useState('Waking server...');
   const [globalLoading, setGlobalLoading] = React.useState(false);
   const [bannerVisible, setBannerVisible] = React.useState(false);
   const [bannerTitle, setBannerTitle] = React.useState('');
   const [bannerMessage, setBannerMessage] = React.useState('');
   const [isAuthenticated, setIsAuthenticated] = React.useState(false);
+  const [authReady, setAuthReady] = React.useState(false);
+  const [userId, setUserId] = React.useState<string | null>(null);
 
   React.useEffect(() => {
     setLoadingCallback(setGlobalLoading);
@@ -176,6 +185,23 @@ function App() {
 
   React.useEffect(() => {
     let isMounted = true;
+
+    const restoreAuthState = async () => {
+      try {
+        const storedUserId = await getUserId();
+        if (!isMounted) {
+          return;
+        }
+        if (storedUserId) {
+          setUserId(storedUserId);
+          setIsAuthenticated(true);
+        }
+      } finally {
+        if (isMounted) {
+          setAuthReady(true);
+        }
+      }
+    };
 
     const initializeApp = async () => {
       try {
@@ -225,6 +251,7 @@ function App() {
       setTokenPreview(preview);
     };
 
+    restoreAuthState();
     initializeApp();
     setupFcm();
 
@@ -234,7 +261,7 @@ function App() {
       setLastForegroundMessage(`${title}: ${body}`);
       setBannerTitle(title);
       setBannerMessage(body);
-      setBannerVisible(true);
+      setBannerVisible(false);
     });
 
     return () => {
@@ -244,18 +271,26 @@ function App() {
   }, []);
 
   return (
-    <SafeAreaProvider>
+    <>
       <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
       <NavigationContainer linking={linking}>
-        {isAuthenticated ? (
+        {!authReady ? null : isAuthenticated ? (
           <AppStackNavigator
-            apiStatus={apiStatus}
-            permissionStatus={permissionStatus}
-            tokenPreview={tokenPreview}
-            lastForegroundMessage={lastForegroundMessage}
+            userEmail={userId ?? ''}
+            onLogout={async () => {
+              await clearUserId();
+              setUserId(null);
+              setIsAuthenticated(false);
+            }}
           />
         ) : (
-          <AuthStackNavigator onLoginSuccess={() => setIsAuthenticated(true)} />
+          <AuthStackNavigator
+            onLoginSuccess={async nextUserId => {
+              await saveUserId(nextUserId);
+              setUserId(nextUserId);
+              setIsAuthenticated(true);
+            }}
+          />
         )}
       </NavigationContainer>
 
@@ -268,8 +303,11 @@ function App() {
         autoDismiss={true}
         autoDismissDelay={5000}
       />
-      <LoadingOverlay visible={globalLoading} message="Loading..." />
-    </SafeAreaProvider>
+      <LoadingOverlay
+        visible={globalLoading || !authReady}
+        message={!authReady ? 'Restoring session...' : `Loading${userId ? ` (${userId})` : ''}...`}
+      />
+    </>
   );
 }
 

@@ -3,7 +3,7 @@ import { Modal, StyleSheet, View } from 'react-native';
 import { Box } from '../atoms/Box';
 import { Text } from '../atoms/Text';
 import { Spinner } from '../atoms/Spinner';
-import { colors, spacing } from '../config';
+import {colorTokens, spacing} from '../config';
 
 export interface LoadingOverlayProps {
   visible: boolean;
@@ -26,11 +26,11 @@ export const LoadingOverlay: React.FC<LoadingOverlayProps> = ({
       <View style={styles.backdrop}>
         <Box
           padding={6}
-          backgroundColor="neutral.0"
+          backgroundColor="background_default"
           borderRadius="lg"
           align="center"
           gap={spacing[4]}>
-          <Spinner size="large" color={colors.primary[500]} />
+          <Spinner size="large" color={colorTokens.primary_accent} />
           <Text variant="base" weight="medium" color="text.primary">
             {message}
           </Text>

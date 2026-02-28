@@ -3,53 +3,40 @@ import { View, Text, TextInput, StyleSheet, TextInputProps } from 'react-native'
 
 interface InputProps extends TextInputProps {
     label: string;
-    error?: string;
 }
 
-export const Input: React.FC<InputProps> = ({ label, error, style, ...props }) => {
+export const Input: React.FC<InputProps> = ({ label, style, ...props }) => {
     return (
         <View style={styles.inputContainer}>
             <Text style={styles.label}>{label}</Text>
             <TextInput
-                style={[styles.input, error ? styles.inputError : null, style]}
-                placeholderTextColor="#999"
+                style={[styles.input, style]}
+                placeholderTextColor="#AAAAAA"
                 {...props}
             />
-            {error ? <Text style={styles.errorText}>{error}</Text> : null}
         </View>
     );
 };
 
-
 const styles = StyleSheet.create({
     inputContainer: {
-        marginBottom: 20,
+        marginBottom: 16,
         width: '100%',
     },
     label: {
-        fontSize: 16,
-        fontWeight: '600',
-        marginBottom: 8,
-        color: '#000000',
+        fontSize: 15,
+        fontWeight: '500',
+        marginBottom: 6,
+        color: '#111111',
     },
     input: {
-        borderRadius: 12,
-        padding: 12,
-        fontSize: 14,
-        backgroundColor: '#FFFFFF',
-        elevation: 8,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 4,
-    },
-    inputError: {
-        borderWidth: 1,
-        borderColor: '#D92D20',
-    },
-    errorText: {
-        marginTop: 6,
+        borderRadius: 10,
+        paddingHorizontal: 16,
         fontSize: 12,
-        color: '#D92D20',
+        backgroundColor: '#F0F1F6',
+        color: '#111111',
+        width: '100%',
+        height: 44,
+        textAlignVertical: 'center',
     },
 });

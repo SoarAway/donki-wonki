@@ -2,7 +2,7 @@ import React from 'react';
 import { Modal, StyleSheet, View } from 'react-native';
 import { Button } from '../atoms/Button';
 import { Text } from '../atoms/Text';
-import { colors, radius, spacing } from '../config';
+import {colorTokens, radius, spacing} from '../config';
 
 export interface AlertDialogProps {
   visible: boolean;
@@ -32,7 +32,7 @@ export const AlertDialog: React.FC<AlertDialogProps> = ({
             {message}
           </Text>
           <View style={styles.actions}>
-            <Button label="OK" onPress={onClose} fullWidth />
+            <Button title="OK" onPress={onClose} />
           </View>
         </View>
       </View>
@@ -49,13 +49,13 @@ const styles = StyleSheet.create({
   },
   backdrop: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: colors.neutral[900],
+    backgroundColor: colorTokens.primary_accent,
     opacity: 0.45,
   },
   dialog: {
     width: '100%',
     maxWidth: spacing[24] * 3,
-    backgroundColor: colors.background.paper,
+    backgroundColor: colorTokens.background_default,
     borderRadius: radius.lg,
     paddingHorizontal: spacing[5],
     paddingVertical: spacing[5],

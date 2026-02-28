@@ -1,6 +1,6 @@
 import React from 'react';
 import {Animated, StyleSheet, TouchableOpacity, View} from 'react-native';
-import {colors, radius, spacing} from '../config';
+import {colorTokens, radius, spacing} from '../config';
 import {Text} from './Text';
 
 export interface BannerProps {
@@ -77,42 +77,42 @@ export const Banner: React.FC<BannerProps> = ({
   const getBackgroundColor = () => {
     switch (variant) {
       case 'success':
-        return colors.success.light;
+        return colorTokens.background_default;
       case 'warning':
-        return colors.warning.light;
+        return colorTokens.secondary_accent;
       case 'error':
-        return colors.error.light;
+        return colorTokens.error_background;
       case 'info':
       default:
-        return colors.info.light;
+        return colorTokens.background_default;
     }
   };
 
   const getBorderColor = () => {
     switch (variant) {
       case 'success':
-        return colors.success.main;
+        return colorTokens.primary_accent;
       case 'warning':
-        return colors.warning.main;
+        return colorTokens.secondary_accent;
       case 'error':
-        return colors.error.main;
+        return colorTokens.error_main;
       case 'info':
       default:
-        return colors.info.main;
+        return colorTokens.secondary_accent;
     }
   };
 
   const getTextColor = () => {
     switch (variant) {
       case 'success':
-        return colors.success.dark;
+        return colorTokens.primary_accent;
       case 'warning':
-        return colors.warning.dark;
+        return colorTokens.primary_accent;
       case 'error':
-        return colors.error.dark;
+        return colorTokens.error_main;
       case 'info':
       default:
-        return colors.info.dark;
+        return colorTokens.primary_accent;
     }
   };
 
@@ -164,7 +164,7 @@ const styles = StyleSheet.create({
     borderRadius: radius.md,
     marginHorizontal: spacing[4],
     marginTop: spacing[12],
-    shadowColor: colors.neutral[900],
+    shadowColor: colorTokens.primary_accent,
     shadowOffset: {width: 0, height: 2},
     shadowOpacity: 0.15,
     shadowRadius: 4,

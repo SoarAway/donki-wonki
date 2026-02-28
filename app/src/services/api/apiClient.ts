@@ -1,6 +1,8 @@
 // Generic API wrapper for the Donki-Wonki backend
 
+// const BASE_URL = 'https://prod-on-the-way.onrender.com';
 const BASE_URL = 'https://donki-wonki.onrender.com';
+
 const WAKE_TIMEOUT_MS = 60000; // 60 seconds
 const WAKE_RETRY_ATTEMPTS = 3;
 
@@ -26,6 +28,9 @@ export function setLoadingCallback(callback: LoadingCallback | null) {
   loadingCallback = callback;
 }
 
+/**
+ * Registers a callback for API-level error notifications.
+ */
 export function setErrorCallback(callback: ErrorCallback | null) {
   errorCallback = callback;
 }
@@ -48,6 +53,8 @@ function notifyError(message: string) {
 /**
  * Perform a GET request to the API
  * @param path The endpoint path (e.g., '/api/v1/incidents')
+ * @returns Parsed JSON response typed as T
+ * @throws Error when the HTTP status is not OK or request fails
  */
 export async function get<T>(path: string): Promise<T> {
   try {
@@ -82,6 +89,8 @@ export async function get<T>(path: string): Promise<T> {
  * Perform a POST request to the API
  * @param path The endpoint path
  * @param body The JSON body payload
+ * @returns Parsed JSON response typed as T
+ * @throws Error when the HTTP status is not OK or request fails
  */
 export async function post<T>(path: string, body: any): Promise<T> {
   try {
@@ -107,6 +116,66 @@ export async function post<T>(path: string, body: any): Promise<T> {
       notifyError('Unknown API error occurred.');
     }
     console.error(`API POST Error for ${path}:`, error);
+    throw error;
+  } finally {
+    notifyLoading(false);
+  }
+}
+
+export async function put<T>(path: string, body: unknown): Promise<T> {
+  try {
+    notifyLoading(true);
+    const response = await fetch(`${config.baseUrl}${path}`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+    });
+
+    if (!response.ok) {
+      const errorMessage = await parseErrorMessage(response);
+      throw new Error(errorMessage);
+    }
+
+    return await response.json();
+  } catch (error) {
+    if (error instanceof Error) {
+      notifyError(error.message);
+    } else {
+      notifyError('Unknown API error occurred.');
+    }
+    console.error(`API PUT Error for ${path}:`, error);
+    throw error;
+  } finally {
+    notifyLoading(false);
+  }
+}
+
+export async function del<T>(path: string, body?: unknown): Promise<T> {
+  try {
+    notifyLoading(true);
+    const response = await fetch(`${config.baseUrl}${path}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: body === undefined ? undefined : JSON.stringify(body),
+    });
+
+    if (!response.ok) {
+      const errorMessage = await parseErrorMessage(response);
+      throw new Error(errorMessage);
+    }
+
+    return await response.json();
+  } catch (error) {
+    if (error instanceof Error) {
+      notifyError(error.message);
+    } else {
+      notifyError('Unknown API error occurred.');
+    }
+    console.error(`API DELETE Error for ${path}:`, error);
     throw error;
   } finally {
     notifyLoading(false);

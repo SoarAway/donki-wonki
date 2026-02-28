@@ -85,6 +85,9 @@ app/android/app/debug/
 app/android/app/release/
 app/android/.idea/
 app/android/local.properties
+app/android/app/.project
+app/android/link-assets-manifest.json
+app/android/app/src/main/assets/fonts/
 *.apk
 *.ap_
 *.aab
