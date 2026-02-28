@@ -1,73 +1,153 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-import { Button } from '../components/atoms/Button';
-import { Text } from '../components/atoms/Text';
-import {colorTokens, radius, spacing} from '../components/config';
+import Logo from '../assets/Logo.svg';
+import { NavBar } from '../components/molecules/NavBar';
 import { BaseScreen } from '../models/BaseScreen';
+import { getNextUpcomingRoute } from '../services/api/apiEndpoints';
+import { colorTokens, radius, spacing, typography } from '../components/config';
+
+const LOGO_SIZE = spacing[20] + spacing[2];
 
 interface HomeScreenProps {
-  apiStatus: string;
-  permissionStatus: string;
-  tokenPreview: string;
-  lastForegroundMessage: string;
+  userEmail: string;
+  onGoToRouteStatus: () => void;
   onGoToRoutes: () => void;
   onGoToCommunity: () => void;
   onLogout: () => void;
 }
 
 export const HomeScreen: React.FC<HomeScreenProps> = ({
-  apiStatus,
-  permissionStatus,
-  tokenPreview,
-  lastForegroundMessage,
+  userEmail,
+  onGoToRouteStatus,
   onGoToRoutes,
   onGoToCommunity,
   onLogout,
 }) => {
+  const [upcomingRoute, setUpcomingRoute] = React.useState<{
+    name: string;
+    path: string;
+    schedule: string;
+  } | null>(null);
+
+  const disruptions = [
+    {
+      id: '1',
+      title: 'Disruption in Kelana Jaya Line',
+      message: 'Leave 30 minutes earlier to reach destination on time',
+      timestamp: '4 mins ago',
+    },
+  ];
+
+  React.useEffect(() => {
+    let active = true;
+
+    const pickString = (source: Record<string, unknown>, keys: string[]): string | null => {
+      for (const key of keys) {
+        const value = source[key];
+        if (typeof value === 'string' && value.trim().length > 0) {
+          return value.trim();
+        }
+      }
+      return null;
+    };
+
+    const loadUpcomingRoute = async () => {
+      if (!userEmail) {
+        if (active) {
+          setUpcomingRoute(null);
+        }
+        return;
+      }
+
+      try {
+        const response = await getNextUpcomingRoute(userEmail);
+        const routeData = response.route;
+
+        const routeName = pickString(routeData, ['description']) ?? 'Upcoming Route';
+        const departingStation = pickString(routeData, ['departingStation']) ?? 'LRT';
+        const departingLocation = "Gombak"
+        const destinationStation = pickString(routeData, ['destinationStation']) ?? 'LRT';
+        const destinationLocation = "Universiti" 
+        const day = pickString(routeData, ['dayOfWeek', 'day']) ?? 'Scheduled';
+        const timeFrom = pickString(routeData, ['timeFrom', 'departureTime']) ?? 'N/A';
+        const timeTo = pickString(routeData, ['timeTo', 'arrivalTime']) ?? 'N/A';
+
+        if (active) {
+          setUpcomingRoute({
+            name: routeName,
+            path: `${departingStation} ${departingLocation} - ${destinationStation} ${destinationLocation}`,
+            schedule: `${day} ${timeFrom} - ${timeTo}`,
+          });
+        }
+      } catch {
+        if (active) {
+          setUpcomingRoute(null);
+        }
+      }
+    };
+
+    loadUpcomingRoute();
+
+    return () => {
+      active = false;
+    };
+  }, [userEmail]);
+
   return (
     <BaseScreen style={styles.container}>
-      <Text variant="2xl" weight="bold" color="text.primary">
-        Donki-Wonki
-      </Text>
-      <Text variant="sm" color="text.secondary">
-        Predictive rail disruption alerts for Klang Valley commuters.
-      </Text>
+      <ScrollView
+        style={styles.scrollView}
+        contentContainerStyle={styles.scrollContainer}
+        showsVerticalScrollIndicator={false}
+      >
+        <View style={styles.header}>
+          <TouchableOpacity onPress={onGoToRouteStatus} activeOpacity={0.8}>
+            <Text style={styles.welcomeText}>Welcome!!</Text>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={onLogout} activeOpacity={0.8} style={styles.logo}>
+            <Logo width={LOGO_SIZE} height={LOGO_SIZE} />
+          </TouchableOpacity>
+        </View>
+{/* 
+        {disruptions.map(alert => (
+          <View key={alert.id} style={styles.alertCard}>
+            <View style={styles.alertTitleRow}>
+              <Text style={styles.alertIcon}>🚫</Text>
+              <Text style={styles.alertTitle}>{alert.title}</Text>
+            </View>
+            <Text style={styles.alertMessage}>{alert.message}</Text>
+            <Text style={styles.alertTimestamp}>{alert.timestamp}</Text>
+          </View>
+        ))} */}
 
-      <View style={styles.card}>
-        <Text variant="sm" weight="semibold" color="text.primary">
-          System Status
-        </Text>
-        <Text variant="xs" color="text.secondary">
-          API: {apiStatus}
-        </Text>
-        <Text variant="xs" color="text.secondary">
-          Notification permission: {permissionStatus}
-        </Text>
-        <Text variant="xs" color="text.secondary">
-          Token: {tokenPreview}
-        </Text>
-      </View>
+        <Text style={styles.sectionTitle}>Upcoming Route</Text>
 
-      <View style={styles.card}>
-        <Text variant="sm" weight="semibold" color="text.primary">
-          Latest Foreground Alert
-        </Text>
-        <Text variant="xs" color="text.secondary">
-          {lastForegroundMessage}
-        </Text>
-      </View>
+        {upcomingRoute ? (
+          <View style={styles.routeCard}>
+            <Text style={styles.routeName}>{upcomingRoute.name}</Text>
+            <Text style={styles.routePath}>{upcomingRoute.path}</Text>
+            <Text style={styles.routeSchedule}>{upcomingRoute.schedule}</Text>
+          </View>
+        ) : (
+          <View style={styles.routeCard}>
+            <Text style={styles.routeName}>No upcoming route</Text>
+            <Text style={styles.routePath}>Add a route to get schedule-based alerts.</Text>
+          </View>
+        )}
 
-      <View style={styles.actions}>
-        <Button label="Manage Routes" onPress={onGoToRoutes} fullWidth />
-        <Button
-          label="Open Community"
-          onPress={onGoToCommunity}
-          variant="outline"
-          fullWidth
-        />
-        <Button label="Logout" onPress={onLogout} variant="ghost" fullWidth />
-      </View>
+      </ScrollView>
+
+      <NavBar
+        activeTab="Home"
+        onTabPress={tab => {
+          if (tab === 'Route') {
+            onGoToRoutes();
+          } else if (tab === 'Community') {
+            onGoToCommunity();
+          }
+        }}
+      />
     </BaseScreen>
   );
 };
@@ -75,17 +155,92 @@ export const HomeScreen: React.FC<HomeScreenProps> = ({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: spacing[5],
-    gap: spacing[3],
-  },
-  card: {
     backgroundColor: colorTokens.background_default,
-    borderRadius: radius.md,
-    padding: spacing[4],
-    gap: spacing[2],
   },
-  actions: {
-    marginTop: spacing[2],
-    gap: spacing[2],
+  scrollView: {
+    flex: 1,
+  },
+  scrollContainer: {
+    paddingHorizontal: spacing[8],
+    paddingTop: spacing[24],
+    paddingBottom: spacing[24] + spacing[6],
+  },
+  header: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: spacing[6] + spacing[1],
+  },
+  welcomeText: {
+    fontSize: typography.sizes['4xl'],
+    fontWeight: typography.weights.bold,
+    color: colorTokens.text_primary,
+    letterSpacing: typography.letterSpacing.tight,
+  },
+  logo: {
+    width: LOGO_SIZE,
+    height: LOGO_SIZE,
+  },
+  alertCard: {
+    backgroundColor: colorTokens.error_background,
+    borderRadius: radius.lg + 2,
+    padding: spacing[4],
+    marginBottom: spacing[6] + spacing[1],
+  },
+  alertTitleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: spacing[1] + 2,
+  },
+  alertIcon: {
+    fontSize: typography.sizes.lg,
+    marginRight: 8,
+  },
+  alertTitle: {
+    fontSize: typography.sizes.sm + 1,
+    fontWeight: typography.weights.bold,
+    color: colorTokens.text_primary,
+    flexShrink: 1,
+  },
+  alertMessage: {
+    fontSize: typography.sizes.xs + 1,
+    color: colorTokens.text_secondary,
+    marginBottom: spacing[2],
+    lineHeight: typography.lineHeights.sm - 2,
+  },
+  alertTimestamp: {
+    fontSize: typography.sizes.xs,
+    color: colorTokens.error_text,
+    textAlign: 'right',
+    fontStyle: 'italic',
+  },
+  sectionTitle: {
+    fontSize: typography.sizes['2xl'] - 2,
+    fontWeight: typography.weights.bold,
+    color: colorTokens.text_primary,
+    marginBottom: spacing[4],
+    letterSpacing: typography.letterSpacing.tight,
+  },
+  routeCard: {
+    backgroundColor: colorTokens.surface_muted,
+    borderRadius: radius.xl,
+    padding: spacing[5],
+    marginBottom: spacing[4],
+  },
+  routeName: {
+    fontSize: typography.sizes.lg,
+    fontWeight: typography.weights.bold,
+    color: colorTokens.text_primary,
+    marginBottom: spacing[1],
+  },
+  routePath: {
+    fontSize: typography.sizes.sm,
+    color: colorTokens.text_secondary,
+    marginBottom: spacing[1] + 2,
+  },
+  routeSchedule: {
+    fontSize: typography.sizes.sm,
+    color: colorTokens.link,
+    fontStyle: 'italic',
   },
 });

@@ -1,0 +1,261 @@
+[
+  {
+    "code": "KJ01",
+    "name": "Gombak",
+    "line": "LRT Kelana Jaya Line",
+    "latitude": 3.2312176,
+    "longitude": 101.7244253
+  },
+  {
+    "code": "KJ02",
+    "name": "Taman Melati",
+    "line": "LRT Kelana Jaya Line",
+    "latitude": 3.222714,
+    "longitude": 101.720886
+  },
+  {
+    "code": "KJ03",
+    "name": "Wangsa Maju",
+    "line": "LRT Kelana Jaya Line",
+    "latitude": 3.206411,
+    "longitude": 101.732381
+  },
+  {
+    "code": "KJ04",
+    "name": "Sri Rampai",
+    "line": "LRT Kelana Jaya Line",
+    "latitude": 3.197361,
+    "longitude": 101.737139
+  },
+  {
+    "code": "KJ05",
+    "name": "Setiawangsa",
+    "line": "LRT Kelana Jaya Line",
+    "latitude": 3.175833,
+    "longitude": 101.745000
+  },
+  {
+    "code": "KJ06",
+    "name": "Jelatek",
+    "line": "LRT Kelana Jaya Line",
+    "latitude": 3.1661186,
+    "longitude": 101.7357767
+  },
+  {
+    "code": "KJ07",
+    "name": "Dato Keramat",
+    "line": "LRT Kelana Jaya Line",
+    "latitude": 3.165278,
+    "longitude": 101.731389
+  },
+  {
+    "code": "KJ08",
+    "name": "Damai",
+    "line": "LRT Kelana Jaya Line",
+    "latitude": 3.164167,
+    "longitude": 101.724167
+  },
+  {
+    "code": "KJ09",
+    "name": "Ampang Park",
+    "line": "LRT Kelana Jaya Line",
+    "latitude": 3.159722,
+    "longitude": 101.719167
+  },
+  {
+    "code": "KJ10",
+    "name": "KLCC",
+    "line": "LRT Kelana Jaya Line",
+    "latitude": 3.159167,
+    "longitude": 101.713611
+  },
+  {
+    "code": "KJ11",
+    "name": "Kampung Baru",
+    "line": "LRT Kelana Jaya Line",
+    "latitude": 3.160000,
+    "longitude": 101.703333
+  },
+  {
+    "code": "KJ12",
+    "name": "Dang Wangi",
+    "line": "LRT Kelana Jaya Line",
+    "latitude": 3.156944,
+    "longitude": 101.701944
+  },
+  {
+    "code": "KJ13",
+    "name": "Masjid Jamek",
+    "line": "LRT Kelana Jaya Line",
+    "latitude": 3.149722,
+    "longitude": 101.696389
+  },
+  {
+    "code": "KJ14",
+    "name": "Pasar Seni",
+    "line": "LRT Kelana Jaya Line",
+    "latitude": 3.1424591,
+    "longitude": 101.6953068
+  },
+  {
+    "code": "KJ15",
+    "name": "KL Sentral",
+    "line": "LRT Kelana Jaya Line",
+    "latitude": 3.134167,
+    "longitude": 101.686111
+  },
+  {
+    "code": "KJ16",
+    "name": "Bank Rakyat-Bangsar",
+    "line": "LRT Kelana Jaya Line",
+    "latitude": 3.127222,
+    "longitude": 101.678889
+  },
+  {
+    "code": "KJ17",
+    "name": "Abdullah Hukum",
+    "line": "LRT Kelana Jaya Line",
+    "latitude": 3.1186641,
+    "longitude": 101.6728845
+  },
+  {
+    "code": "KJ18",
+    "name": "Kerinchi",
+    "line": "LRT Kelana Jaya Line",
+    "latitude": 3.1154918,
+    "longitude": 101.6684949
+  },
+  {
+    "code": "KJ19",
+    "name": "Universiti",
+    "line": "LRT Kelana Jaya Line",
+    "latitude": 3.1145395,
+    "longitude": 101.6617007
+  },
+  {
+    "code": "KJ20",
+    "name": "Taman Jaya",
+    "line": "LRT Kelana Jaya Line",
+    "latitude": 3.112222,
+    "longitude": 101.644722
+  },
+  {
+    "code": "KJ21",
+    "name": "Asia Jaya",
+    "line": "LRT Kelana Jaya Line",
+    "latitude": 3.111389,
+    "longitude": 101.636667
+  },
+  {
+    "code": "KJ22",
+    "name": "Taman Paramount",
+    "line": "LRT Kelana Jaya Line",
+    "latitude": 3.104444,
+    "longitude": 101.622778
+  },
+  {
+    "code": "KJ23",
+    "name": "Taman Bahagia",
+    "line": "LRT Kelana Jaya Line",
+    "latitude": 3.110556,
+    "longitude": 101.612500
+  },
+  {
+    "code": "KJ24",
+    "name": "Kelana Jaya",
+    "line": "LRT Kelana Jaya Line",
+    "latitude": 3.112500,
+    "longitude": 101.603889
+  },
+  {
+    "code": "KJ25",
+    "name": "Lembah Subang",
+    "line": "LRT Kelana Jaya Line",
+    "latitude": 3.112222,
+    "longitude": 101.591389
+  },
+  {
+    "code": "KJ26",
+    "name": "Ara Damansara",
+    "line": "LRT Kelana Jaya Line",
+    "latitude": 3.113333,
+    "longitude": 101.583333
+  },
+  {
+    "code": "KJ27",
+    "name": "Glenmarie",
+    "line": "LRT Kelana Jaya Line",
+    "latitude": 3.095000,
+    "longitude": 101.590278
+  },
+  {
+    "code": "KJ28",
+    "name": "Subang Jaya",
+    "line": "LRT Kelana Jaya Line",
+    "latitude": 3.085000,
+    "longitude": 101.586111
+  },
+  {
+    "code": "KJ29",
+    "name": "SS 15",
+    "line": "LRT Kelana Jaya Line",
+    "latitude": 3.078889,
+    "longitude": 101.586111
+  },
+  {
+    "code": "KJ30",
+    "name": "SS 18",
+    "line": "LRT Kelana Jaya Line",
+    "latitude": 3.073056,
+    "longitude": 101.586111
+  },
+  {
+    "code": "KJ31",
+    "name": "USJ 7",
+    "line": "LRT Kelana Jaya Line",
+    "latitude": 3.068056,
+    "longitude": 101.593056
+  },
+  {
+    "code": "KJ32",
+    "name": "Taipan",
+    "line": "LRT Kelana Jaya Line",
+    "latitude": 3.048333,
+    "longitude": 101.590278
+  },
+  {
+    "code": "KJ33",
+    "name": "Wawasan",
+    "line": "LRT Kelana Jaya Line",
+    "latitude": 3.035278,
+    "longitude": 101.587500
+  },
+  {
+    "code": "KJ34",
+    "name": "USJ 21",
+    "line": "LRT Kelana Jaya Line",
+    "latitude": 3.027500,
+    "longitude": 101.581389
+  },
+  {
+    "code": "KJ35",
+    "name": "Alam Megah",
+    "line": "LRT Kelana Jaya Line",
+    "latitude": 3.013611,
+    "longitude": 101.571944
+  },
+  {
+    "code": "KJ36",
+    "name": "Subang Alam",
+    "line": "LRT Kelana Jaya Line",
+    "latitude": 3.009444,
+    "longitude": 101.582778
+  },
+  {
+    "code": "KJ37",
+    "name": "Putra Heights",
+    "line": "LRT Kelana Jaya Line",
+    "latitude": 2.996111,
+    "longitude": 101.575556
+  }
+]

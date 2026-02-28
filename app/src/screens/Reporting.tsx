@@ -5,6 +5,8 @@ import { Input } from '../components/atoms/Input';
 import { Dropdown } from '../components/atoms/Dropdown';
 import { BackButton } from '../components/atoms/BackButton';
 import { BaseScreen } from '../models/BaseScreen';
+import { colorTokens, shadows, spacing, typography } from '../components/config';
+import { sendReport } from '../services/api/apiEndpoints';
 
 // Mock data as requested - user will update this manually later
 const TRANSIT_SYSTEMS = ["LRT", "MRT", "Monorail", "KTM"];
@@ -122,7 +124,7 @@ export default function Reporting({ navigation }: any) {
         }
     }, [line]);
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if (!transitSystem || !line || !station || !incidentType || !description) {
             Alert.alert('Error', 'Please fill in all required fields');
             return;
@@ -135,16 +137,18 @@ export default function Reporting({ navigation }: any) {
 
         const finalIncidentType = incidentType === 'Others' ? otherIncident : incidentType;
 
-        console.log('Report submitted:', {
-            transitSystem,
-            line,
-            station,
-            incidentType: finalIncidentType,
-            description
-        });
-
-        Alert.alert('Success', 'Report submitted successfully. Thank you for your feedback!');
-        if (navigation) navigation.navigate('Community');
+        try {
+            await sendReport({
+                line,
+                station,
+                incident_type: finalIncidentType,
+                description,
+            });
+            Alert.alert('Success', 'Report submitted successfully. Thank you for your feedback!');
+            if (navigation) navigation.navigate('Community');
+        } catch {
+            Alert.alert('Error', 'Failed to submit report. Please try again.');
+        }
     };
 
     return (
@@ -210,7 +214,7 @@ export default function Reporting({ navigation }: any) {
                     />
 
                     <Button
-                        label="Submit"
+                        title="Submit"
                         onPress={handleSubmit}
                         style={styles.submitButton}
                     />
@@ -223,7 +227,7 @@ export default function Reporting({ navigation }: any) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#F7F9FC',
+        backgroundColor: colorTokens.background_default,
     },
     flexContainer: {
         flex: 1,
@@ -231,36 +235,32 @@ const styles = StyleSheet.create({
     header: {
         flexDirection: 'row',
         alignItems: 'center',
-        paddingHorizontal: 20,
-        paddingTop: 100, // Matching Feedback.tsx paddingTop for consistent header placement
-        paddingBottom: 10,
+        paddingHorizontal: spacing[5],
+        paddingTop: spacing[24],
+        paddingBottom: spacing[2] + 2,
     },
     title: {
-        fontSize: 32,
-        fontWeight: 'bold',
-        color: '#000000',
-        marginLeft: 5,
+        fontSize: typography.sizes['4xl'] - 4,
+        fontWeight: typography.weights.bold,
+        color: colorTokens.text_primary,
+        marginLeft: spacing[1] + 1,
     },
     scrollContainer: {
         flexGrow: 1,
-        padding: 20,
-        paddingBottom: 40,
+        padding: spacing[5],
+        paddingBottom: spacing[10],
     },
     formContainer: {
         width: '100%',
     },
     textArea: {
-        height: 120,
+        height: spacing[20],
         textAlignVertical: 'top',
-        paddingHorizontal: 15,
-        paddingTop: 15,
+        paddingHorizontal: spacing[4] - 1,
+        paddingTop: spacing[4] - 1,
     },
     submitButton: {
-        marginTop: 20,
-        elevation: 5,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
+        marginTop: spacing[5],
+        ...shadows.md,
     },
 });

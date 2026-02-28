@@ -1,19 +1,28 @@
-import {get, post} from './apiClient';
+import {del, get, post, put} from './apiClient';
 import type {
+  AddScheduleRequest,
   AutocompleteResponse,
-  BatchIncidentExtractionRequest,
-  BatchIncidentExtractionResponse,
+  BaseResponse,
+  DeleteRouteRequest,
+  EditRouteRequest,
   GetUserByEmailResponse,
   HealthResponse,
-  IncidentExtractionRequest,
-  IncidentExtractionResponse,
   LoginUserRequest,
   LoginUserResponse,
+  NextUpcomingRouteResponse,
   NearestStationRequest,
   NearestStationResponse,
+  ReportIdResponse,
   RegisterUserRequest,
   RegisterUserResponse,
+  RouteIdResponse,
+  RouteScheduleRequest,
+  RoutesListResponse,
+  ScheduleIdResponse,
   SendTokenResponse,
+  SendReportRequest,
+  SpecificRouteResponse,
+  TopReportsResponse,
 } from './types';
 
 const BASE_API_ENDPOINT = '/api/v1';
@@ -90,43 +99,39 @@ export const autocompleteLocation = (query: string) =>
 export const nearestStation = (request: NearestStationRequest) =>
   post<NearestStationResponse>(`${BASE_API_ENDPOINT}/locations/nearest-station`, request);
 
-/**
- * Extracts one incident from a single text input.
- * @param request Incident extraction payload.
- * @returns Incident classification and extracted details.
- * Request: `IncidentExtractionRequest`.
- * Response: `IncidentExtractionResponse`.
- */
-export const extractIncident = (request: IncidentExtractionRequest) =>
-  post<IncidentExtractionResponse>(`${BASE_API_ENDPOINT}/incidents/extract`, request);
+export const createRoute = (request: RouteScheduleRequest) =>
+  post<RouteIdResponse>(`${BASE_API_ENDPOINT}/route/create`, request);
 
-/**
- * Extracts incidents from a batch of text inputs.
- * @param request Batch extraction payload.
- * @returns Batch extraction results with processed/failed counts.
- * Request: `BatchIncidentExtractionRequest`.
- * Response: `BatchIncidentExtractionResponse`.
- */
-export const extractIncidentsBatch = (request: BatchIncidentExtractionRequest) =>
-  post<BatchIncidentExtractionResponse>(`${BASE_API_ENDPOINT}/incidents/extract/batch`, request);
+export const editRoute = (request: EditRouteRequest) =>
+  put<RouteIdResponse>(`${BASE_API_ENDPOINT}/route/edit`, request);
 
-interface ProcessIncidentParams {
-  text: string;
-  source?: string;
-  save?: boolean;
-}
+export const deleteRoute = (request: DeleteRouteRequest) =>
+  del<BaseResponse>(`${BASE_API_ENDPOINT}/route/delete`, request);
 
-/**
- * Runs extraction, validation, and optional persistence for one social post.
- * @param params Query payload with text, source, and save flag.
- * @returns Incident extraction pipeline result.
- * Request: query params `{ text, source, save }`.
- * Response: `IncidentExtractionResponse`.
- */
-export const processIncident = ({text, source = 'reddit', save = true}: ProcessIncidentParams) =>
-  post<IncidentExtractionResponse>(
-    `${BASE_API_ENDPOINT}/incidents/process?text=${encodeURIComponent(text)}&source=${encodeURIComponent(
-      source,
-    )}&save=${save}`,
-    {},
+export const getRoutesByEmail = (email: string) =>
+  get<RoutesListResponse>(
+    `${BASE_API_ENDPOINT}/route/all-by-email?email=${encodeURIComponent(email)}`,
   );
+
+export const getRoutesByUserId = (userId: string) =>
+  get<RoutesListResponse>(
+    `${BASE_API_ENDPOINT}/route/by-user-id?user_id=${encodeURIComponent(userId)}`,
+  );
+
+export const getNextUpcomingRoute = (userEmail: string) =>
+  get<NextUpcomingRouteResponse>(
+    `${BASE_API_ENDPOINT}/route/next-upcoming?email=${encodeURIComponent(userEmail)}`,
+  );
+
+export const getSpecificRoute = (email: string, routeId: string) =>
+  get<SpecificRouteResponse>(
+    `${BASE_API_ENDPOINT}/route/specific?email=${encodeURIComponent(email)}&route_id=${encodeURIComponent(routeId)}`,
+  );
+
+export const addSchedule = (request: AddScheduleRequest) =>
+  post<ScheduleIdResponse>(`${BASE_API_ENDPOINT}/route/add-schedule`, request);
+
+export const sendReport = (request: SendReportRequest) =>
+  post<ReportIdResponse>(`${BASE_API_ENDPOINT}/report/send`, request);
+
+export const getTopReports = () => get<TopReportsResponse>(`${BASE_API_ENDPOINT}/report/top3`);

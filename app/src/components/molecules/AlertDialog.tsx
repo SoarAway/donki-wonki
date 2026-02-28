@@ -32,7 +32,7 @@ export const AlertDialog: React.FC<AlertDialogProps> = ({
             {message}
           </Text>
           <View style={styles.actions}>
-            <Button label="OK" onPress={onClose} fullWidth />
+            <Button title="OK" onPress={onClose} />
           </View>
         </View>
       </View>

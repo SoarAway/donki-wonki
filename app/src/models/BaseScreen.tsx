@@ -3,7 +3,6 @@ import {
   KeyboardAvoidingView,
   KeyboardAvoidingViewProps,
   Platform,
-  SafeAreaView,
   StyleProp,
   StyleSheet,
   View,
@@ -28,7 +27,7 @@ export const BaseScreen: React.FC<BaseScreenProps> = ({
   const content = <View style={styles.content}>{children}</View>;
 
   return (
-    <SafeAreaView style={[styles.safeArea, backgroundColor ? { backgroundColor } : null, style]}>
+    <View style={[styles.root, backgroundColor ? { backgroundColor } : null, style]}>
       {keyboardAvoiding ? (
         <KeyboardAvoidingView
           style={styles.keyboardContainer}
@@ -39,12 +38,12 @@ export const BaseScreen: React.FC<BaseScreenProps> = ({
       ) : (
         content
       )}
-    </SafeAreaView>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  safeArea: {
+  root: {
     flex: 1,
   },
   keyboardContainer: {
